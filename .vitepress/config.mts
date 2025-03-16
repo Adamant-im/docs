@@ -35,6 +35,10 @@ export default defineConfig({
             text: 'Storing Data in KVS',
             link: '/essentials/storing-data-in-kvs',
           },
+          {
+            text: 'Working with Contact List',
+            link: '/essentials/working-with-contact-list',
+          },
         ],
       },
       {
