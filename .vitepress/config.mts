@@ -46,6 +46,7 @@ export default defineConfig({
         items: [
           { text: 'Transactions', link: '/api/transaction-types' },
           { text: 'Message Types', link: '/api/message-types' },
+          { text: 'WebSocket', link: '/api/websocket' },
         ],
       },
       {
