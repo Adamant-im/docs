@@ -398,3 +398,26 @@ Redis is used for caching. Required.
   ```
 
   You can find or generate a `nethash` using the genesis block (`genesisBlock.json` or `test/genesisBlock.json` based on your blockchain network).
+
+## CORS
+
+- **Cors**
+
+  By default, ADAMANT Node allows any origins to make requests. You can control [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) with the `cors` object option in `config.json` that accepts following properties:
+
+  - `origin`: Configures the **Access-Control-Allow-Origin** CORS header. Possible values:
+    - `Boolean` - set `origin` to `true` to reflect the [request origin](http://tools.ietf.org/html/draft-abarth-origin-09), as defined by `req.header('Origin')`, or set it to `false` to disable CORS.
+    - `String` - set `origin` to a specific origin. For example if you set it to `"http://example.com"` only requests from "http://example.com" will be allowed.
+    - `Array` - set `origin` to an array of valid origins. For example `["http://example1.com", "http://example2.com/"]` will accept any request from "http://example1.com" or "example2.com".
+  - `methods`: Configures the **Access-Control-Allow-Methods** CORS header. Expects a comma-delimited string (ex: 'GET,PUT,POST') or an array (ex: `['GET', 'PUT', 'POST']`).
+
+  Example:
+
+  ```json
+  {
+    "cors": {
+      "origin": "http://example1.com",
+      "methods": "GET,PUT,POST"
+    }
+  }
+  ```
