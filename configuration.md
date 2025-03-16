@@ -241,11 +241,19 @@ Redis is used for caching. Required.
   }
   ```
 
-  - `broadcastInterval`: Time (ms) between broadcasts (recommended: `1500`).
-  - `broadcastLimit`: Max broadcasts per interval (recommended: `20`).
-  - `parallelLimit`: Max parallel broadcasts (recommended: `20`).
-  - `releaseLimit`: Max broadcasts released (recommended: `25`).
-  - `relayLimit`: Max relayed broadcasts (recommended: `4`).
+  - `broadcastInterval`: The interval (in ms) at which the node broadcasts unconfirmed transactions (recommended: `1500`).
+  - `broadcastLimit`: The number of peers a node broadcasts to per interval (recommended: `20`).
+  - `parallelLimit`: The maximum number of asynchronous requests the node can make when broadcasting (recommended: `20`).
+
+    - Example: If `parallelLimit = 5` and `broadcastLimit = 10`, the node will first send transactions to 5 peers asynchronously, then process another 5.
+
+  - `releaseLimit`: The number of transactions, blocks and signatures included in each broadcast (recommended: `25`).
+
+    - Example: If 10 transactions are waiting to be broadcasted and `releaseLimit = 5`, only 5 will be sent in the next broadcast
+
+  - `relayLimit`: The maximum relay count at which a node will still broadcast an unconfirmed transaction (recommended: `4`).
+
+    - Example: If a transaction has already been broadcasted to 5 nodes and `relayLimit = 4`, the node will process the transaction but won't broadcast it further.
 
 ## Transaction Configuration
 
