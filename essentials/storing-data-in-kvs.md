@@ -90,7 +90,14 @@ Example:
 
 ## KVS store types
 
-Describes how to store `value` for `key`, incremental (1) or full re-write (0) of previous values. Default is 0. See [AIP 11: Behavior for KVS data](https://aips.adamant.im/AIPS/aip-11).
+KVS `type` describes how to store `value` for `key`:
+
+- `1` for incremental appending contents
+- `2` for full re-writing of the `value`
+
+Default is `0`.
+
+See [AIP 11: Behavior for KVS data](https://aips.adamant.im/AIPS/aip-11).
 
 ## Related information
 
