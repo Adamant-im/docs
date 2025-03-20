@@ -4,7 +4,7 @@ The configuration file locations are `config.json` for mainnet and `test/config.
 
 ```
 ├── config.json
-└── 📁 test
+└── test
     └── config.json
 ```
 
