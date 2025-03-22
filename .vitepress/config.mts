@@ -4,7 +4,6 @@ import { defineConfig } from 'vitepress';
 export default defineConfig({
   title: 'ADAMANT Node',
   description: 'ADAMANT Documentation',
-  appearance: false,
   themeConfig: {
     logo: '/logo.svg',
     // https://vitepress.dev/reference/default-theme-config
