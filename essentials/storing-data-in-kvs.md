@@ -1,16 +1,16 @@
 # Storing Data in KVS
 
-**ADAMANT's Key-Value Storage (KVS)** is a special [transaction type](https://github.com/Adamant-im/adamant/wiki/Transaction-Types#Type-9-Storing-data) used for storing private (encrypted) or public (plain) data in ADAMANT's blockchain. Examples include a [contact list](https://github.com/Adamant-im/adamant/wiki/Working-with-Contact-List) for private data and an Ether address for public data.
+**ADAMANT's Key-Value Storage (KVS)** is a special [transaction type](/api/transaction-types.md#Type-9-Storing-data) used for storing private (encrypted) or public (plain) data in ADAMANT's blockchain. Examples include a [contact list](/essentials/working-with-contact-list.md) for private data and an Ether address for public data.
 
 Endpoints:
 
-- To fetch KVS data, use [`/api/states/get`](https://github.com/Adamant-im/adamant/wiki/API-Specification#get-states) endpoint.
+- To fetch KVS data, use [`/api/states/get`](/api-endpoints/kvs.md#get-states) endpoint.
 
-- To store KVS data, use [`/api/states/store`](https://github.com/Adamant-im/adamant/wiki/API-Specification#register-store-in-kvs-transaction) endpoint.
+- To store KVS data, use [`/api/states/store`](/api-endpoints/kvs.md#register-store-in-kvs-transaction) endpoint.
 
 ## KVS Transaction
 
-KVS [transaction](https://github.com/Adamant-im/adamant/wiki/API-Specification#Get-List-of-Transactions) is of type `9` and contains `asset` field with `state` object:
+KVS [transaction](/api/transaction-types.md) is of type `9` and contains `asset` field with `state` object:
 
 - [`key`](#kvs-keys) — describes contents of KVS record
 - [`value`](#kvs-data) — is data for key. Can be private (encrypted) or public (plain value)
@@ -42,7 +42,7 @@ Example transaction that writes public Ether address for `U11977883563659338220`
 
 `key` field describes contents of KVS record. You can use own `key` to store special kind of data, or refer to known keys:
 
-- `contact_list` — store [contact list](https://github.com/Adamant-im/adamant/wiki/Working-with-Contact-List) encrypted
+- `contact_list` — store [contact list](/essentials/working-with-contact-list.md) encrypted
 - `<coin>:address` — store crypto wallet address, linked to ADAMANT account, in plain text. Used for in-Chat crypto transfers. See [AIP 13: Public non-ADM wallet addresses](https://aips.adamant.im/AIPS/aip-13).
 
 Examples for `<coin>:address`:

@@ -6,7 +6,7 @@ All transactions in ADAMANT blockchain are being signed with robust cryptosignin
 
 Transaction is represented by JSON object with fields indicating its parameters like sender, recipient and amount to transfer.
 
-Every transaction, regardless of the [type](https://github.com/Adamant-im/adamant/wiki/Transaction-Types), must be signed by the sender prior to being accepted by the network. The process of signing the transaction is identical for every transaction. First, a data block representing the transaction must be generated. Each data block contains a specific set of standardized information. Additional information contained in the data block will differ depending on the type of the transaction.
+Every transaction, regardless of the [type](/api/transaction-types.md), must be signed by the sender prior to being accepted by the network. The process of signing the transaction is identical for every transaction. First, a data block representing the transaction must be generated. Each data block contains a specific set of standardized information. Additional information contained in the data block will differ depending on the type of the transaction.
 
 The following fields must be present in all types of transactions:
 
@@ -15,7 +15,7 @@ The following fields must be present in all types of transactions:
 - The 256-bit public key of the issuer of the transaction
 - A 64-bit integer representing the amount of tokens to be transferred
 
-The other fields will be added to this schema depending on the [transaction type](https://github.com/Adamant-im/adamant/wiki/Transaction-Types). Once the data block has been generated, it is hashed using the SHA-256 algorithm, and this hash is signed using the [key pair](https://github.com/Adamant-im/adamant/wiki/Generating-ADAMANT-account-and-key-pair) of the issuer. The transaction ID is generated from the data block. In order to compute the transaction ID the system takes the data block with the completed signature information and hashes this block using SHA-256 and the first 8 bytes of the hash are reversed and which is then used as the transaction ID.
+The other fields will be added to this schema depending on the [transaction type](/api/transaction-types.md). Once the data block has been generated, it is hashed using the SHA-256 algorithm, and this hash is signed using the [key pair](/essentials/generating-account.md) of the issuer. The transaction ID is generated from the data block. In order to compute the transaction ID the system takes the data block with the completed signature information and hashes this block using SHA-256 and the first 8 bytes of the hash are reversed and which is then used as the transaction ID.
 
 A signed transaction uses the following flow:
 
@@ -142,4 +142,4 @@ Implementation example of transaction signing can be found in [adamant-api-jscli
 
 ## Broadcasting transactions
 
-When transaction is formed and signed, it can be broadcasted to the network using [POST endpoint](https://github.com/Adamant-im/adamant/wiki/API-Specification#register-transaction).
+When transaction is formed and signed, it can be broadcasted to the network using [POST endpoint](/api-endpoints/transactions.md#register-transaction).

@@ -18,7 +18,7 @@ To maintain reliability, use WebSocket for real-time updates and REST API to per
 
 ## Enabling WebSocket
 
-To enable WebSocket on a node, enable it in the [configuration file](/configuration.html#websocket-client-configuration):
+To enable WebSocket on a node, enable it in the [configuration file](/configuration.md#websocket-client-configuration):
 
 ```json
 {
@@ -133,11 +133,11 @@ connection.on('connect', () => {
 });
 ```
 
-A full list of transaction types can be found in the [API Specification](/api/transaction-types.html) section of the documentation.
+A full list of transaction types can be found in the [API Specification](/api/transaction-types.md) section of the documentation.
 
 #### Filtering by Message Type
 
-Chat messages in ADAMANT have different [message types](/api/message-types.html) under `asset.chat.type`. To filter messages by type, emit the `assetChatTypes` event:
+Chat messages in ADAMANT have different [message types](/api/message-types.md) under `asset.chat.type`. To filter messages by type, emit the `assetChatTypes` event:
 
 ```js
 connection.on('connect', () => {

@@ -4,10 +4,10 @@ To expand opportunities of getting transactions use parameters to filter results
 
 Filters available for endpoints:
 
-- [**`/api/transactions`**](https://github.com/Adamant-im/adamant/wiki/API-Specification#Transactions-1): `blockId`, `fromHeight`, `toHeight`, `minAmount`, `maxAmount`, `senderId`, `senderIds`, `recipientId`, `recipientIds`, `senderPublicKey`, `senderPublicKeys`, `recipientPublicKey`, `recipientPublicKeys`, `inId`, `type`, `types`, `returnAsset`
-- [**`/api/chats/get`**](https://github.com/Adamant-im/adamant/wiki/API-Specification#get-chat-transactions): `fromHeight`, `toHeight`, `senderId`, `recipientId`, `inId`, `type`
-- [**`/api/chatrooms`**](https://github.com/Adamant-im/adamant/wiki/API-Specification#get-list-of-chats): `type`
-- [**`/api/states/get`**](https://github.com/Adamant-im/adamant/wiki/API-Specification#Get-States): `fromHeight`, `toHeight`, `senderId`, `senderIds`,`key`, `keyIds`,`type`
+- [**`/api/transactions`**](/api-endpoints/transactions.md): `blockId`, `fromHeight`, `toHeight`, `minAmount`, `maxAmount`, `senderId`, `senderIds`, `recipientId`, `recipientIds`, `senderPublicKey`, `senderPublicKeys`, `recipientPublicKey`, `recipientPublicKeys`, `inId`, `type`, `types`, `returnAsset`
+- [**`/api/chats/get`**](/api-endpoints/chatrooms.md#get-chat-transactions): `fromHeight`, `toHeight`, `senderId`, `recipientId`, `inId`, `type`
+- [**`/api/chatrooms`**](/api-endpoints/chatrooms.md#get-list-of-chats): `type`
+- [**`/api/states/get`**](/api-endpoints/kvs.md#get-states): `fromHeight`, `toHeight`, `senderId`, `senderIds`,`key`, `keyIds`,`type`
 
 You can use `limit`, `offset`, `orderBy`, `returnAsset` and `withoutDirectTransfers` [options](#available-options).
 

@@ -54,6 +54,21 @@ export default defineConfig({
         ],
       },
       {
+        text: 'API Endpoints',
+        items: [
+          { text: 'Accounts', link: '/api-endpoints/accounts' },
+          { text: 'Blocks', link: '/api-endpoints/blocks' },
+          { text: 'Chats and Chatrooms', link: '/api-endpoints/chatrooms' },
+          { text: 'Delegates', link: '/api-endpoints/delegates' },
+          { text: 'Node & Blockchain', link: '/api-endpoints/blockchain' },
+          {
+            text: 'States: Key-Value Storage',
+            link: '/api-endpoints/kvs',
+          },
+          { text: 'Transactions', link: '/api-endpoints/transactions' },
+        ],
+      },
+      {
         text: 'Examples',
         items: [
           { text: 'Swift (iOS)', link: '/examples/swift' },

@@ -1,6 +1,6 @@
 # Generating Account
 
-All transactions in ADAMANT blockchain are [signed](https://github.com/Adamant-im/adamant/wiki/Signing-Transactions) by their senders, [ADAMANT accounts](https://github.com/Adamant-im/adamant/wiki/API-Specification#Account-1), using public and private keys — a key pair, and can be validated knowing public key only.
+All transactions in ADAMANT blockchain are [signed](/essentials/signing-transactions.md) by their senders, [ADAMANT accounts](/api-endpoints/accounts.md), using public and private keys — a key pair, and can be validated knowing public key only.
 
 ## What is a Key Pair?
 
@@ -21,7 +21,7 @@ With this private key, the user is able to sign transactions into a transaction 
 
 ## Account Generation Algorithm
 
-ADAMANT accounts **MUST BE** generated locally within the application, and then the public key should be [broadcasted to ADAMANT network](https://github.com/Adamant-im/adamant/wiki/API-Specification#Create-new-account). Account generation scheme:
+ADAMANT accounts **MUST BE** generated locally within the application, and then the public key should be [broadcasted to ADAMANT network](/api-endpoints/accounts.md#create-new-account). Account generation scheme:
 
 <img src="/images/account_flow.png"/>
 
@@ -70,7 +70,7 @@ ADAMANT accounts **MUST BE** generated locally within the application, and then 
 
   Generate user's ADAMANT address from the public key's SHA-256 hash.
 
-  An ADAMANT address or the wallet ID is derived from the public key. The public key is hashed using SHA-256, at which point the first 8 bytes of the hash are reversed. The account ID is the numerical representation of those 8 bytes, with the leading ’U’ character. ADAMANT address is a part of [ADAMANT account](https://github.com/Adamant-im/adamant/wiki/API-Specification#Account-1).
+  An ADAMANT address or the wallet ID is derived from the public key. The public key is hashed using SHA-256, at which point the first 8 bytes of the hash are reversed. The account ID is the numerical representation of those 8 bytes, with the leading ’U’ character. ADAMANT address is a part of [ADAMANT account](/api-endpoints/accounts.md).
 
   Example:
 

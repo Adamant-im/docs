@@ -31,12 +31,12 @@ Token Transfer Transaction is used for transferring ADM tokens between accounts.
 
 - **API Endpoints**
 
-  To get transfer transactions, use [`/api/transactions`](https://github.com/Adamant-im/adamant/wiki/API-Specification#get-list-of-transactions) endpoint.
+  To get transfer transactions, use [`/api/transactions`](/api-endpoints/transactions.md#get-list-of-transactions) endpoint.
 
   To post new Token Transfer transaction, you can use the endpoints:
 
-  - [`/api/transactions/process`](https://github.com/Adamant-im/adamant/wiki/API-Specification#Register-Token-Transfer-Transaction)
-  - [`/api/transactions`](https://github.com/Adamant-im/adamant/wiki/API-Specification#Register-Transaction)
+  - [`/api/transactions/process`](/api-endpoints/transactions.md#register-token-transfer-transaction)
+  - [`/api/transactions`](/api-endpoints/transactions.md#register-transaction)
 
 - **Example**
 
@@ -79,12 +79,12 @@ Creates a new delegate in ADAMANT's blockchain.
 
 - **API Endpoints**
 
-  To get registered delegates, see [Delegates and Voting](https://github.com/Adamant-im/adamant/wiki/API-Specification#delegates-and-voting).
+  To get registered delegates, see [Delegates and Voting](/api-endpoints/delegates.md).
 
   To broadcast a new Delegate Registration Transaction, you can use the endpoints:
 
-  - [`/api/accounts/delegates`](https://github.com/Adamant-im/adamant/wiki/API-Specification#register-vote-for-delegate-transaction)
-  - [`/api/transactions`](https://github.com/Adamant-im/adamant/wiki/API-Specification#Register-Transaction)
+  - [`/api/accounts/delegates`](/api-endpoints/delegates.md#register-delegate-transaction)
+  - [`/api/transactions`](/api-endpoints/transactions.md#register-transaction)
 
 - **Example**
 
@@ -131,10 +131,10 @@ Used to vote or downvote for delegates.
 
 - **API Endpoints**
 
-  - Get transactions: [Delegates and Voting](https://github.com/Adamant-im/adamant/wiki/API-Specification#delegates-and-voting)
+  - Get transactions: [Delegates and Voting](/api-endpoints/delegates.md)
   - Post transactions:
-    - [`/api/accounts/delegates`](https://github.com/Adamant-im/adamant/wiki/API-Specification#register-vote-for-delegate-transaction)
-    - [`/api/transactions`](https://github.com/Adamant-im/adamant/wiki/API-Specification#Register-Transaction)
+    - [`/api/accounts/delegates`](/api-endpoints/delegates.md#register-vote-for-delegate-transaction)
+    - [`/api/transactions`](/api-endpoints/transactions.md#register-transaction)
 
 - **Example**
 
@@ -185,11 +185,11 @@ Used to send messages, rich text, and signals between accounts.
 
 - **API Endpoints**
 
-  - Get messages: [Chats and Chatrooms](https://github.com/Adamant-im/adamant/wiki/API-Specification#chats-and-chatrooms-1)
+  - Get messages: [Chats and Chatrooms](/api-endpoints/chatrooms.md)
   - Post messages:
-    - [`/api/chats/process`](https://github.com/Adamant-im/adamant/wiki/API-Specification#register-chat-message-transaction)
-    - [`/api/transactions/process`](https://github.com/Adamant-im/adamant/wiki/API-Specification#Register-Token-Transfer-Transaction)
-    - [`/api/transactions`](https://github.com/Adamant-im/adamant/wiki/API-Specification#Register-Transaction)
+    - [`/api/chats/process`](/api-endpoints/chatrooms.md#register-chat-message-transaction)
+    - [`/api/transactions/process`](/api-endpoints/transactions.md#register-token-transfer-transaction)
+    - [`/api/transactions`](/api-endpoints/transactions.md#register-transaction)
 
 - **Example**
 
@@ -234,10 +234,10 @@ Key-Value Storage (KVS) is a special type of transaction for storing private (en
 
 - **API Endpoints**
 
-  - Fetch KVS data: [`/api/states/get`](https://github.com/Adamant-im/adamant/wiki/API-Specification#get-states)
+  - Fetch KVS data: [`/api/states/get`](/api-endpoints/kvs.md#get-states)
   - Post transactions:
-    - [`/api/states/store`](https://github.com/Adamant-im/adamant/wiki/API-Specification#register-store-in-kvs-transaction)
-    - [`/api/transactions`](https://github.com/Adamant-im/adamant/wiki/API-Specification#Register-Transaction)
+    - [`/api/states/store`](/api-endpoints/kvs.md#register-store-in-kvs-transaction)
+    - [`/api/transactions`](/api-endpoints/transactions.md#register-transaction)
 
 - **Example**
 

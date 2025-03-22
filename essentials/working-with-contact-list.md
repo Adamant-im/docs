@@ -1,12 +1,12 @@
 # Working with Contacts List
 
-**Contacts list** is a specific case of [KVS record](https://github.com/Adamant-im/adamant/wiki/Storing-Data-in-KVS) to store and manage user-defined address book entries, allowing users to associate ADAMANT addresses with human-readable names for easier messaging.
+**Contacts list** is a specific case of [KVS record](/essentials/storing-data-in-kvs.md) to store and manage user-defined address book entries, allowing users to associate ADAMANT addresses with human-readable names for easier messaging.
 
 - **AIP**: [AIP 7: Contacts List](https://aips.adamant.im/AIPS/aip-7).
 
 ## Storing Contacts List
 
-The contacts list is stored as a JSON object using the ADAMANT KVS. This object must be [encrypted](https://github.com/Adamant-im/adamant/wiki/Encrypting-and-Decrypting-Messages#encrypting-a-kvs-records) and passed as `value` with `key` = `contact_list`.
+The contacts list is stored as a JSON object using the ADAMANT KVS. This object must be [encrypted](/essentials/encrypting-messages.md#encrypting-a-kvs-records) and passed as `value` with `key` = `contact_list`.
 
 The keys of this JSON object are ADAMANT addresses, and the values are objects where aliases are stored in the `displayName` property. Example `value` object for storing a contacts list:
 

@@ -18,9 +18,9 @@ An encrypted message uses the following flow:
 1. Generate a **random nonce** (24 bytes)
 2. Convert the sender’s **Ed25519 private key** to a **Curve25519 secret key**
 3. Retrieve the recipient’s public key from the ADAMANT network
-   - Use [`GET /api/accounts`](https://github.com/Adamant-im/adamant/wiki/API-Specification#get-account-information-from-address) endpoint
+   - Use [`GET /api/accounts`](/api-endpoints/accounts#get-account-by-address) endpoint
 4. Convert the recipient’s **Ed25519 public key** to a **Curve25519 public key**
-5. Encrypt the message using [NaCl box](https://nacl.cr.yp.to/box.html) algorithm, with:
+5. Encrypt the message using [NaCl box](https://nacl.cr.yp.to/box.md) algorithm, with:
    - The plaintext message
    - The nonce
    - The recipient’s **Curve25519 public key**
@@ -86,7 +86,7 @@ To decrypt a message follow the algorithm:
 
 1. Convert **your Ed25519 private key** to a **Curve25519 secret key**.
 2. Convert **other party's Ed25519 public key** to a **Curve25519 public key**.
-3. Decrypt the message using the [NaCl box](https://nacl.cr.yp.to/box.html) algorithm with:
+3. Decrypt the message using the [NaCl box](https://nacl.cr.yp.to/box.md) algorithm with:
    - The encrypted message
    - The nonce
    - The other party's **Curve25519 public key**
@@ -145,7 +145,7 @@ If `value` needs to be encrypted, the following steps are applied:
 2. Convert the JSON to a string and **prefix/suffix** it with a random string
    - The random string should be alphanumeric (ASCII), **excluding `{` and `}`**
 3. Compute the **secret key** as the SHA-256 hash of your ADAMANT **private key**.
-4. Encrypt the resulting string using [NaCl.secretbox](https://nacl.cr.yp.to/secretbox.html) with:
+4. Encrypt the resulting string using [NaCl.secretbox](https://nacl.cr.yp.to/secretbox.md) with:
    - The plaintext message
    - A randomly generated **nonce** (24 bytes)
    - The **secret key**
@@ -196,7 +196,7 @@ To decrypt a `value` stored in the KVS:
 
 1. Retrieve the **encrypted message** and **nonce** from the transaction data
 2. Compute the **secret key** as the SHA-256 hash of your ADAMANT **private key**
-3. Decrypt the message using [NaCl.secretbox](https://nacl.cr.yp.to/secretbox.html) with:
+3. Decrypt the message using [NaCl.secretbox](https://nacl.cr.yp.to/secretbox.md) with:
    - The encrypted message
    - The nonce
    - The **secret key**
