@@ -533,7 +533,7 @@ GET /api/node/status
 
 - **Description**
 
-  Integrative endpoint `/api/node/status` returns both ADAMANT blockchain network information and Node information with a single request. Result includes [`network`](#get-adamant-blockchain-network-info), [`version`](#get-node-version), and `wsClient` info.
+  Integrative endpoint `/api/node/status` returns both ADAMANT blockchain network information and Node information with a single request. Result includes [`network`](#get-adamant-blockchain-network-info), [`version`](#get-node-version), [`loader`](#get-loading-status) and `wsClient` info.
 
   `wsClient` describes if node allows socket connections and port to connect.
 
@@ -550,21 +550,29 @@ GET /api/node/status
   ```json
   {
     "success": true,
-    "nodeTimestamp": 58640735,
+    "nodeTimestamp": 230021386,
+    "loader": {
+      "loaded": true,
+      "now": 1031082,
+      "syncing": false,
+      "consensus": 100,
+      "blocks": 0,
+      "blocksCount": 0
+    },
     "network": {
-      "broadhash": "56327efc1c370dd3b1188e88a881d560e4822b2195a04b302afb87ed0d261bac",
+      "broadhash": "2d94f9070fe4ca236aaee9fd9a6863fd0b9291a80b96ac9e470408a852f0f3d8",
       "epoch": "2017-09-02T17:00:00.000Z",
-      "height": 10262516,
+      "height": 1034307,
       "fee": 50000000,
-      "milestone": 1,
-      "nethash": "bd330166898377fb28743ceef5e43a5d9d0a3efd9b3451fb7bc53530bb0a6d64",
-      "reward": 45000000,
-      "supply": 10203313265000000
+      "milestone": 0,
+      "nethash": "38f153a81332dea86751451fd992df26a9249f0834f72f58f84ac31cceb70f43",
+      "reward": 0,
+      "supply": 9800000000000000
     },
     "version": {
       "build": "",
-      "commit": "b07aaf9580dffb5cc95cc65f303f6f1e5fca7d9c",
-      "version": "0.5.2"
+      "commit": "c32e740a83ef3ac6fdf7e579f7175b21be5c95e5",
+      "version": "0.8.4"
     },
     "wsClient": {
       "enabled": true,
