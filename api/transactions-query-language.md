@@ -4,12 +4,16 @@ To expand opportunities of getting transactions use parameters to filter results
 
 Filters available for endpoints:
 
-- [**`/api/transactions`**](/api-endpoints/transactions.md): `blockId`, `fromHeight`, `toHeight`, `minAmount`, `maxAmount`, `senderId`, `senderIds`, `recipientId`, `recipientIds`, `senderPublicKey`, `senderPublicKeys`, `recipientPublicKey`, `recipientPublicKeys`, `inId`, `type`, `types`, `returnAsset`
+- [**`/api/transactions`**](/api-endpoints/transactions.md): `blockId`, `fromHeight`, `toHeight`, `minAmount`, `maxAmount`, `senderId`, `senderIds`, `recipientId`, `recipientIds`, `senderPublicKey`, `senderPublicKeys`, `recipientPublicKey`, `recipientPublicKeys`, `inId`, `type`, `types`
 - [**`/api/chats/get`**](/api-endpoints/chatrooms.md#get-chat-transactions): `fromHeight`, `toHeight`, `senderId`, `recipientId`, `inId`, `type`
 - [**`/api/chatrooms`**](/api-endpoints/chatrooms.md#get-list-of-chats): `type`
 - [**`/api/states/get`**](/api-endpoints/kvs.md#get-states): `fromHeight`, `toHeight`, `senderId`, `senderIds`,`key`, `keyIds`,`type`
 
-You can use `limit`, `offset`, `orderBy`, `returnAsset` and `includeDirectTransfers` [options](#available-options).
+You can use `limit`, `offset`, `orderBy` [options](#available-options). There are additional options for endpoints:
+
+- [**`/api/transactions`**](/api-endpoints/transactions.md): `returnAsset`
+- [**`/api/chats/get`**](/api-endpoints/chatrooms.md#get-chat-transactions): `includeDirectTransfers`
+- [**`/api/chatrooms`**](/api-endpoints/chatrooms.md#get-list-of-chats): `includeDirectTransfers`
 
 Filters and options can be joined: [Combine filters and options](#combine-filters-and-options).
 

@@ -6,6 +6,7 @@ export default defineConfig({
   description: 'ADAMANT Documentation',
   themeConfig: {
     logo: '/logo.svg',
+    outline: 'deep',
     // https://vitepress.dev/reference/default-theme-config
     sidebar: [
       {
