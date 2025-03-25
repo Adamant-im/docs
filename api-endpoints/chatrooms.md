@@ -17,7 +17,7 @@ GET /api/chatrooms/{ADAMANT_address}
   Fetch a list of an account's chats using the `/api/chatrooms` endpoint by specifying an [`ADAMANT address`](/api-endpoints/accounts.md).
 
   - Supports filtering via [Transactions Query Language](/api/transactions-query-language.md).
-  - The `withoutDirectTransfers` parameter excludes direct token transfers.
+  - The `includeDirectTransfers` parameter includes direct token transfers.
   - Returns transactions of:
     - `type = 8` (messages)
     - `type = 0` (direct token transfers)

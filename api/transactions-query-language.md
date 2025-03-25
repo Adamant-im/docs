@@ -9,7 +9,7 @@ Filters available for endpoints:
 - [**`/api/chatrooms`**](/api-endpoints/chatrooms.md#get-list-of-chats): `type`
 - [**`/api/states/get`**](/api-endpoints/kvs.md#get-states): `fromHeight`, `toHeight`, `senderId`, `senderIds`,`key`, `keyIds`,`type`
 
-You can use `limit`, `offset`, `orderBy`, `returnAsset` and `withoutDirectTransfers` [options](#available-options).
+You can use `limit`, `offset`, `orderBy`, `returnAsset` and `includeDirectTransfers` [options](#available-options).
 
 Filters and options can be joined: [Combine filters and options](#combine-filters-and-options).
 
@@ -257,9 +257,9 @@ Available for `/api/transactions` endpoint only. Endpoints `/api/chats/get`, `/a
 
   `https://endless.adamant.im/api/transactions/get?id=13920471299012339255&returnAsset=1`
 
-### `withoutDirectTransfers`
+### `includeDirectTransfers`
 
-When set to `1`, excludes type `0` transactions (direct token transfers) from results. Default is `0` for `/api/chatrooms` and `1` for `/api/chats/get`.
+When set to `0`, excludes type `0` transactions (direct token transfers) from results. Default is `1` for `/api/chatrooms` and `0` for `/api/chats/get`.
 
 :::: tip
 
@@ -269,9 +269,9 @@ Available for `/api/chatrooms` and `/api/chats/get` endpoints only.
 
 - **Examples**
 
-  `https://endless.adamant.im/api/chatrooms/U2707535059340134112?withoutDirectTransfers=1`
+  `https://endless.adamant.im/api/chatrooms/U2707535059340134112?includeDirectTransfers=0`
 
-  `https://endless.adamant.im/api/chats/get?senderId=U2707535059340134112?withoutDirectTransfers=0`
+  `https://endless.adamant.im/api/chats/get?senderId=U2707535059340134112?includeDirectTransfers=1`
 
 ## Combine filters and options
 
