@@ -107,8 +107,8 @@ A Crypto Transfer Message is a type of Rich Content Message designed for display
 
 > For ADM transfers, see:
 >
-> - [Token Transfer Transactions](http://localhost:5173/api/transaction-types.md#type-0-token-transfer-transaction) – for ADM transfers without comments
-> - [Basic Encrypted Messages](http://localhost:5173/api/message-types.md#type-1-basic-encrypted-message) – for ADM transfers with a comment
+> - [Token Transfer Transactions](/api/transaction-types.md#type-0-token-transfer-transaction) – for ADM transfers without comments
+> - [Basic Encrypted Messages](/api/message-types.md#type-1-basic-encrypted-message) – for ADM transfers with a comment
 
 - **Description**
 
