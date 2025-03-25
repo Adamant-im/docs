@@ -231,6 +231,13 @@ GET /api/delegates/forging/getForgedByAccount?generatorPublicKey={generatorPubli
 
   All values are of integer amount of 1/10^8 ADM tokens (1 ADM = 100000000).
 
+- **Parameters**
+
+  Additional parameters for the endpoint:
+
+  - `start` - Unix timestamp (in seconds) for the start date
+  - `end` - Unix timestamp (in seconds) for the end date
+
 - **Example**
 
   Request:
