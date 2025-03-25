@@ -9,7 +9,7 @@ Filters available for endpoints:
 - [**`/api/chatrooms`**](/api-endpoints/chatrooms.md#get-list-of-chats): `type`
 - [**`/api/states/get`**](/api-endpoints/kvs.md#get-states): `fromHeight`, `toHeight`, `senderId`, `senderIds`,`key`, `keyIds`,`type`
 
-You can use `limit`, `offset`, `orderBy` [options](#available-options). There are additional options for endpoints:
+You can use `limit`, `offset`, `orderBy` and `returnUnconfirmed` [options](#available-options). There are additional options for endpoints:
 
 - [**`/api/transactions`**](/api-endpoints/transactions.md): `returnAsset`
 - [**`/api/chats/get`**](/api-endpoints/chatrooms.md#get-chat-transactions): `includeDirectTransfers`
@@ -246,6 +246,18 @@ Ordering request results by field name.
 - **Example**
 
   `https://endless.adamant.im/api/transactions?orderBy=timestamp:desc`
+
+### `returnUnconfirmed`
+
+Includes unconfirmed transactions when set to `1`. All filters and **ordering** are applied to unconfirmed transactions as well. The default value is `0`.
+
+:::: warning
+When using `blockId` or `toHeight` filters, unconfirmed transactions are NOT returned.
+::::
+
+- **Example**
+
+  `https://endless.adamant.im/api/transactions?fromHeight=100000&returnUnconfirmed=1`
 
 ### `returnAsset`
 
