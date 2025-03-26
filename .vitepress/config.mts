@@ -5,9 +5,12 @@ export default defineConfig({
   title: 'ADAMANT Node',
   description: 'ADAMANT Documentation',
   themeConfig: {
+    // https://vitepress.dev/reference/default-theme-config
     logo: '/logo.svg',
     outline: 'deep',
-    // https://vitepress.dev/reference/default-theme-config
+    editLink: {
+      pattern: 'https://github.com/adamant-im/docs/edit/main/:path',
+    },
     sidebar: [
       {
         text: 'Getting Started',
