@@ -18,6 +18,7 @@ export default defineConfig({
           { text: 'Introduction', link: '/' },
           { text: 'Installation', link: '/installation' },
           { text: 'Configuration', link: '/configuration' },
+          { text: 'Testnet', link: '/testnet' },
         ],
       },
       {
