@@ -104,13 +104,13 @@ GET /api/accounts/getBalance?address={ADAMANT address}
   Response includes:
 
   - `balance` — actual confirmed balance of ADAMANT account. Integer amount of 1/10^8 ADM tokens (1 ADM = 100000000)
-  - `unconfirmedBalance` — balance of ADAMANT account, which includes unconfirmed transactions, integer
+  - `unconfirmedBalance` — balance of ADAMANT account, which includes unconfirmed transactions
 
 - **Example**
 
   Request:
 
-  ```
+  ```sh
   GET https://endless.adamant.im/api/accounts/getBalance?address=U777355171330060015
   ```
 
@@ -137,7 +137,11 @@ GET /api/accounts/getPublicKey?address={ADAMANT address}
 
   Response includes:
 
-  - `publicKey` — 256-bit public key of ADAMANT address in hex format, string
+  - `publicKey` — 256-bit public key of ADAMANT address in hex format
+
+  :::: warning
+  For a `publicKey` to become available in the blockchain, the account must have at least one outgoing transaction. Read more: [Chats and uninitialized accounts in ADAMANT](https://news.adamant.im/chats-and-uninitialized-accounts-in-adamant-5035438e2fcd).
+  ::::
 
 - **Example**
 
@@ -169,15 +173,14 @@ POST /api/accounts/new
 
   After that, you can send (_it's optional_) _POST_ request to `/api/accounts/new` endpoint with payload of JSON object which includes:
 
-  - `publicKey` — 256-bit public key of ADAMANT address in hex format, string
+  - `publicKey` — 256-bit public key of ADAMANT address in hex format
 
   Response contains [ADAMANT account info](#get-account-by-address).
 
   :::: warning
   **Created account is only known to the node where it was presented.**
-  This means _other apps_ cannot request this account information yet from the blockchain.
-  To become available, the account must have at least one transaction.
-  Read more: [Chats and uninitialized accounts in ADAMANT](https://medium.com/adamant-im/chats-and-uninitialized-accounts-in-adamant-5035438e2fcd).
+  This means _other apps_ cannot request this account information yet from the blockchain. To become available, the account must have at least one outgoing transaction.
+  Read more: [Chats and uninitialized accounts in ADAMANT](https://news.adamant.im/chats-and-uninitialized-accounts-in-adamant-5035438e2fcd).
   ::::
 
 - **Example**

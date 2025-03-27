@@ -16,7 +16,7 @@ GET /api/peers
 
   - `ip` — IPv4 address of node
   - `port` — port number of ADAMANT node. 36666 for mainnet or 36667 for testnet.
-  - `state` — state of the peer. Available values: Connected (2), Disconnected, Banned
+  - `state` — state of the peer. Available values: Connected (`2`), Disconnected, Banned
   - `os` — node's operating system
   - `version` — ADAMANT node software version
   - `broadhash` — broadhash on the peer node. Broadhash is established as an aggregated rolling hash of the past five blocks present in the database.
@@ -26,8 +26,8 @@ GET /api/peers
 
   Available parameters:
 
-  - `limit` — how many nodes to retrieve, integer
-  - `offset` — offset value for results, integer
+  - `limit` — how many nodes to retrieve
+  - `offset` — offset value for results
   - You can use `os`, `ip`, and other parameters for filtering results
 
 - **Example**
@@ -342,6 +342,8 @@ GET /api/blocks/getFees
 
   All values are integer amounts of 1/10^8 ADM tokens (1 ADM = 100000000).
 
+  More information about blockchain fees: [Transaction Fees](/index.md/#transaction-fees).
+
 - **Example**
 
   Request:
@@ -407,6 +409,8 @@ GET /api/blocks/getMilestone
 
   Endpoint `/api/blocks/getMilestone` returns `milestone` — current slot height, which determines the reward a delegate will get for forging a block.
 
+  More information about blockchain milestones: [Milestones](/index.md/#milestones).
+
 - **Example**
 
   Request:
@@ -433,7 +437,7 @@ GET /api/blocks/getReward
 
 - **Description**
 
-  Endpoint `/api/blocks/getReward` returns `reward` — the reward a delegate will get for forging a block. Integer amount of 1/10^8 ADM tokens (1 ADM = 100000000). Depends on the slot height.
+  Endpoint `/api/blocks/getReward` returns `reward` — the reward a delegate will get for forging a block. Integer amount of 1/10^8 ADM tokens (1 ADM = 100000000). Depends on the current slot height ([milestone](#get-blockchain-milestone)).
 
 - **Example**
 
@@ -535,7 +539,7 @@ GET /api/node/status
 
   Integrative endpoint `/api/node/status` returns both ADAMANT blockchain network information and Node information with a single request. Result includes [`network`](#get-adamant-blockchain-network-info), [`version`](#get-node-version), [`loader`](#get-loading-status) and `wsClient` info.
 
-  `wsClient` describes if node allows socket connections and port to connect.
+  `wsClient` describes if node allows [socket connections](/api/websocket.html#enabling-websocket) and port to connect.
 
 - **Example**
 
