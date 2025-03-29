@@ -26,7 +26,7 @@ GET /api/blocks/get?id={block's id}
   - `totalForged` — sum of `totalFee` and `reward`
   - `payloadLength` — byte size of the payload hash
   - `payloadHash` — hash of the block's payload (comprised of the transactions it contains)
-  - `generatorPublicKey` — delegate's public key of the [ADAMANT address](/api-endpoints/accounts.md) who generated the block
+  - `generatorPublicKey` — delegate's public key who generated the block
   - `generatorId` — delegate's [ADAMANT address](/api-endpoints/accounts.md) who generated the block
   - `blockSignature` — derived from an SHA-256 hash of the block header, signed by the delegate's private key
   - `confirmations` — count of network confirmations (number of blocks generated after this block on the current node's height)

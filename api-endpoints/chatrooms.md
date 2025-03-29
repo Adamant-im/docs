@@ -18,6 +18,7 @@ GET /api/chatrooms/{ADAMANT_address}
 
   - Supports filtering via [Transactions Query Language](/api/transactions-query-language.md).
   - The `includeDirectTransfers` parameter includes direct token transfers.
+  - The `returnUnconfirmed` parameter includes [unconfirmed chats](/api/websocket.md#understanding-unconfirmed-transactions).
   - Returns transactions of:
     - `type = 8` (messages)
     - `type = 0` (direct token transfers)
@@ -125,9 +126,9 @@ GET /api/chatrooms/{ADAMANT_address}/{ADAMANT_address}
 
 - **Description**
 
-  To fetch messages between two accounts, use the `/api/chatrooms` endpoint and specify two [ADAMANT addresses](/api-endpoints/accounts.md). For filtering and options, see [Transactions Query Language](/api/transactions-query-language.md).
-
-  The response will include a list of transactions with type = 8 (messages) and type = 0 (direct token transfers) between the two accounts, containing `asset.chat` fields, along with their address and `publicKey` values. The structure of chat is described in the [Chats and Messages Types](/api/message-types.md) section. The `/api/chatrooms` endpoint returns messages of type 1 (basic message) and type 2 (rich message) and does not return type 3 (signal messages).
+  To fetch messages between two accounts, use the `/api/chatrooms` endpoint and specify two [ADAMANT addresses](/api-endpoints/accounts.md).
+  
+  Filtering and options are the same as for [Get List of Chats](/api-endpoints/chatrooms.md#get-list-of-chats).
 
   As a success result in response, you'll get:
 
