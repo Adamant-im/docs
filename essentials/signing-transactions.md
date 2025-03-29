@@ -119,6 +119,25 @@ Implementation example of transaction signing can be found in [adamant-api-jscli
   }
   ```
 
+  You can also reuse the `getHash` function to generate a transaction ID locally if needed before broadcasting the transaction:
+
+  ```ts
+  const getTransactionId = (transaction: SignedTransaction) => {
+    if (!transaction.signature) {
+      throw new Error('Transaction Signature is required');
+    }
+
+    const hash = getHash(transaction, { skipSignature: false });
+
+    const temp = Buffer.alloc(8);
+    for (let i = 0; i < 8; i++) {
+      temp[i] = hash[7 - i];
+    }
+
+    return fromBuffer(temp).toString();
+  };
+  ```
+
 - **Step 3**
 
   Calculate transaction's signature:
