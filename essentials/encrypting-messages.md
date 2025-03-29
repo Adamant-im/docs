@@ -18,7 +18,15 @@ An encrypted message uses the following flow:
 1. Generate a **random nonce** (24 bytes)
 2. Convert the sender’s **Ed25519 private key** to a **Curve25519 secret key**
 3. Retrieve the recipient’s public key from the ADAMANT network
+
    - Use [`GET /api/accounts`](/api-endpoints/accounts#get-account-by-address) endpoint
+
+     ::: info
+     If the public key can’t be retrieved, it likely means the recipient’s account hasn’t been initialized yet.
+
+     [Learn more here](https://news.adamant.im/chats-and-uninitialized-accounts-in-adamant-5035438e2fcd).
+     :::
+
 4. Convert the recipient’s **Ed25519 public key** to a **Curve25519 public key**
 5. Encrypt the message using [NaCl box](https://nacl.cr.yp.to/box.html) algorithm, with:
    - The plaintext message
