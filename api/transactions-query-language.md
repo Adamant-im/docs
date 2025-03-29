@@ -225,7 +225,7 @@ Options can be combined.
 
 ### `limit`
 
-Limits returned items count. Default is `100` for transactions and 25 for Chatrooms.
+Limits returned items count. Default is `100` for transactions and `25` for Chatrooms.
 
 - **Example**
 
@@ -314,7 +314,7 @@ Options always joined with `and` condition.
   https://endless.adamant.im/api/transactions?fromHeight=1336065&and:senderId=U15423595369615486571&limit=2&orderBy=timestamp:asc
   ```
 
-  Get type `9` **or** type `0` transactions where `senderId = U18132012621449491414` **or** `senderId = U15881344309699504778`, order by `timestamp` ascending and limit results by `2` transactions.
+  Get type `9` **or** type `0` transactions where `senderId = U18132012621449491414` **or** `senderId = U15881344309699504778`, order by `timestamp` descending:
 
   ```
   https://debate.adamant.im/api/transactions?senderIds=U18132012621449491414,U15881344309699504778&and:types=9,0&orderBy=timestamp:desc
