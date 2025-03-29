@@ -93,7 +93,7 @@ Example:
 KVS `type` describes how to store `value` for `key`:
 
 - `1` for incremental appending contents
-- `2` for full re-writing of the `value`
+- `0` for full re-writing of the `value`
 
 Default is `0`.
 
