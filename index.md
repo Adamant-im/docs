@@ -63,7 +63,7 @@ However, **we still recommend running your own node** for reliability and perfor
 
 ## Running own node
 
-While you can connect to any ADAMANT node with an enabled API, it is recommended to [run your own node](https://medium.com/adamant-im/how-to-run-your-adamant-node-on-ubuntu-990e391e8fcc) for the following reasons:
+While you can connect to any ADAMANT node with an enabled API, it is recommended to [run your own node](https://news.adamant.im/how-to-run-your-adamant-node-on-ubuntu-990e391e8fcc) for the following reasons:
 
 - **Support decentralization** – More nodes means stronger network
 - **Robust performance** – Requests are processed faster through your own node.
