@@ -4,9 +4,9 @@
 
 Endpoints:
 
-- Messages can be retrieved using the `/api/chatrooms` endpoints
+- Messages can be retrieved using the [`/api/chatrooms`](/api-endpoints/chatrooms.md#get-list-of-chats) endpoints
   - Read more about chatrooms in [AIP 14: Chatrooms API](https://aips.adamant.im/AIPS/aip-14)
-- To send a new message, use `/api/chats/process` endpoint
+- To send a new message, use [`/api/chats/process`](/api-endpoints/chatrooms.md#register-chat-message-transaction) endpoint
 
 ## Type 1: Basic Encrypted Message
 
@@ -70,7 +70,7 @@ A Rich Content Message is a special content message transaction **that should be
   }
   ```
 
-  The `type` field is a string that describes how to handle the Rich Text. For example, see Crypto Transfer Messages.
+  The `type` field is a string that describes how to handle the Rich Text. For example, see [Crypto Transfer Messages](#non-adm-crypto-transfer-message).
 
   An optional `text_fallback` field can be added to provide an explanation for client apps that don’t support this type.
 
@@ -155,6 +155,6 @@ A Signal Message is a special message transaction that should be hidden by clien
 
 - **Description**
 
-  Signal Messages must be encrypted in the same way as Basic Encrypted Messages.
+  Signal Messages must be encrypted in the same way as [Basic Encrypted Messages](#type-1-basic-encrypted-message).
 
 - **AIP**: [AIP 6: Signal Messages](https://aips.adamant.im/AIPS/aip-6)

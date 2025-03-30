@@ -93,7 +93,7 @@ Example:
 KVS `type` describes how to store `value` for `key`:
 
 - `1` for incremental appending contents
-- `2` for full re-writing of the `value`
+- `0` for full re-writing of the `value`
 
 Default is `0`.
 
@@ -101,5 +101,5 @@ See [AIP 11: Behavior for KVS data](https://aips.adamant.im/AIPS/aip-11).
 
 ## Related information
 
-- [Medium: What is ‘Key-Value Store’ in ADAMANT and How is it used to Store Contact Names?](https://medium.com/adamant-im/what-is-key-value-store-in-adamant-and-how-is-it-used-to-store-contact-names-4ee5f82ab77f)
+- [Medium: What is ‘Key-Value Store’ in ADAMANT and How is it used to Store Contact Names?](https://news.adamant.im/what-is-key-value-store-in-adamant-and-how-is-it-used-to-store-contact-names-4ee5f82ab77f)
 - [AIP 3: Storing data in chain (KVS)](https://aips.adamant.im/AIPS/aip-3)

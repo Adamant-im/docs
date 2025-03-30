@@ -1,13 +1,13 @@
 # Encrypting & Decrypting Messages
 
-Transaction assets for Messages and KVS records are encrypted before being packed into transactions.
+Transaction assets for [Messages](/api/message-types.md) and [KVS](./storing-data-in-kvs.md) records are encrypted before being packed into transactions.
 
 - **Messages** (type 8) use NaCl box (public-key encryption), which relies on Curve25519 for key exchange and Salsa20 for encryption.
 - **KVS records** (type 9) use NaCl secretbox (symmetric encryption), which relies on Salsa20 for encryption.
 
 Both use **Poly1305** for authentication.
 
-After encryption, they are included in transactions, which are then signed and broadcasted to the ADAMANT network.
+After encryption, they are included in transactions, which are then [signed](./signing-transactions.md) and broadcasted to the ADAMANT network.
 
 ## Encrypting messages
 
@@ -18,9 +18,17 @@ An encrypted message uses the following flow:
 1. Generate a **random nonce** (24 bytes)
 2. Convert the sender’s **Ed25519 private key** to a **Curve25519 secret key**
 3. Retrieve the recipient’s public key from the ADAMANT network
+
    - Use [`GET /api/accounts`](/api-endpoints/accounts#get-account-by-address) endpoint
+
+     ::: info
+     If the public key can’t be retrieved, it likely means the recipient’s account hasn’t been initialized yet.
+
+     Learn about [Account Initialization](https://news.adamant.im/chats-and-uninitialized-accounts-in-adamant-5035438e2fcd).
+     :::
+
 4. Convert the recipient’s **Ed25519 public key** to a **Curve25519 public key**
-5. Encrypt the message using [NaCl box](https://nacl.cr.yp.to/box.md) algorithm, with:
+5. Encrypt the message using [NaCl box](https://nacl.cr.yp.to/box.html) algorithm, with:
    - The plaintext message
    - The nonce
    - The recipient’s **Curve25519 public key**
@@ -86,7 +94,7 @@ To decrypt a message follow the algorithm:
 
 1. Convert **your Ed25519 private key** to a **Curve25519 secret key**.
 2. Convert **other party's Ed25519 public key** to a **Curve25519 public key**.
-3. Decrypt the message using the [NaCl box](https://nacl.cr.yp.to/box.md) algorithm with:
+3. Decrypt the message using the [NaCl box](https://nacl.cr.yp.to/box.html) algorithm with:
    - The encrypted message
    - The nonce
    - The other party's **Curve25519 public key**
@@ -145,7 +153,7 @@ If `value` needs to be encrypted, the following steps are applied:
 2. Convert the JSON to a string and **prefix/suffix** it with a random string
    - The random string should be alphanumeric (ASCII), **excluding `{` and `}`**
 3. Compute the **secret key** as the SHA-256 hash of your ADAMANT **private key**.
-4. Encrypt the resulting string using [NaCl.secretbox](https://nacl.cr.yp.to/secretbox.md) with:
+4. Encrypt the resulting string using [NaCl.secretbox](https://nacl.cr.yp.to/secretbox.html) with:
    - The plaintext message
    - A randomly generated **nonce** (24 bytes)
    - The **secret key**
@@ -196,7 +204,7 @@ To decrypt a `value` stored in the KVS:
 
 1. Retrieve the **encrypted message** and **nonce** from the transaction data
 2. Compute the **secret key** as the SHA-256 hash of your ADAMANT **private key**
-3. Decrypt the message using [NaCl.secretbox](https://nacl.cr.yp.to/secretbox.md) with:
+3. Decrypt the message using [NaCl.secretbox](https://nacl.cr.yp.to/secretbox.html) with:
    - The encrypted message
    - The nonce
    - The **secret key**
