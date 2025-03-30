@@ -24,7 +24,7 @@ An encrypted message uses the following flow:
      ::: info
      If the public key can’t be retrieved, it likely means the recipient’s account hasn’t been initialized yet.
 
-     [Learn more here](https://news.adamant.im/chats-and-uninitialized-accounts-in-adamant-5035438e2fcd).
+     Learn about [Account Initialization](https://news.adamant.im/chats-and-uninitialized-accounts-in-adamant-5035438e2fcd).
      :::
 
 4. Convert the recipient’s **Ed25519 public key** to a **Curve25519 public key**
