@@ -13,7 +13,8 @@ This site is built with [VitePress](https://github.com/vuejs/vitepress), and its
 To run the site locally for development and testing, use:
 
 ```sh
-npx vitepress dev
+npm install
+npm run dev
 ```
 
 This starts a hot-reload server so you can preview the site and take advantage of [VitePress’s rich feature set](https://vitepress.dev/guide/markdown).
