@@ -21,11 +21,14 @@ export default defineConfig({
     sidebar: [
       {
         text: 'Getting Started',
+        items: [{ text: 'Introduction', link: '/' }],
+      },
+      {
+        text: 'Running Own Node',
         items: [
-          { text: 'Introduction', link: '/' },
-          { text: 'Installation', link: '/installation' },
-          { text: 'Configuration', link: '/configuration' },
-          { text: 'Testnet', link: '/testnet' },
+          { text: 'Installation', link: '/own-node/installation' },
+          { text: 'Configuration', link: '/own-node/configuration' },
+          { text: 'Testnet', link: '/own-node/testnet' },
         ],
       },
       {
