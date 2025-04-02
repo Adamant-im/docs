@@ -1,6 +1,6 @@
 # Message Types
 
-[Message](/api/transaction-types.md#type-8-chat-message-transaction) is a type `8` transaction. Each message type differs based on the `asset` object value. The message type number is stored in the `asset.chat.type` field.
+[Message](/api-types/transaction-types.md#type-8-chat-message-transaction) is a type `8` transaction. Each message type differs based on the `asset` object value. The message type number is stored in the `asset.chat.type` field.
 
 Endpoints:
 
@@ -107,8 +107,8 @@ A Crypto Transfer Message is a type of Rich Content Message designed for display
 
 > For ADM transfers, see:
 >
-> - [Token Transfer Transactions](/api/transaction-types.md#type-0-token-transfer-transaction) – for ADM transfers without comments
-> - [Basic Encrypted Messages](/api/message-types.md#type-1-basic-encrypted-message) – for ADM transfers with a comment
+> - [Token Transfer Transactions](/api-types/transaction-types.md#type-0-token-transfer-transaction) – for ADM transfers without comments
+> - [Basic Encrypted Messages](/api-types/message-types.md#type-1-basic-encrypted-message) – for ADM transfers with a comment
 
 - **Description**
 

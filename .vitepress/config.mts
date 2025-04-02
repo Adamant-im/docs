@@ -56,13 +56,18 @@ export default defineConfig({
       {
         text: 'API Specifications',
         items: [
-          { text: 'Transactions', link: '/api/transaction-types' },
-          { text: 'Message Types', link: '/api/message-types' },
           {
             text: 'Transactions Query Language',
             link: '/api/transactions-query-language',
           },
           { text: 'WebSocket', link: '/api/websocket' },
+        ],
+      },
+      {
+        text: 'API Types',
+        items: [
+          { text: 'Transactions', link: '/api-types/transaction-types' },
+          { text: 'Message Types', link: '/api-types/message-types' },
         ],
       },
       {

@@ -1,6 +1,6 @@
 # Encrypting & Decrypting Messages
 
-Transaction assets for [Messages](/api/message-types.md) and [KVS](./storing-data-in-kvs.md) records are encrypted before being packed into transactions.
+Transaction assets for [Messages](/api-types/message-types.md) and [KVS](./storing-data-in-kvs.md) records are encrypted before being packed into transactions.
 
 - **Messages** (type 8) use NaCl box (public-key encryption), which relies on Curve25519 for key exchange and Salsa20 for encryption.
 - **KVS records** (type 9) use NaCl secretbox (symmetric encryption), which relies on Salsa20 for encryption.

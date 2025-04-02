@@ -180,7 +180,7 @@ Used to vote or downvote for delegates.
 
 ## Type 8: Chat/Message Transaction
 
-Used to send any [Message Type](/api/message-types.md) between accounts.
+Used to send any [Message Type](/api-types/message-types.md) between accounts.
 
 - **Properties**
 

@@ -133,11 +133,11 @@ connection.on('connect', () => {
 });
 ```
 
-A full list of transaction types can be found in the [API Specification](/api/transaction-types.md) section of the documentation.
+A full list of transaction types can be found in the [API Specification](/api-types/transaction-types.md) section of the documentation.
 
 #### Filtering by Message Type
 
-Chat messages in ADAMANT have different [message types](/api/message-types.md) under `asset.chat.type`. To filter messages by type, emit the `assetChatTypes` event:
+Chat messages in ADAMANT have different [message types](/api-types/message-types.md) under `asset.chat.type`. To filter messages by type, emit the `assetChatTypes` event:
 
 ```js
 connection.on('connect', () => {

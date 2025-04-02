@@ -301,7 +301,7 @@ GET /api/blocks/getFee
 
 - **Description**
 
-  Endpoint `/api/blocks/getFee` returns the current fee value for [`type 0` (token transfer)](/api/transaction-types.md#type-0-token-transfer-transaction) transactions. Integer amount of 1/10^8 ADM tokens (1 ADM = 100000000).
+  Endpoint `/api/blocks/getFee` returns the current fee value for [`type 0` (token transfer)](/api-types/transaction-types.md#type-0-token-transfer-transaction) transactions. Integer amount of 1/10^8 ADM tokens (1 ADM = 100000000).
 
 - **Example**
 
@@ -329,7 +329,7 @@ GET /api/blocks/getFees
 
 - **Description**
 
-  Endpoint `/api/blocks/getFees` returns current fee values for different [transaction types](/api/transaction-types.md):
+  Endpoint `/api/blocks/getFees` returns current fee values for different [transaction types](/api-types/transaction-types.md):
 
   - `send` — token transfer, type 0
   - `vote` — voting for delegate, type 3

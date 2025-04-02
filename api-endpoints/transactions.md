@@ -2,7 +2,7 @@
 
 Contains endpoints useful to interact with transactions of ADAMANT blockchain.
 
-Every action in ADAMANT, a blockchain messenger, is a transaction — f. e., sending tokens, voting for delegate, storing contact list, or sending a message. See [Transaction Types](/api/transaction-types.md).
+Every action in ADAMANT, a blockchain messenger, is a transaction — f. e., sending tokens, voting for delegate, storing contact list, or sending a message. See [Transaction Types](/api-types/transaction-types.md).
 
 Transactions can be fetched with filtering and options using [Transactions Query Language](/api/transactions-query-language.md). To receive `asset` contents, set `returnAsset` to `1`.
 
@@ -19,7 +19,7 @@ GET /api/transactions
   - `id` — ID of transaction
   - `height` — block height where the transaction was forged
   - `blockId` — block ID where the transaction was forged
-  - `type` — type of transaction. See [Transaction Types](/api/transaction-types.md).
+  - `type` — type of transaction. See [Transaction Types](/api-types/transaction-types.md).
   - `timestamp` — transaction timestamp, a 32-bit integer epoch timestamp (in seconds starting from Sep 02, 2017, 17:00:00 GMT+0000). Nodes do not accept transactions stamped in the future.
   - `block_timestamp` — transaction's block timestamp. It is up to the client to interpret this field. It is recommended to take into account both `timestamp` and `block_timestamp` fields when determining transaction timestamp.
   - `senderPublicKey` — public key of sender
@@ -30,7 +30,7 @@ GET /api/transactions
   - `fee` — fee for operation. Depends on the type of transaction.
   - `signature` — transaction signature
   - `confirmations` — count of network confirmations — how many blocks were generated after this block on the current node's height.
-  - `asset` — transaction data specific to different transaction/message types. See [ADAMANT Message Types](/api/message-types.md) and [Storing Data in KVS](/essentials/storing-data-in-kvs.md). Used also in [Signature calculation](/essentials/signing-transactions.md).
+  - `asset` — transaction data specific to different transaction/message types. See [ADAMANT Message Types](/api-types/message-types.md) and [Storing Data in KVS](/essentials/storing-data-in-kvs.md). Used also in [Signature calculation](/essentials/signing-transactions.md).
 
   Read more about the transaction structure in [AIP 10: General transaction structure for API calls](https://aips.adamant.im/AIPS/aip-10).
 
@@ -395,7 +395,7 @@ POST /api/transactions/process
 
 - **Description**
 
-  Use the endpoint `/api/transactions/process` to broadcast transactions of [type 0 — Token transfer](/api/transaction-types.md#type-0-token-transfer-transaction), and [type 8 — Chat/Message](/api/transaction-types.md#type-8-chat-message-transaction).
+  Use the endpoint `/api/transactions/process` to broadcast transactions of [type 0 — Token transfer](/api-types/transaction-types.md#type-0-token-transfer-transaction), and [type 8 — Chat/Message](/api-types/transaction-types.md#type-8-chat-message-transaction).
 
   To make an in-chat ADM token transfer with a comment, you can also use [Register Chat Message Transaction](/api-endpoints/chatrooms.md#register-chat-message-transaction) or universal [Register Transaction](#register-transaction) endpoints.
 
@@ -449,7 +449,7 @@ POST /api/transactions
 
 - **Description**
 
-  Use the universal endpoint `/api/transactions` to broadcast transactions of [any type](/api/transaction-types.md). This endpoint can be used instead of:
+  Use the universal endpoint `/api/transactions` to broadcast transactions of [any type](/api-types/transaction-types.md). This endpoint can be used instead of:
 
   - [Register Vote for Delegate Transaction](/api-endpoints/delegates.md#register-vote-for-delegate-transaction)
   - [Register Token Transfer Transaction](#register-token-transfer-transaction)

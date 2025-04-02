@@ -4,7 +4,7 @@ List of endpoints intended to work with chats and chatrooms in ADAMANT blockchai
 
 See also:
 
-- [Chats and Message Types](/api/message-types.md)
+- [Chats and Message Types](/api-types/message-types.md)
 
 ## Get List of Chats
 
@@ -22,7 +22,7 @@ GET /api/chatrooms/{ADAMANT_address}
   - Returns transactions of:
     - `type = 8` (messages)
     - `type = 0` (direct token transfers)
-  - Stores the last message in `asset.chat` (see [Message Types](/api/message-types.md)).
+  - Stores the last message in `asset.chat` (see [Message Types](/api-types/message-types.md)).
   - Only returns:
     - `type 1` (basic messages)
     - `type 2` (rich messages)
@@ -31,7 +31,7 @@ GET /api/chatrooms/{ADAMANT_address}
   **Response Data**
 
   - `participants` — sender & recipient (`address` & `publicKey`)
-  - `lastTransaction` — last [chat transaction](/api/transaction-types.md) with `asset.chat`
+  - `lastTransaction` — last [chat transaction](/api-types/transaction-types.md) with `asset.chat`
   - `count` — total chats count
 
 - **Example**
@@ -127,13 +127,13 @@ GET /api/chatrooms/{ADAMANT_address}/{ADAMANT_address}
 - **Description**
 
   To fetch messages between two accounts, use the `/api/chatrooms` endpoint and specify two [ADAMANT addresses](/api-endpoints/accounts.md).
-  
+
   Filtering and options are the same as for [Get List of Chats](/api-endpoints/chatrooms.md#get-list-of-chats).
 
   As a success result in response, you'll get:
 
   - `participants` — sender and recipient of messages, represented by ADAMANT `address` and `publicKey`
-  - `messages` — array of [chat transactions](/api/transaction-types.md) with `asset.chat`
+  - `messages` — array of [chat transactions](/api-types/transaction-types.md) with `asset.chat`
 
   Endpoint also returns count of messages as an integer value.
 
@@ -223,7 +223,7 @@ GET /api/chats/get
 
   Use the `/api/chats/get` endpoint to get messages from ADAMANT blockchain. For filtering and options, see [Transactions Query Language](/api/transactions-query-language.md).
 
-  As a result, you'll get a list of transactions of `type = 8` (messages) with `asset.chat` fields. The structure of `chat` is described in the [Chats and Message Types](/api/message-types.md) section. The `/api/chats/get` endpoint returns messages of all types (basic messages, rich messages, signal messages).
+  As a result, you'll get a list of transactions of `type = 8` (messages) with `asset.chat` fields. The structure of `chat` is described in the [Chats and Message Types](/api-types/message-types.md) section. The `/api/chats/get` endpoint returns messages of all types (basic messages, rich messages, signal messages).
 
   Endpoint also returns `count` of transactions as an integer value.
 
@@ -307,11 +307,11 @@ POST /api/chats/process
 
 - **Description**
 
-  Use endpoint `/api/chats/process` to broadcast transactions of [type 8 — Chat/Message](/api/transaction-types.md#type-8-chat-message-transaction). It is used for messaging as well as in-Chat ADM token transfer with comment.
+  Use endpoint `/api/chats/process` to broadcast transactions of [type 8 — Chat/Message](/api-types/transaction-types.md#type-8-chat-message-transaction). It is used for messaging as well as in-Chat ADM token transfer with comment.
 
   Make _POST_ request to the endpoint, with payload of [transaction object](/api-endpoints/transactions.md#get-list-of-transactions), where `asset.chat` includes encrypted `message`, nonce `own_message` and message `type`. Set positive `amount` value for in-Chat ADM token transfer with comment.
 
-  `message` contents depends on its [`type`](/api/message-types.md), must be [encrypted](/essentials/encrypting-messages.md), and then transaction must be [formed and signed](/essentials/signing-transactions.md).
+  `message` contents depends on its [`type`](/api-types/message-types.md), must be [encrypted](/essentials/encrypting-messages.md), and then transaction must be [formed and signed](/essentials/signing-transactions.md).
 
   As a success result you'll get ID of transaction registered in ADAMANT blockchain.
 
