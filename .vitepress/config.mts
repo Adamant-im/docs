@@ -88,7 +88,12 @@ export default defineConfig({
         ],
       },
     ],
-
+    nav: [
+      {
+        text: 'API Schema',
+        link: 'https://github.com/adamant-im/adamant-schema',
+      },
+    ],
     socialLinks: [
       { icon: 'github', link: 'https://github.com/adamant-im/adamant' },
     ],
