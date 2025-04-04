@@ -18,7 +18,7 @@ To maintain reliability, use WebSocket for real-time updates and REST API to per
 
 ## Enabling WebSocket
 
-To enable WebSocket on a node, enable it in the [configuration file](/configuration.md#websocket-client-configuration):
+To enable WebSocket on a node, enable it in the [configuration file](/own-node/configuration.md#websocket-client-configuration):
 
 ```json
 {
