@@ -80,6 +80,81 @@ GET /api/peers
   }
   ```
 
+## Get Peers Stats
+
+```sh
+GET /api/peers/count
+```
+
+- **Description**
+
+  Endpoint `/api/peers/count` returns count of connected, disconnected and banned peers.
+
+- **Example**
+
+  Request:
+
+  ```sh
+  GET https://endless.adamant.im/api/peers/count
+  ```
+
+  Response:
+
+  ```json
+  {
+    "success": true,
+    "nodeTimestamp": 239414812,
+    "connected": 136,
+    "disconnected": 3,
+    "banned": 0
+  }
+  ```
+
+## Get peer by IP and port
+
+```sh
+GET /api/peers/get
+```
+
+- **Description**
+
+  Finds and returns the known peer of the node. See [Get Peers List](#get-peers-list) to learn peer's properties.
+
+  **Required** parameters:
+
+  - `ip` — peer's IPv4 address
+  - `port` — peer's port
+
+- **Example**
+
+  Request:
+
+  ```sh
+  GET https://endless.adamant.im/api/peers/get?ip=138.201.152.191&port=36666
+  ```
+
+  Response:
+
+  ```json
+  {
+    "success": true,
+    "nodeTimestamp": 239415353,
+    "peer": {
+      "ip": "138.201.152.191",
+      "port": 36666,
+      "state": 1,
+      "os": "linux5.15.0-86-generic",
+      "version": "0.8.3",
+      "dappid": null,
+      "broadhash": "15f6beddb5f68854618f0e06f35addadaeee067efd3cdaaae90f5beaf15cd370",
+      "height": 38723235,
+      "clock": null,
+      "updated": 1713630137277,
+      "nonce": "YWXG1LsX0QUw4tFD"
+    }
+  }
+  ```
+
 ## Get Loading Status
 
 ```sh
