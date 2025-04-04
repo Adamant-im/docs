@@ -1,4 +1,5 @@
 {
+  "name": "adamant-docs",
   "scripts": {
     "docs:build": "vitepress build",
     "docs:preview": "vitepress preview",
