@@ -22,6 +22,8 @@ You can copy the configuration files from the default templates.
   cp test/config.default.json test/config.json
   ```
 
+  You can learn more about testnet on the [Testnet page](./testnet.md).
+
 ## Logging
 
 - **Log file path**

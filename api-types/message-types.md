@@ -1,12 +1,12 @@
 # Message Types
 
-[Message](/api/transaction-types.md#type-8-chat-message-transaction) is a type `8` transaction. Each message type differs based on the `asset` object value. The message type number is stored in the `asset.chat.type` field.
+[Message](/api-types/transaction-types.md#type-8-chat-message-transaction) is a type `8` transaction. Each message type differs based on the `asset` object value. The message type number is stored in the `asset.chat.type` field.
 
 Endpoints:
 
-- Messages can be retrieved using the `/api/chatrooms` endpoints
+- Messages can be retrieved using the [`/api/chatrooms`](/api-endpoints/chatrooms.md#get-list-of-chats) endpoints
   - Read more about chatrooms in [AIP 14: Chatrooms API](https://aips.adamant.im/AIPS/aip-14)
-- To send a new message, use `/api/chats/process` endpoint
+- To send a new message, use [`/api/chats/process`](/api-endpoints/chatrooms.md#register-chat-message-transaction) endpoint
 
 ## Type 1: Basic Encrypted Message
 
@@ -70,7 +70,7 @@ A Rich Content Message is a special content message transaction **that should be
   }
   ```
 
-  The `type` field is a string that describes how to handle the Rich Text. For example, see Crypto Transfer Messages.
+  The `type` field is a string that describes how to handle the Rich Text. For example, see [Crypto Transfer Messages](#non-adm-crypto-transfer-message).
 
   An optional `text_fallback` field can be added to provide an explanation for client apps that don’t support this type.
 
@@ -107,8 +107,8 @@ A Crypto Transfer Message is a type of Rich Content Message designed for display
 
 > For ADM transfers, see:
 >
-> - [Token Transfer Transactions](/api/transaction-types.md#type-0-token-transfer-transaction) – for ADM transfers without comments
-> - [Basic Encrypted Messages](/api/message-types.md#type-1-basic-encrypted-message) – for ADM transfers with a comment
+> - [Token Transfer Transactions](/api-types/transaction-types.md#type-0-token-transfer-transaction) – for ADM transfers without comments
+> - [Basic Encrypted Messages](/api-types/message-types.md#type-1-basic-encrypted-message) – for ADM transfers with a comment
 
 - **Description**
 
@@ -155,6 +155,6 @@ A Signal Message is a special message transaction that should be hidden by clien
 
 - **Description**
 
-  Signal Messages must be encrypted in the same way as Basic Encrypted Messages.
+  Signal Messages must be encrypted in the same way as [Basic Encrypted Messages](#type-1-basic-encrypted-message).
 
 - **AIP**: [AIP 6: Signal Messages](https://aips.adamant.im/AIPS/aip-6)

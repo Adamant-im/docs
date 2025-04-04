@@ -167,8 +167,8 @@ Get transactions sent from or received to specified ADAMANT address.
 
 Parameter meaning depends on endpoint:
 
-- `/api/transactions`: Get transactions of specified type. See [Transaction Types](/api/transaction-types.md). If type is not set, all types of transactions will be returned.
-- `/api/chats/get` and `/api/chatrooms`: Get messages of specified type. See [ADAMANT Message Types](/api/message-types.md). If type is not set, all types of messages will be returned.
+- `/api/transactions`: Get transactions of specified type. See [Transaction Types](/api-types/transaction-types.md). If type is not set, all types of transactions will be returned.
+- `/api/chats/get` and `/api/chatrooms`: Get messages of specified type. See [ADAMANT Message Types](/api-types/message-types.md). If type is not set, all types of messages will be returned.
 - `/api/states/get`: Get KVS records of incremental or full re-write of previous values. Default is `0`. See [AIP 11: Behavior for KVS data](https://aips.adamant.im/AIPS/aip-11).
 
 - **Examples**
@@ -187,7 +187,7 @@ Parameter meaning depends on endpoint:
 
 ### `types`
 
-Get transactions of specified types, separated by commas. See [Transaction Types](/api/transaction-types.md).
+Get transactions of specified types, separated by commas. See [Transaction Types](/api-types/transaction-types.md).
 
 :::: tip
 
@@ -225,7 +225,7 @@ Options can be combined.
 
 ### `limit`
 
-Limits returned items count. Default is `100` for transactions and 25 for Chatrooms.
+Limits returned items count. Default is `100` for transactions and `25` for Chatrooms.
 
 - **Example**
 
@@ -314,7 +314,7 @@ Options always joined with `and` condition.
   https://endless.adamant.im/api/transactions?fromHeight=1336065&and:senderId=U15423595369615486571&limit=2&orderBy=timestamp:asc
   ```
 
-  Get type `9` **or** type `0` transactions where `senderId = U18132012621449491414` **or** `senderId = U15881344309699504778`, order by `timestamp` ascending and limit results by `2` transactions.
+  Get type `9` **or** type `0` transactions where `senderId = U18132012621449491414` **or** `senderId = U15881344309699504778`, order by `timestamp` descending:
 
   ```
   https://debate.adamant.im/api/transactions?senderIds=U18132012621449491414,U15881344309699504778&and:types=9,0&orderBy=timestamp:desc

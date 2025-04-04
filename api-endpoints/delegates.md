@@ -1,6 +1,6 @@
 # Delegates and Voting
 
-Endpoints useful in working with delegate system of ADAMANT blockchain — [Fair dPoS](https://medium.com/adamant-im/fair-delegate-system-in-dpos-568e5c3c86c8).
+Endpoints useful in working with delegate system of ADAMANT blockchain — [Fair dPoS](https://news.adamant.im/fair-delegate-system-in-dpos-568e5c3c86c8).
 
 ## Get Delegates
 
@@ -14,7 +14,7 @@ GET /api/delegates
 
   Available parameters:
 
-  - `limit` — how many delegates to retrieve, integer. Default is 101 (active delegates).
+  - `limit` — how many delegates to retrieve, integer. Default is 101 (active/forging delegates).
   - `offset` — offset value for results, integer. Default is 0.
 
   Each delegate is presented by:
@@ -24,12 +24,12 @@ GET /api/delegates
   - `rate` — current rate position in the list of delegates
   - `approval` — share of votes of all votes in the system
   - `address` — delegate's [ADAMANT address](/api-endpoints/accounts.md)
-  - `publicKey` — public key of delegate's [ADAMANT account](/api-endpoints/accounts.md)
+  - `publicKey` — public key of a delegate
   - `vote` — vote weight (obsolete, not used)
   - `votesWeight` — vote weight (Fair Delegate System)
   - `producedblocks` — count of produced blocks
   - `missedblocks` — count of missed blocks
-  - `productivity` — productivity/uptime of delegate. Will be 0 if the delegate is not active.
+  - `productivity` — productivity/uptime of delegate. Will be `0` if the delegate is not active.
 
 - **Example**
 
@@ -235,8 +235,8 @@ GET /api/delegates/forging/getForgedByAccount?generatorPublicKey={generatorPubli
 
   Additional parameters for the endpoint:
 
-  - `start` - Unix timestamp (in seconds) for the start date
-  - `end` - Unix timestamp (in seconds) for the end date
+  - `start` — Unix timestamp (in seconds) for the start date
+  - `end` — Unix timestamp (in seconds) for the end date
 
 - **Example**
 
@@ -275,7 +275,7 @@ GET /api/delegates/getNextForgers
 
   Available parameters:
 
-  - `limit` — count to retrieve, integer
+  - `limit` — count to retrieve
 
 - **Example**
 
@@ -317,10 +317,10 @@ GET /api/delegates/voters?publicKey={publicKey}
 
 - **Description**
 
-  Get the list of delegate's voters using endpoint `/api/delegates/voters` with parameter `publicKey` representing the delegate's [`publicKey`](/api-endpoints/accounts.md#get-account-public-key). The success response will contain:
+  Get the list of a delegate's voters using endpoint `/api/delegates/voters` with parameter `publicKey` representing the delegate's [`publicKey`](/api-endpoints/accounts.md#get-account-public-key). A successful response will contain:
 
   - `address` — voter's ADAMANT address
-  - `publicKey` — voter's ADAMANT public key
+  - `publicKey` — voter's public key
   - `username` — voter's delegate username. `null` if `address` is not a delegate.
   - `balance` — ADM balance of voter's ADAMANT wallet. Integer amount of 1/10^8 ADM tokens (1 ADM = 100000000).
 
@@ -364,7 +364,7 @@ GET /api/accounts/delegates?address={ADAMANT address}
 - **Description**
 
   To get current votes of a specific ADAMANT account, use `/api/accounts/delegates` endpoint with ADAMANT `address` parameter.
-  Returns a list of [delegates](#get-delegates) account votes for.
+  The response will include a list of [delegates](#get-delegates) that the account has voted for.
 
 - **Example**
 
@@ -406,16 +406,16 @@ POST /api/delegates
 
 - **Description**
 
-  Use endpoint `/api/delegates` to broadcast transactions of [type 2 — Delegate Registration](/api/transaction-types.md#type-2-delegate-registration-transaction). Make _POST_ request to the endpoint, with payload of [transaction object](/api-endpoints/transactions.md#get-list-of-transactions), where:
+  Use endpoint `/api/delegates` to broadcast transactions of [type 2 — Delegate Registration](/api-types/transaction-types.md#type-2-delegate-registration-transaction). Make _POST_ request to the endpoint, with payload of [transaction object](/api-endpoints/transactions.md#get-list-of-transactions), where:
 
   - `type` is set to `2`
   - `recipientId` = `null`
   - `recipientPublicKey` = `null`
-  - `asset` sets new delegate's info
+  - `asset` sets information for a new delegate: `username` and `publicKey`
 
   Transaction must be [formed and signed](/essentials/signing-transactions.md).
 
-  As a success result, you'll get the transaction registered in the ADAMANT blockchain.
+  As a successful result, you'll get the transaction registered in the ADAMANT blockchain.
 
 - **Example**
 
@@ -478,7 +478,7 @@ POST /api/accounts/delegates
 
 - **Description**
 
-  Use endpoint `/api/accounts/delegates` to broadcast transactions of [type 3 — Vote for Delegate](/api/transaction-types.md#type-3-vote-for-delegate-transaction). Make _POST_ request to the endpoint, with payload of [transaction object](/api-endpoints/transactions.md#get-list-of-transactions), where:
+  Use endpoint `/api/accounts/delegates` to broadcast transactions of [type 3 — Vote for Delegate](/api-types/transaction-types.md#type-3-vote-for-delegate-transaction). Make _POST_ request to the endpoint, with payload of [transaction object](/api-endpoints/transactions.md#get-list-of-transactions), where:
 
   - `type` is set to `3`
   - `senderId` = `recipientId`, ADAMANT address of the account who votes

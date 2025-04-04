@@ -21,7 +21,7 @@ With this private key, the user is able to sign transactions into a transaction 
 
 ## Account Generation Algorithm
 
-ADAMANT accounts **MUST BE** generated locally within the application, and then the public key should be [broadcasted to ADAMANT network](/api-endpoints/accounts.md#create-new-account). Account generation scheme:
+ADAMANT accounts **MUST BE** generated locally within the application. The public key can then optionally be [broadcasted to ADAMANT network](/api-endpoints/accounts.md#create-new-account). Account generation scheme:
 
 <img src="/images/account_flow.png"/>
 

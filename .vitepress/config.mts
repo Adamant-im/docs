@@ -1,19 +1,43 @@
 import { defineConfig } from 'vitepress';
+import urlLang from './langs/url.json';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: 'ADAMANT Node',
+  title: 'ADAMANT Docs',
   description: 'ADAMANT Documentation',
+  /* prettier-ignore */
+  head: [
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/icons/favicon.svg' }],
+  ],
+  markdown: {
+    shikiSetup(shiki) {
+      shiki.loadLanguage(urlLang);
+    },
+  },
   themeConfig: {
-    logo: '/logo.svg',
-    outline: 'deep',
     // https://vitepress.dev/reference/default-theme-config
+    logo: {
+      light: '/logo-light-theme.svg',
+      dark: '/logo-dark-theme.svg',
+    },
+    outline: 'deep',
+    editLink: {
+      pattern: 'https://github.com/adamant-im/docs/edit/main/:path',
+    },
     sidebar: [
       {
         text: 'Getting Started',
         items: [
-          { text: 'Installation', link: '/installation' },
-          { text: 'Configuration', link: '/configuration' },
+          { text: 'Introduction', link: '/' },
+          { text: 'Core Concepts', link: '/core-concepts' },
+        ],
+      },
+      {
+        text: 'Running Own Node',
+        items: [
+          { text: 'Installation', link: '/own-node/installation' },
+          { text: 'Configuration', link: '/own-node/configuration' },
+          { text: 'Testnet', link: '/own-node/testnet' },
         ],
       },
       {
@@ -44,8 +68,10 @@ export default defineConfig({
       {
         text: 'API Specifications',
         items: [
-          { text: 'Transactions', link: '/api/transaction-types' },
-          { text: 'Message Types', link: '/api/message-types' },
+          {
+            text: 'Making Requests',
+            link: '/api/making-requests',
+          },
           {
             text: 'Transactions Query Language',
             link: '/api/transactions-query-language',
@@ -54,18 +80,25 @@ export default defineConfig({
         ],
       },
       {
+        text: 'API Types',
+        items: [
+          { text: 'Transaction Types', link: '/api-types/transaction-types' },
+          { text: 'Message Types', link: '/api-types/message-types' },
+        ],
+      },
+      {
         text: 'API Endpoints',
         items: [
           { text: 'Accounts', link: '/api-endpoints/accounts' },
-          { text: 'Blocks', link: '/api-endpoints/blocks' },
+          { text: 'Transactions', link: '/api-endpoints/transactions' },
           { text: 'Chats and Chatrooms', link: '/api-endpoints/chatrooms' },
+          { text: 'Blocks', link: '/api-endpoints/blocks' },
           { text: 'Delegates', link: '/api-endpoints/delegates' },
-          { text: 'Node & Blockchain', link: '/api-endpoints/blockchain' },
           {
             text: 'States: Key-Value Storage',
             link: '/api-endpoints/kvs',
           },
-          { text: 'Transactions', link: '/api-endpoints/transactions' },
+          { text: 'Node & Blockchain', link: '/api-endpoints/blockchain' },
         ],
       },
       {
@@ -76,7 +109,12 @@ export default defineConfig({
         ],
       },
     ],
-
+    nav: [
+      {
+        text: 'API Schema',
+        link: 'https://github.com/adamant-im/adamant-schema',
+      },
+    ],
     socialLinks: [
       { icon: 'github', link: 'https://github.com/adamant-im/adamant' },
     ],

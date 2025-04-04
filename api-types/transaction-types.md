@@ -1,8 +1,10 @@
-# Transactions
+# Transaction Types
 
 Transactions are an essential part of the ADAMANT blockchain. They represent different types of data recorded on the blockchain on behalf of an account. Transactions can be used for sending messages or tokens, receiving push notifications, storing data, and much more.
 
 ## General transaction structure
+
+> AIP 10: [General transaction structure for API calls](https://aips.adamant.im/AIPS/aip-10)
 
 Although each transaction type has its own structure and required properties, all transactions share the following common properties:
 
@@ -69,6 +71,8 @@ Token Transfer Transaction is used for transferring ADM tokens between accounts.
 
 Creates a new delegate in ADAMANT's blockchain.
 
+> [How to become an ADAMANT Delegate](https://news.adamant.im/how-to-become-an-adamant-delegate-745f01d032f)
+
 - **Properties**
 
   - `type` — Must be `2`
@@ -119,6 +123,8 @@ Creates a new delegate in ADAMANT's blockchain.
   ```
 
 ## Type 3: Vote for Delegate Transaction
+
+> For background on delegate voting, see [this article](https://news.adamant.im/how-to-vote-for-adamant-delegates-2b415e694f72)
 
 Used to vote or downvote for delegates.
 
@@ -174,14 +180,25 @@ Used to vote or downvote for delegates.
 
 ## Type 8: Chat/Message Transaction
 
-Used to send messages, rich text, and signals between accounts.
+Used to send any [Message Type](/api-types/message-types.md) between accounts.
 
 - **Properties**
 
   - `type` — Must be `8`
   - `amount` — `0` for message only or ADM amount for token transfer with comment
   - `fee` — `100000` (0.001 ADM) per 255 symbols or `50000000` (0.5 ADM) for token transfer with comment
-  - `asset` — Contains encrypted message content
+  - `asset` - Transaction asset
+
+    - `chat` — Contains encrypted message content
+
+      - `type` — **Message** type (not to be confused with the transaction type). See [Message Types](./message-types.md).
+      - `message` — Encrypted message text
+
+        :::: info
+        Nodes accept a maximum **encrypted** text length of 20,480 characters, so the approximate maximum **unencrypted** text length is around 13,000 UTF-8 characters.
+        ::::
+
+      - `own_message` - The message's nonce
 
 - **API Endpoints**
 
@@ -224,6 +241,8 @@ Used to send messages, rich text, and signals between accounts.
 ## Type 9: Store Data in KVS Transaction
 
 Key-Value Storage (KVS) is a special type of transaction for storing private (encrypted) or public (plain value) data in ADAMANT's blockchain.
+
+> Read more: [Storing Data in KVS](/essentials/storing-data-in-kvs.md).
 
 - **Properties**
 

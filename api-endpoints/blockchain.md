@@ -16,7 +16,14 @@ GET /api/peers
 
   - `ip` — IPv4 address of node
   - `port` — port number of ADAMANT node. 36666 for mainnet or 36667 for testnet.
-  - `state` — state of the peer. Available values: Connected (2), Disconnected, Banned
+  - `state` — state of the peer.
+
+    Available values:
+
+    - `2` — Connected
+    - `1` — Disconnected
+    - `0` — Banned
+
   - `os` — node's operating system
   - `version` — ADAMANT node software version
   - `broadhash` — broadhash on the peer node. Broadhash is established as an aggregated rolling hash of the past five blocks present in the database.
@@ -26,8 +33,8 @@ GET /api/peers
 
   Available parameters:
 
-  - `limit` — how many nodes to retrieve, integer
-  - `offset` — offset value for results, integer
+  - `limit` — how many nodes to retrieve
+  - `offset` — offset value for results
   - You can use `os`, `ip`, and other parameters for filtering results
 
 - **Example**
@@ -70,6 +77,85 @@ GET /api/peers
         "nonce": "YngSDjA5MeUNk2iZ"
       }
     ]
+  }
+  ```
+
+## Get Peers Stats
+
+```sh
+GET /api/peers/count
+```
+
+- **Description**
+
+  Endpoint `/api/peers/count` returns count of connected, disconnected and banned peers **for the requested node**.
+
+  ::: warning
+  Each node maintains its own states for peers and may have discovered a different set of peers, so results can vary between nodes.
+  :::
+
+- **Example**
+
+  Request:
+
+  ```sh
+  GET https://endless.adamant.im/api/peers/count
+  ```
+
+  Response:
+
+  ```json
+  {
+    "success": true,
+    "nodeTimestamp": 239414812,
+    "connected": 136,
+    "disconnected": 3,
+    "banned": 0
+  }
+  ```
+
+## Get peer by IP and port
+
+```sh
+GET /api/peers/get
+```
+
+- **Description**
+
+  Finds and returns the known peer of the node. See [Get Peers List](#get-peers-list) to learn peer's properties.
+
+  **Required** parameters:
+
+  - `ip` — peer's IPv4 address
+  - `port` — peer's port
+
+- **Example**
+
+  Request:
+
+  ```sh
+  GET https://endless.adamant.im/api/peers/get?ip=138.201.152.191&port=36666
+  ```
+
+  Response:
+
+  ```json
+  {
+    "success": true,
+    "nodeTimestamp": 239415353,
+    "peer": {
+      "ip": "138.201.152.191",
+      "port": 36666,
+      "state": 1,
+      "os": "linux5.15.0-86-generic",
+      "version": "0.8.3",
+      "dappid": null,
+      "broadhash": "15f6beddb5f68854618f0e06f35addadaeee067efd3cdaaae90f5beaf15cd370",
+      "height": 38723235,
+      "clock": null,
+      "updated": 1713630137277,
+      "nonce": "YWXG1LsX0QUw4tFD"
+    }
   }
   ```
 
@@ -301,7 +387,7 @@ GET /api/blocks/getFee
 
 - **Description**
 
-  Endpoint `/api/blocks/getFee` returns the current fee value for [`type 0` (token transfer)](/api/transaction-types.md#type-0-token-transfer-transaction) transactions. Integer amount of 1/10^8 ADM tokens (1 ADM = 100000000).
+  Endpoint `/api/blocks/getFee` returns the current fee value for [`type 0` (token transfer)](/api-types/transaction-types.md#type-0-token-transfer-transaction) transactions. Integer amount of 1/10^8 ADM tokens (1 ADM = 100000000).
 
 - **Example**
 
@@ -329,7 +415,7 @@ GET /api/blocks/getFees
 
 - **Description**
 
-  Endpoint `/api/blocks/getFees` returns current fee values for different [transaction types](/api/transaction-types.md):
+  Endpoint `/api/blocks/getFees` returns current fee values for different [transaction types](/api-types/transaction-types.md):
 
   - `send` — token transfer, type 0
   - `vote` — voting for delegate, type 3
@@ -341,6 +427,8 @@ GET /api/blocks/getFees
   - `avatar_upload` — not used for now
 
   All values are integer amounts of 1/10^8 ADM tokens (1 ADM = 100000000).
+
+  More information about blockchain fees: [Transaction Fees](/index.md#transaction-fees).
 
 - **Example**
 
@@ -407,6 +495,8 @@ GET /api/blocks/getMilestone
 
   Endpoint `/api/blocks/getMilestone` returns `milestone` — current slot height, which determines the reward a delegate will get for forging a block.
 
+  More information about blockchain milestones: [Milestones](/index.md#milestones).
+
 - **Example**
 
   Request:
@@ -433,7 +523,7 @@ GET /api/blocks/getReward
 
 - **Description**
 
-  Endpoint `/api/blocks/getReward` returns `reward` — the reward a delegate will get for forging a block. Integer amount of 1/10^8 ADM tokens (1 ADM = 100000000). Depends on the slot height.
+  Endpoint `/api/blocks/getReward` returns `reward` — the reward a delegate will get for forging a block. Integer amount of 1/10^8 ADM tokens (1 ADM = 100000000). Depends on the current slot height ([milestone](#get-blockchain-milestone)).
 
 - **Example**
 
@@ -535,7 +625,7 @@ GET /api/node/status
 
   Integrative endpoint `/api/node/status` returns both ADAMANT blockchain network information and Node information with a single request. Result includes [`network`](#get-adamant-blockchain-network-info), [`version`](#get-node-version), [`loader`](#get-loading-status) and `wsClient` info.
 
-  `wsClient` describes if node allows socket connections and port to connect.
+  `wsClient` describes if node allows [socket connections](/api/websocket.html#enabling-websocket) and port to connect.
 
 - **Example**
 
