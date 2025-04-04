@@ -1,4 +1,4 @@
-# Transactions
+# Transaction Types
 
 Transactions are an essential part of the ADAMANT blockchain. They represent different types of data recorded on the blockchain on behalf of an account. Transactions can be used for sending messages or tokens, receiving push notifications, storing data, and much more.
 

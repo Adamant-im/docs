@@ -76,7 +76,7 @@ export default defineConfig({
       {
         text: 'API Types',
         items: [
-          { text: 'Transactions', link: '/api-types/transaction-types' },
+          { text: 'Transaction Types', link: '/api-types/transaction-types' },
           { text: 'Message Types', link: '/api-types/message-types' },
         ],
       },
