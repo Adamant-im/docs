@@ -16,7 +16,14 @@ GET /api/peers
 
   - `ip` — IPv4 address of node
   - `port` — port number of ADAMANT node. 36666 for mainnet or 36667 for testnet.
-  - `state` — state of the peer. Available values: Connected (`2`), Disconnected, Banned
+  - `state` — state of the peer.
+
+    Available values:
+
+    - `2` — Connected
+    - `1` — Disconnected
+    - `0` — Banned
+
   - `os` — node's operating system
   - `version` — ADAMANT node software version
   - `broadhash` — broadhash on the peer node. Broadhash is established as an aggregated rolling hash of the past five blocks present in the database.
@@ -70,6 +77,85 @@ GET /api/peers
         "nonce": "YngSDjA5MeUNk2iZ"
       }
     ]
+  }
+  ```
+
+## Get Peers Stats
+
+```sh
+GET /api/peers/count
+```
+
+- **Description**
+
+  Endpoint `/api/peers/count` returns count of connected, disconnected and banned peers **for the requested node**.
+
+  ::: warning
+  Each node maintains its own states for peers and may have discovered a different set of peers, so results can vary between nodes.
+  :::
+
+- **Example**
+
+  Request:
+
+  ```sh
+  GET https://endless.adamant.im/api/peers/count
+  ```
+
+  Response:
+
+  ```json
+  {
+    "success": true,
+    "nodeTimestamp": 239414812,
+    "connected": 136,
+    "disconnected": 3,
+    "banned": 0
+  }
+  ```
+
+## Get peer by IP and port
+
+```sh
+GET /api/peers/get
+```
+
+- **Description**
+
+  Finds and returns the known peer of the node. See [Get Peers List](#get-peers-list) to learn peer's properties.
+
+  **Required** parameters:
+
+  - `ip` — peer's IPv4 address
+  - `port` — peer's port
+
+- **Example**
+
+  Request:
+
+  ```sh
+  GET https://endless.adamant.im/api/peers/get?ip=138.201.152.191&port=36666
+  ```
+
+  Response:
+
+  ```json
+  {
+    "success": true,
+    "nodeTimestamp": 239415353,
+    "peer": {
+      "ip": "138.201.152.191",
+      "port": 36666,
+      "state": 1,
+      "os": "linux5.15.0-86-generic",
+      "version": "0.8.3",
+      "dappid": null,
+      "broadhash": "15f6beddb5f68854618f0e06f35addadaeee067efd3cdaaae90f5beaf15cd370",
+      "height": 38723235,
+      "clock": null,
+      "updated": 1713630137277,
+      "nonce": "YWXG1LsX0QUw4tFD"
+    }
   }
   ```
 
