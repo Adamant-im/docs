@@ -88,7 +88,11 @@ GET /api/peers/count
 
 - **Description**
 
-  Endpoint `/api/peers/count` returns count of connected, disconnected and banned peers.
+  Endpoint `/api/peers/count` returns count of connected, disconnected and banned peers **for the requested node**.
+
+  ::: warning
+  Each node maintains its own states for peers and may have discovered a different set of peers, so results can vary between nodes.
+  :::
 
 - **Example**
 
