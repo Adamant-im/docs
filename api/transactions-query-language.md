@@ -167,8 +167,8 @@ Get transactions sent from or received to specified ADAMANT address.
 
 Parameter meaning depends on endpoint:
 
-- `/api/transactions`: Get transactions of specified type. See [Transaction Types](/api/transaction-types.md). If type is not set, all types of transactions will be returned.
-- `/api/chats/get` and `/api/chatrooms`: Get messages of specified type. See [ADAMANT Message Types](/api/message-types.md). If type is not set, all types of messages will be returned.
+- `/api/transactions`: Get transactions of specified type. See [Transaction Types](/api-types/transaction-types.md). If type is not set, all types of transactions will be returned.
+- `/api/chats/get` and `/api/chatrooms`: Get messages of specified type. See [ADAMANT Message Types](/api-types/message-types.md). If type is not set, all types of messages will be returned.
 - `/api/states/get`: Get KVS records of incremental or full re-write of previous values. Default is `0`. See [AIP 11: Behavior for KVS data](https://aips.adamant.im/AIPS/aip-11).
 
 - **Examples**
@@ -187,7 +187,7 @@ Parameter meaning depends on endpoint:
 
 ### `types`
 
-Get transactions of specified types, separated by commas. See [Transaction Types](/api/transaction-types.md).
+Get transactions of specified types, separated by commas. See [Transaction Types](/api-types/transaction-types.md).
 
 :::: tip
 

@@ -1,4 +1,4 @@
-# Transactions
+# Transaction Types
 
 Transactions are an essential part of the ADAMANT blockchain. They represent different types of data recorded on the blockchain on behalf of an account. Transactions can be used for sending messages or tokens, receiving push notifications, storing data, and much more.
 
@@ -180,7 +180,7 @@ Used to vote or downvote for delegates.
 
 ## Type 8: Chat/Message Transaction
 
-Used to send any [Message Type](/api/message-types.md) between accounts.
+Used to send any [Message Type](/api-types/message-types.md) between accounts.
 
 - **Properties**
 

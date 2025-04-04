@@ -1,6 +1,6 @@
 # Storing Data in KVS
 
-**ADAMANT's Key-Value Storage (KVS)** is a special [transaction type](/api/transaction-types.md#Type-9-Storing-data) used for storing private (encrypted) or public (plain) data in ADAMANT's blockchain. Examples include a [contact list](/essentials/working-with-contact-list.md) for private data and an Ether address for public data.
+**ADAMANT's Key-Value Storage (KVS)** is a special [transaction type](/api-types/transaction-types.md#Type-9-Storing-data) used for storing private (encrypted) or public (plain) data in ADAMANT's blockchain. Examples include a [contact list](/essentials/working-with-contact-list.md) for private data and an Ether address for public data.
 
 Endpoints:
 
@@ -10,7 +10,7 @@ Endpoints:
 
 ## KVS Transaction
 
-KVS [transaction](/api/transaction-types.md) is of type `9` and contains `asset` field with `state` object:
+KVS [transaction](/api-types/transaction-types.md) is of type `9` and contains `asset` field with `state` object:
 
 - [`key`](#kvs-keys) — describes contents of KVS record
 - [`value`](#kvs-data) — is data for key. Can be private (encrypted) or public (plain value)

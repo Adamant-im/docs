@@ -406,7 +406,7 @@ POST /api/delegates
 
 - **Description**
 
-  Use endpoint `/api/delegates` to broadcast transactions of [type 2 — Delegate Registration](/api/transaction-types.md#type-2-delegate-registration-transaction). Make _POST_ request to the endpoint, with payload of [transaction object](/api-endpoints/transactions.md#get-list-of-transactions), where:
+  Use endpoint `/api/delegates` to broadcast transactions of [type 2 — Delegate Registration](/api-types/transaction-types.md#type-2-delegate-registration-transaction). Make _POST_ request to the endpoint, with payload of [transaction object](/api-endpoints/transactions.md#get-list-of-transactions), where:
 
   - `type` is set to `2`
   - `recipientId` = `null`
@@ -478,7 +478,7 @@ POST /api/accounts/delegates
 
 - **Description**
 
-  Use endpoint `/api/accounts/delegates` to broadcast transactions of [type 3 — Vote for Delegate](/api/transaction-types.md#type-3-vote-for-delegate-transaction). Make _POST_ request to the endpoint, with payload of [transaction object](/api-endpoints/transactions.md#get-list-of-transactions), where:
+  Use endpoint `/api/accounts/delegates` to broadcast transactions of [type 3 — Vote for Delegate](/api-types/transaction-types.md#type-3-vote-for-delegate-transaction). Make _POST_ request to the endpoint, with payload of [transaction object](/api-endpoints/transactions.md#get-list-of-transactions), where:
 
   - `type` is set to `3`
   - `senderId` = `recipientId`, ADAMANT address of the account who votes

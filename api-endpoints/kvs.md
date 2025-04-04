@@ -89,13 +89,13 @@ POST /api/states/store
 
 - **Description**
 
-  Use endpoint `/api/states/store` to broadcast transactions of [type 9 — Store in KVS](/api/transaction-types.md). Make _POST_ request to the endpoint, with payload of [transaction object](/api-endpoints/transactions.md#get-list-of-transactions), where:
+  Use endpoint `/api/states/store` to broadcast transactions of [type 9 — Store in KVS](/api-types/transaction-types.md). Make _POST_ request to the endpoint, with payload of [transaction object](/api-endpoints/transactions.md#get-list-of-transactions), where:
 
   - `type` is set to `9`
   - `asset` is filled with `key`, `value`, and `type`
 
   If needed, `asset` can be [encrypted](/essentials/encrypting-messages.md#encrypting-a-kvs-records).
-  
+
   See also: [Storing Data in KVS](/essentials/storing-data-in-kvs.md).
 
   Transaction must be [formed and signed](/essentials/signing-transactions.md).

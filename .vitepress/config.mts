@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitepress';
+import urlLang from './langs/url.json';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -8,6 +9,11 @@ export default defineConfig({
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/icons/favicon.svg' }],
   ],
+  markdown: {
+    shikiSetup(shiki) {
+      shiki.loadLanguage(urlLang);
+    },
+  },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     logo: {
@@ -56,8 +62,10 @@ export default defineConfig({
       {
         text: 'API Specifications',
         items: [
-          { text: 'Transactions', link: '/api/transaction-types' },
-          { text: 'Message Types', link: '/api/message-types' },
+          {
+            text: 'Making Requests',
+            link: '/api/making-requests',
+          },
           {
             text: 'Transactions Query Language',
             link: '/api/transactions-query-language',
@@ -66,18 +74,25 @@ export default defineConfig({
         ],
       },
       {
+        text: 'API Types',
+        items: [
+          { text: 'Transaction Types', link: '/api-types/transaction-types' },
+          { text: 'Message Types', link: '/api-types/message-types' },
+        ],
+      },
+      {
         text: 'API Endpoints',
         items: [
           { text: 'Accounts', link: '/api-endpoints/accounts' },
-          { text: 'Blocks', link: '/api-endpoints/blocks' },
+          { text: 'Transactions', link: '/api-endpoints/transactions' },
           { text: 'Chats and Chatrooms', link: '/api-endpoints/chatrooms' },
+          { text: 'Blocks', link: '/api-endpoints/blocks' },
           { text: 'Delegates', link: '/api-endpoints/delegates' },
-          { text: 'Node & Blockchain', link: '/api-endpoints/blockchain' },
           {
             text: 'States: Key-Value Storage',
             link: '/api-endpoints/kvs',
           },
-          { text: 'Transactions', link: '/api-endpoints/transactions' },
+          { text: 'Node & Blockchain', link: '/api-endpoints/blockchain' },
         ],
       },
       {
