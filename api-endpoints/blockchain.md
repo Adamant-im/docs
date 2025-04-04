@@ -16,7 +16,14 @@ GET /api/peers
 
   - `ip` — IPv4 address of node
   - `port` — port number of ADAMANT node. 36666 for mainnet or 36667 for testnet.
-  - `state` — state of the peer. Available values: Connected (`2`), Disconnected, Banned
+  - `state` — state of the peer.
+
+    Available values:
+
+    - `2` — Connected
+    - `1` — Disconnected
+    - `0` — Banned
+
   - `os` — node's operating system
   - `version` — ADAMANT node software version
   - `broadhash` — broadhash on the peer node. Broadhash is established as an aggregated rolling hash of the past five blocks present in the database.
