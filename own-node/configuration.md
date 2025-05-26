@@ -299,19 +299,17 @@ Redis is used for caching. Required.
 
 - **Loading Settings**
 
-  Control loading behavior with the `loading` object:
+  Control blockchain rebuilding in case of invalid data in the database with the `loading` object:
 
   ```json
   {
     "loading": {
-      "verifyOnLoading": false,
       "loadPerIteration": 5000
     }
   }
   ```
 
-  - `verifyOnLoading`: Verify data during loading (e.g., `false`).
-  - `loadPerIteration`: Max items to load per iteration (recommended: `5000`).
+  - `loadPerIteration`: Max blocks to verify per iteration (recommended: `5000`).
 
 ## SSL Configuration
 
