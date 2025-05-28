@@ -38,6 +38,7 @@ export default defineConfig({
           { text: 'Installation', link: '/own-node/installation' },
           { text: 'Configuration', link: '/own-node/configuration' },
           { text: 'Testnet', link: '/own-node/testnet' },
+          { text: 'Syncing', link: '/own-node/syncing' },
         ],
       },
       {

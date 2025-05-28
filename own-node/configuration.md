@@ -377,6 +377,26 @@ Redis is used for caching. Required.
   - `enabled`: Enable or disable WebSocket client (e.g., `true`).
   - `portWS`: WebSocket client port (e.g., `36668`).
 
+## WebSocket Node Configuration
+
+- **WebSocket Node**
+
+  Configure WebSocket node-to-node connection for syncing with the `wsNode` object:
+
+  ```json
+  {
+    "wsNode": {
+      "enabled": true,
+      "maxBroadcastConnections": 15,
+      "maxReceiveConnections": 25
+    }
+  }
+  ```
+
+  - `enabled`: Enable or disable WebSocket node-to-node communication.
+  - `maxBroadcastConnections`: Maximum number of outbound WebSocket connections used to broadcast data to other nodes.
+  - `maxReceiveConnections`: Maximum number of inbound WebSocket connections to other nodes.
+
 ## Nethash Configuration
 
 - **Nethash**
