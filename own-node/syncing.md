@@ -10,6 +10,8 @@ Make sure the peers are on the same network. You can verify this by checking the
 
 Once connected, the node will automatically discover more peers by querying the peers of its current connections. Discovered peers are saved in the local database, which helps speed up future deployments and restarts.
 
+You can get the list of connected and discovered peers using the [`/api/peers`](/api-endpoints/blockchain.md#get-peers-list) endpoint.
+
 ## Socket connections
 
 For faster transaction syncing between nodes, we recommend enabling [WebSocket Node connections](./configuration.md#websocket-node-configuration) in the configuration.

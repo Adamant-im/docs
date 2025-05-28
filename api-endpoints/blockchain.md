@@ -30,6 +30,8 @@ GET /api/peers
   - `height` — current node's blockchain height
   - `updated` — Unix timestamp based in ms, when peer updated
   - `nonce` — unique Identifier for the peer. Random string.
+  - `syncProtocol` — `"http"` if the node is subscribed to the peer using HTTP only. `"ws"` if the node is subscribed to the peer using WebSocket (which also allows receiving transactions via both WebSocket and HTTP).
+  - `isBroadcastingViaSocket` — `true` if the node can send transactions to the peer over WebSocket.
 
   Available parameters:
 
