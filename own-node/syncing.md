@@ -2,10 +2,10 @@
 
 To maintain decentralization, a blockchain node must connect and synchronize with other nodes (peers) in the network.
 
-You can define the initial list of peers in the configuration file using [the `peers` field](./configuration.md#peer-configuration) and check synchronization status using the [`/api/loader/status/sync` endpoint](../api-endpoints/blockchain.md#get-synchronization-status).
+You can define the initial list of peers in the configuration file using the [`peers`](./configuration.md#peer-configuration) field and check synchronization status using the [`/api/loader/status/sync`](../api-endpoints/blockchain.md#get-synchronization-status) endpoint.
 
 :::info
-Make sure the peers are on the same network. You can verify this by checking the nethash using the [`/api/blocks/getNethash` endpoint](/api-endpoints/blockchain.md#get-blockchain-nethash).
+Make sure the peers are on the same network. You can verify this by checking the nethash using the [`/api/blocks/getNethash`](/api-endpoints/blockchain.md#get-blockchain-nethash) endpoint.
 :::
 
 Once connected, the node will automatically discover more peers by querying the peers of its current connections. Discovered peers are saved in the local database, which helps speed up future deployments and restarts.
