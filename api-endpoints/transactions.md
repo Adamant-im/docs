@@ -20,7 +20,7 @@ GET /api/transactions
   - `height` — block height where the transaction was forged
   - `blockId` — block ID where the transaction was forged
   - `type` — type of transaction. See [Transaction Types](/api-types/transaction-types.md).
-  - `timestamp` — transaction timestamp, a 32-bit integer epoch timestamp (in seconds starting from Sep 02, 2017, 17:00:00 GMT+0000). Nodes do not accept transactions stamped in the future.
+  - `timestamp` — transaction timestamp, a 32-bit integer epoch timestamp (in seconds starting from Sep 02, 2017, 17:00:00 GMT+0000). Nodes do not accept transactions stamped in the future or more than 5 seconds in the past.
   - `block_timestamp` — transaction's block timestamp. It is up to the client to interpret this field. It is recommended to take into account both `timestamp` and `block_timestamp` fields when determining transaction timestamp.
   - `senderPublicKey` — public key of sender
   - `senderId` — [ADAMANT address](/api-endpoints/accounts.md) of sender
