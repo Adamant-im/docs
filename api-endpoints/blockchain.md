@@ -30,6 +30,8 @@ GET /api/peers
   - `height` — current node's blockchain height
   - `updated` — Unix timestamp based in ms, when peer updated
   - `nonce` — unique Identifier for the peer. Random string.
+  - `syncProtocol` — `"http"` if the node is subscribed to the peer using HTTP only. `"ws"` if the node is subscribed to the peer using WebSocket (which also allows receiving transactions via both WebSocket and HTTP).
+  - `isBroadcastingViaSocket` — `true` if the node can send transactions to the peer over WebSocket.
 
   Available parameters:
 
@@ -62,7 +64,9 @@ GET /api/peers
         "height": 10146365,
         "clock": null,
         "updated": 1562424199553,
-        "nonce": "jxXV6g0sHJhmDubq"
+        "nonce": "jxXV6g0sHJhmDubq",
+        "isBroadcastingViaSocket": false,
+        "syncProtocol": "ws"
       },
       {
         "ip": "144.217.93.8",
@@ -74,7 +78,9 @@ GET /api/peers
         "height": 10146364,
         "clock": null,
         "updated": 1562424195742,
-        "nonce": "YngSDjA5MeUNk2iZ"
+        "nonce": "YngSDjA5MeUNk2iZ",
+        "isBroadcastingViaSocket": false,
+        "syncProtocol": "http"
       }
     ]
   }
@@ -154,7 +160,9 @@ GET /api/peers/get
       "height": 38723235,
       "clock": null,
       "updated": 1713630137277,
-      "nonce": "YWXG1LsX0QUw4tFD"
+      "nonce": "YWXG1LsX0QUw4tFD",
+      "isBroadcastingViaSocket": false,
+      "syncProtocol": "ws"
     }
   }
   ```

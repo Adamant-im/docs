@@ -39,6 +39,7 @@ export default defineConfig({
           { text: 'Configuration', link: '/own-node/configuration' },
           { text: 'Testnet', link: '/own-node/testnet' },
           { text: 'Consensus', link: '/own-node/consensus' },
+          { text: 'Syncing', link: '/own-node/syncing' },
         ],
       },
       {
