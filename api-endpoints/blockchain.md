@@ -177,6 +177,12 @@ GET /api/loader/status
 
   Endpoint `/api/loader/status` returns information on node's loading process.
 
+  - `loaded` — `false` while the node is verifying blocks during startup.
+  - `syncing` — `true` if the node is currently syncing with the network.
+  - `blocks` — Target blockchain height the node is trying to reach during sync. Set to `0` when syncing is complete.
+  - `blocksCount` — Number of blocks the node needs to verify (e.g. during a full blockchain rebuild).
+  - `now` — Height of the last block loaded at startup. This is not the same as the current blockchain height.
+
 - **Example**
 
   Request:
