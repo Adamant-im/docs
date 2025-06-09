@@ -29,4 +29,4 @@ npm run start:testnet
 
 The testnet explorer is available at [testnet.adamant.im](https://testnet.adamant.im/).
 
-You can view the IPs and ports of testnet nodes in the [test/config.default.json](./test/config.default.json) file.
+You can view the IPs and ports of testnet nodes in the [test/config.default.json](https://github.com/Adamant-im/adamant/blob/dev/test/config.default.json) file.
