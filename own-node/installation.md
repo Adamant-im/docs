@@ -130,3 +130,47 @@ nano config.json
 Make the necessary changes to the configuration values in the file. At minimum, you should change the value of the `db.password` property to your actual database password.
 
 See [Configuration](./configuration) for description of every configuration file property.
+
+### Bootstrap with a blockchain image/snapshot
+
+Using a blockchain snapshot can significantly reduce the initial sync time for your node. However, you must fully trust the source of the snapshot, as it bypasses verification of every individual transaction.
+
+If you choose not to use a snapshot, your node will validate the entire blockchain from genesis, which can take several days.
+
+```sh
+wget https://explorer.adamant.im/db_backup.sql.gz
+gunzip db_backup.sql.gz
+psql adamant_main < db_backup.sql
+rm db_backup.sql
+```
+
+This step typically takes up to 20 minutes but can save you several days of synchronization time.
+
+### Running ADM node
+
+To verify that everything is set up correctly, start the node temporarily in the terminal:
+
+```sh
+node app.js
+```
+
+If everything is working properly, you’ll see log output indicating that the blockchain is syncing and the node height is increasing.
+
+Next, run the ADM node using pm2:
+
+```sh
+pm2 start --name adamant app.js
+```
+
+Check that the node is running smoothly:
+
+```sh
+pm2 logs adamant
+```
+
+You can also verify the node’s block height and status with simple API requests:
+
+```sh
+curl http://localhost:36666/api/blocks/getHeight
+curl http://localhost:36666/api/node/status
+```
