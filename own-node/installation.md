@@ -55,21 +55,21 @@ If you are an experienced Linux user and want more control over installation, yo
 
 - **Node.js** — Node.js serves as the underlying engine for code execution
 
-  - Install system-wide via package manager (choose desired nodejs version):
+  - Install system-wide via package manager:
 
     ```sh
-    curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+    curl -sL https://deb.nodesource.com/setup_22.x | sudo -E bash -
     sudo apt-get install -y nodejs
     ```
 
   - Or locally, using [nvm](https://github.com/nvm-sh/nvm):
 
     ```sh
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
-    nvm i --lts=hydrogen
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+    nvm i --lts=jod #Node.js 22 LTS
     ```
 
-- **PostgreSQL**:
+- **PostgreSQL** — Database engine to store blockchain data
 
   Install PostgreSQL:
 
@@ -98,7 +98,7 @@ If you are an experienced Linux user and want more control over installation, yo
   sudo -u postgres psql -d adamant_main -c "alter user "$USER" with password 'password';"
   ```
 
-- **pm2** — Optional. Manages the node process for ADAMANT
+- **pm2** — Node.js process manager for managing ADAMANT node execution
 
   ```sh
   sudo npm install -g pm2
