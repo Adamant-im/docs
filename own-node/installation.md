@@ -174,3 +174,11 @@ You can also verify the node’s block height and status with simple API request
 curl http://localhost:36666/api/blocks/getHeight
 curl http://localhost:36666/api/node/status
 ```
+
+To ensure the node starts automatically after a system reboot, you can add it to your crontab (adjust the path if needed):
+
+```sh
+crontab -l | { cat; echo "@reboot cd /home/adamant/adamant && pm2 start --name adamant app.js"; } | crontab -
+```
+
+Alternatively, you can use pm2's built-in startup functionality: `pm2 save` — `pm2 startup`.
