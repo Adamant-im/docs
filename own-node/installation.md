@@ -3,6 +3,7 @@
 The following guide is for **Ubuntu Linux**. For more detailed guides on different OS, see:
 
 - [How to run ADAMANT Node on Ubuntu or CentOS Linux](https://news.adamant.im/how-to-run-your-adamant-node-on-ubuntu-990e391e8fcc)
+- [How to Install an ADAMANT Node on macOS](https://news.adamant.im/how-to-install-an-adamant-node-on-macos-cfdcb9434b9a)
 - [How to run ADAMANT Node on Windows](https://news.adamant.im/how-to-run-adamant-node-on-windows-ee057e6e80d5)
 - [How to run ADAMANT Node using Docker (Windows or Mac)](https://news.adamant.im/how-to-run-your-adamant-node-on-docker-windows-or-mac-9a927cf7875a)
 
@@ -10,7 +11,7 @@ The following guide is for **Ubuntu Linux**. For more detailed guides on differe
 
 - **Ubuntu** v18.04–v24.04 (other versions are not tested)
 - **RAM**: 2 GB or more
-- **Disk space**: A minimum of 70 GB as of February 2025 (mainnet)
+- **Disk space**: A minimum of 70 GB as of June 2025 (mainnet)
   - Expect the blockchain to grow by approximately _10 GB per year_
 
 ## Installation script
