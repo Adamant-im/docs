@@ -33,6 +33,7 @@ Example transaction that writes public Ether address for `U11977883563659338220`
       }
     },
     "timestamp": 45603372,
+    "timestampMs": null,
     "signature": "86cbe525042bf83802..."
   }
 }
@@ -83,6 +84,7 @@ Example:
       }
     },
     "timestamp": 45603645,
+    "timestampMs": null,
     "signature": "dbafce549f1..."
   }
 }
