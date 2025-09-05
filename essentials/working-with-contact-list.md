@@ -44,6 +44,7 @@ Example of a transaction to store a contacts list:
       }
     },
     "timestamp": 45603645,
+    "timestampMs": null,
     "signature": "dbafce549f1..."
   }
 }

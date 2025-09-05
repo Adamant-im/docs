@@ -57,6 +57,7 @@ POST /api/states/get
         "type": 9,
         "block_timestamp": 39015790,
         "timestamp": 39015780,
+        "timestampMs": null,
         "senderPublicKey": "8cd9631f9f634a361ea3b85cbd0df882633e39e7d26d7bc615bbcf75e41524ef",
         "requesterPublicKey": null,
         "senderId": "U14236667426471084862",
@@ -77,7 +78,7 @@ POST /api/states/get
         }
       }
     ],
-    "count": "1"
+    "count": 1
   }
   ```
 
@@ -125,6 +126,7 @@ POST /api/states/store
         }
       },
       "timestamp": 63410860,
+      "timestampMs": null,
       "signature": "bce364378b145e79909c31bc3a77cd3b70dff8f0d410f8c791642b826bc193fa59c154e71639d82f5b8f6ef82dc92e8f7fcb9086bb03d0f78a3d50c46b268606"
     }
   }

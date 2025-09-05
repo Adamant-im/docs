@@ -21,6 +21,7 @@ GET /api/transactions
   - `blockId` — block ID where the transaction was forged
   - `type` — type of transaction. See [Transaction Types](/api-types/transaction-types.md).
   - `timestamp` — transaction timestamp, a 32-bit integer epoch timestamp (in seconds starting from Sep 02, 2017, 17:00:00 GMT+0000). Nodes do not accept transactions stamped in the future or more than 5 seconds in the past.
+  - `timestampMs` — transaction timestamp in milliseconds set by the client; may be `null`. Used to display messages and transactions in the correct order. See [spaceship](/own-node/consensus.md#spaceship) consensus change.
   - `block_timestamp` — transaction's block timestamp. It is up to the client to interpret this field. It is recommended to take into account both `timestamp` and `block_timestamp` fields when determining transaction timestamp.
   - `senderPublicKey` — public key of sender
   - `senderId` — [ADAMANT address](/api-endpoints/accounts.md) of sender
@@ -47,46 +48,48 @@ GET /api/transactions
   ```json
   {
     "success": true,
-    "nodeTimestamp": 63647315,
+    "nodeTimestamp": 252493276,
     "transactions": [
       {
-        "id": "15161295239237781653",
-        "height": 7585271,
-        "blockId": "16391508373936326027",
-        "type": 8,
-        "block_timestamp": 45182260,
-        "timestamp": 45182254,
-        "senderPublicKey": "bd39cc708499ae91b937083463fce5e0668c2b37e78df28f69d132fce51d49ed",
-        "senderId": "U16023712506749300952",
-        "recipientId": "U17653312780572073341",
-        "recipientPublicKey": "23d27f616e304ef2046a60b762683b8dabebe0d8fc26e5ecdb1d5f3d291dbe21",
-        "amount": 204921300000000,
+        "id": "5458692901234718347",
+        "height": 37554230,
+        "blockId": "13004968739774924049",
+        "type": 0,
+        "block_timestamp": 197143496,
+        "timestamp": 197143496,
+        "timestampMs": null,
+        "senderPublicKey": "7b4eeff097203894753a0e62267fea580c31cea4631f8d4c9f1887a49a692022",
+        "senderId": "U8898115149977182671",
+        "recipientId": "U7843547643531057400",
+        "recipientPublicKey": "8c9cdb5fbfa617df388647ce30217d45fb0e0b341ec0a3743d99b1029c030b60",
+        "amount": 100996649833333,
         "fee": 50000000,
-        "signature": "3c8e551f60fedb81e52835c69e8b158eb1b8b3c89a04d3df5adc0d99017ffbcb06a7b16ad76d519f80df019c930960317a67e8d18ab1e85e575c9470000cf607",
+        "signature": "79d6c46a653fd5133842dc730218de63f31014c9b3881abe0c915f610cf924990647564e7f67023889145f71941b2350e38208bc7857ebfaee41bbd111e46b07",
         "signatures": [],
-        "confirmations": 3660548,
+        "confirmations": 10991592,
         "asset": {}
       },
       {
-        "id": "273812757049414072",
-        "height": 5022045,
-        "blockId": "3228763343382065625",
+        "id": "14769142577674268748",
+        "height": 37206560,
+        "blockId": "9377192623098204369",
         "type": 0,
-        "block_timestamp": 32283395,
-        "timestamp": 32283382,
-        "senderPublicKey": "1e214309cc659646ecf1d90fa37be23fe76854a76e3b4da9e4d6b65a718baf8b",
-        "senderId": "U7047165086065693428",
-        "recipientId": "U11420099101614271169",
-        "recipientPublicKey": "b29420b8ee7a678b49c2f4b41e614e32a7149ac7f8b81cc174611daefe9636cf",
-        "amount": 600000000000000,
+        "block_timestamp": 195363165,
+        "timestamp": 195363165,
+        "timestampMs": null,
+        "senderPublicKey": "f13ac504c5d6d8d32f654e2b42a3a0c74a95446acd6f7eefbe8d8d9c1a5677b4",
+        "senderId": "U438236181740289346",
+        "recipientId": "U11738346680567234000",
+        "recipientPublicKey": "f345c2c447d9c8023ca1109684bfc3bf17d274b88c66fb0dde801565a49e8701",
+        "amount": 700000000000000,
         "fee": 50000000,
-        "signature": "2a6b51058b4d4a6312f32d4a6c14f1cc77f8c581e1f02ad8c13aeaa77880edd7e66ce150ffaeef2f541ad8366849f32710f66a6b95b3d2c9291f6fcdf045a50e",
+        "signature": "ebb0e59212bfefc7f90ce6c84a5ebb031684527b34d33d208ec7bac4e24268045e964ff135da36f53eba79f326bbd00f5f2375a3972bca4610edff5eee488304",
         "signatures": [],
-        "confirmations": 6223774,
+        "confirmations": 11339262,
         "asset": {}
       }
     ],
-    "count": "6"
+    "count": 22
   }
   ```
 
@@ -121,6 +124,7 @@ GET api/transactions/get?id={id}
       "type": 8,
       "block_timestamp": 23284520,
       "timestamp": 23284514,
+      "timestampMs": null,
       "senderPublicKey": "cdab95b082b9774bd975677c868261618c7ce7bea97d02e0f56d483e30c077b6",
       "senderId": "U15423595369615486571",
       "recipientId": "U12777528161244463452",
@@ -215,6 +219,7 @@ GET /api/transactions/queued
     "transactions": [
       {
         "timestamp": 59979276,
+        "timestampMs": null,
         "senderId": "U17362714543155685887",
         "recipientId": "U17819800352812315500",
         "type": 0,
@@ -266,6 +271,7 @@ GET /api/transactions/queued/get?id={id}
       "type": 0,
       "block_timestamp": 59979295,
       "timestamp": 59979276,
+      "timestampMs": null,
       "senderPublicKey": "632816f2c44a08f282e85532443d73286cadc6d9820d5d25c9d50d8e01c668e0",
       "senderId": "U17362714543155685887",
       "recipientId": "U17819800352812315500",
@@ -323,6 +329,7 @@ GET /api/transactions/unconfirmed
         },
         "recipientId": "U5885317311990438076",
         "timestamp": 58880317,
+        "timestampMs": null,
         "signature": "5ee972df476703492a667616eef428ed127e13fe5de8ba873b6579a806ddbd9fbd34147cf0321823d72e0d234466fc3dc89ebe7341e0b4a91a56b32d3bdb6a00",
         "id": "2521078418148431420",
         "fee": 50000000,
@@ -378,6 +385,7 @@ GET /api/transactions/unconfirmed/get?id={id}
       },
       "recipientId": "U16655734187932477074",
       "timestamp": 63137661,
+      "timestampMs": null,
       "signature": "e25f1aba994c7f07c03099edcbe0ada19df371ddf1a829dae8dee36ab809ce8a438111bf65056c813e9dc832a890a081ba1cd295d37e509f62f042149e62e30d",
       "id": "8958126469643732641",
       "fee": 100000,
@@ -426,6 +434,7 @@ POST /api/transactions/process
       "senderPublicKey": "8cd9631f9f634a361ea3b85cbd0df882633e39e7d26d7bc615bbcf75e41524ef",
       "recipientId": "U16655734187932477074",
       "timestamp": 63228852,
+      "timestampMs": null,
       "signature": "b3982d603be8f0246fa663e9f012bf28b198cd28f82473db1eb4a342d890f7a2a2c1845db8d256bb5bce1e64a9425822a91e10bf960a2e0b55e20b4841e4ae0b"
     }
   }
@@ -477,6 +486,7 @@ POST /api/transactions
       "senderPublicKey": "8cd9631f9f634a361ea3b85cbd0df882633e39e7d26d7bc615bbcf75e41524ef",
       "recipientId": "U16655734187932477074",
       "timestamp": 63228852,
+      "timestampMs": null,
       "signature": "b3982d603be8f0246fa663e9f012bf28b198cd28f82473db1eb4a342d890f7a2a2c1845db8d256bb5bce1e64a9425822a91e10bf960a2e0b55e20b4841e4ae0b"
     }
   }

@@ -47,7 +47,7 @@ GET /api/chatrooms/{ADAMANT_address}
   ```jsonc
   {
     "success": true,
-    "nodeTimestamp": 63647775,
+    "nodeTimestamp": 252492549,
     "chats": [
       {
         "lastTransaction": {
@@ -57,6 +57,7 @@ GET /api/chatrooms/{ADAMANT_address}
           "type": 8,
           "block_timestamp": 58449060,
           "timestamp": 58449055,
+          "timestampMs": null,
           "senderPublicKey": "12d6b3f80221a2b0b6d2ef07ae33fce28204c1906ec1bba1d15be693d3353ec4",
           "senderId": "U839357947177758191",
           "recipientId": "U18018989827016540480",
@@ -64,7 +65,7 @@ GET /api/chatrooms/{ADAMANT_address}
           "amount": 0,
           "fee": 100000,
           "signatures": [],
-          "confirmations": null,
+          "confirmations": 38321106,
           "asset": {
             "chat": {
               "message": "3e5314dfc9a1095eb874d76cd878ea5a8420ab2a",
@@ -92,6 +93,7 @@ GET /api/chatrooms/{ADAMANT_address}
           "type": 0,
           "block_timestamp": 58449000,
           "timestamp": 58448986,
+          "timestampMs": null,
           "senderPublicKey": "cdab95b082b9774bd975677c868261618c7ce7bea97d02e0f56d483e30c077b6",
           "senderId": "U15423595369615486571",
           "recipientId": "U839357947177758191",
@@ -99,7 +101,7 @@ GET /api/chatrooms/{ADAMANT_address}
           "amount": 10000000,
           "fee": 50000000,
           "signatures": [],
-          "confirmations": null,
+          "confirmations": 38321118,
           "asset": {}
         },
         "participants": [
@@ -114,7 +116,7 @@ GET /api/chatrooms/{ADAMANT_address}
         ]
       }
     ],
-    "count": "2"
+    "count": 2
   }
   ```
 
@@ -150,7 +152,7 @@ GET /api/chatrooms/{ADAMANT_address}/{ADAMANT_address}
   ```json
   {
     "success": true,
-    "nodeTimestamp": 63653142,
+    "nodeTimestamp": 252492882,
     "messages": [
       {
         "id": "8155501380173522589",
@@ -159,6 +161,7 @@ GET /api/chatrooms/{ADAMANT_address}/{ADAMANT_address}
         "type": 0,
         "block_timestamp": 58773240,
         "timestamp": 58773230,
+        "timestampMs": null,
         "senderPublicKey": "2ac5eef60303003c90f662d89e60570d8661c8ba569e667296f5c7c97a0413ee",
         "requesterPublicKey": null,
         "senderId": "U8916295525136600565",
@@ -169,7 +172,7 @@ GET /api/chatrooms/{ADAMANT_address}/{ADAMANT_address}
         "signature": "abf7966546cd99efaa81a...",
         "signSignature": null,
         "signatures": [],
-        "confirmations": null,
+        "confirmations": 38256865,
         "asset": {}
       },
       {
@@ -179,6 +182,7 @@ GET /api/chatrooms/{ADAMANT_address}/{ADAMANT_address}
         "type": 8,
         "block_timestamp": 58773245,
         "timestamp": 58773228,
+        "timestampMs": null,
         "senderPublicKey": "2ac5eef60303003c90f662d89e60570d8661c8ba569e667296f5c7c97a0413ee",
         "requesterPublicKey": null,
         "senderId": "U8916295525136600565",
@@ -189,7 +193,7 @@ GET /api/chatrooms/{ADAMANT_address}/{ADAMANT_address}
         "signature": "287dc2554025d8074d...",
         "signSignature": null,
         "signatures": [],
-        "confirmations": null,
+        "confirmations": 38256864,
         "asset": {
           "chat": {
             "message": "9ae819297240f00b...",
@@ -209,7 +213,7 @@ GET /api/chatrooms/{ADAMANT_address}/{ADAMANT_address}
         "publicKey": "5a3c1da429ae925422892e69dc4f0ab6d7ac00cef229d2d992242dcfeca27b91"
       }
     ],
-    "count": "7"
+    "count": 7
   }
   ```
 
@@ -240,15 +244,16 @@ GET /api/chats/get
   ```json
   {
     "success": true,
-    "nodeTimestamp": 63653208,
+    "nodeTimestamp": 252492957,
     "transactions": [
       {
-        "id": "18398086748267364739",
-        "height": 9108352,
-        "blockId": "8710389658301166851",
+        "id": "3705748864370100490",
+        "height": 11577088,
+        "blockId": "536092839797708406",
         "type": 8,
-        "block_timestamp": 52843040,
-        "timestamp": 52842993,
+        "block_timestamp": 65312645,
+        "timestamp": 65312189,
+        "timestampMs": null,
         "senderPublicKey": "8cd9631f9f634a361ea3b85cbd0df882633e39e7d26d7bc615bbcf75e41524ef",
         "requesterPublicKey": null,
         "senderId": "U14236667426471084862",
@@ -256,25 +261,26 @@ GET /api/chats/get
         "recipientPublicKey": null,
         "amount": 0,
         "fee": 100000,
-        "signature": "f559262305b34faa48...",
+        "signature": "3214040cc64151bac4f8f20111...",
         "signSignature": null,
         "signatures": [],
-        "confirmations": null,
+        "confirmations": 36968673,
         "asset": {
           "chat": {
-            "message": "61321be1e7...",
-            "own_message": "875836287f50328027f6bbddbec9c2c020692da371c70d04",
+            "message": "ba296af5ed50490de9733f4547b0e9ae697c96cdbb2d47409a8267fdae7491bc3495a3da08049b0...",
+            "own_message": "be669a543266a62e39f5414...",
             "type": 3
           }
         }
       },
       {
-        "id": "15531885854852734176",
-        "height": 10473512,
-        "blockId": "16237611910269371025",
+        "id": "16408705991996035731",
+        "height": 11576998,
+        "blockId": "6543997644851032049",
         "type": 8,
-        "block_timestamp": 59706995,
-        "timestamp": 59706978,
+        "block_timestamp": 65312195,
+        "timestamp": 65312189,
+        "timestampMs": null,
         "senderPublicKey": "8cd9631f9f634a361ea3b85cbd0df882633e39e7d26d7bc615bbcf75e41524ef",
         "requesterPublicKey": null,
         "senderId": "U14236667426471084862",
@@ -282,20 +288,20 @@ GET /api/chats/get
         "recipientPublicKey": null,
         "amount": 0,
         "fee": 100000,
-        "signature": "ce19bfd3a00b97e6...",
+        "signature": "73357e1a17966ef9...",
         "signSignature": null,
         "signatures": [],
-        "confirmations": null,
+        "confirmations": 36968763,
         "asset": {
           "chat": {
-            "message": "be0b5367c7c646fc7d3...",
-            "own_message": "5682385d31ec3814d6c45b7196a9407f38d6c235e87dec84",
+            "message": "c8e3a7c0e02186603b...",
+            "own_message": "ead518855887e6940210e...",
             "type": 3
           }
         }
       }
     ],
-    "count": "12"
+    "count": 14
   }
   ```
 
@@ -339,6 +345,7 @@ POST /api/chats/process
       },
       "recipientId": "U15677078342684640219",
       "timestamp": 63652706,
+      "timestampMs": null,
       "signature": "9d35f06fa5b80df650bc4bdfac25974fecacb53de67d25b485f674102f77205ac1e161b13ddad98f1dd7ae0016cceaa254f401c0ee359e45e982e32b1e4fcf0b"
     }
   }
