@@ -22,17 +22,18 @@ For new servers, use the [Installation script](https://github.com/Adamant-im/ada
 sudo bash -c "$(wget -O - https://adamant.im/install_node.sh)"
 ```
 
-The script updates Ubuntu packages, creates a dedicated user named `adamant`, sets up a new PostgreSQL database, installs Node.js and other necessary dependencies, configures the ADAMANT node, and optionally downloads an up-to-date ADAMANT blockchain image.
+The script updates Ubuntu packages, creates a dedicated user named `adamant`, sets up a new PostgreSQL database, installs Node.js and other necessary dependencies, configures the ADAMANT mainnet/testnet node, and optionally downloads an up-to-date ADAMANT blockchain image.
 
 Script parameters:
 
 - `-b`: The GitHub branch from which the ADAMANT node will be installed. Default is `master`.
 - `-n`: The ADAMANT blockchain network (`mainnet` or `testnet`). Default is `mainnet`.
+- `-j`: The Node.js version (`iron`=20 or `jod`=22). Default is `jod`.
 
 For example:
 
 ```sh
-sudo bash -c "$(wget -O - https://adamant.im/install_node.sh)" -O -b dev -n testnet
+sudo bash -c "$(wget -O - https://adamant.im/install_node.sh)" -O -b dev -n testnet -j jod
 ```
 
 ## Manual Installation
@@ -133,7 +134,7 @@ See [Configuration](./configuration) for description of every configuration file
 
 ### Bootstrap with a blockchain image/snapshot
 
-Using a blockchain snapshot can significantly reduce the initial sync time for your node. However, you must fully trust the source of the snapshot, as it bypasses verification of every individual transaction.
+Using a blockchain snapshot can significantly reduce the initial sync time for your mainnet/testnet node. However, you must fully trust the source of the snapshot, as it bypasses verification of every individual transaction.
 
 If you choose not to use a snapshot, your node will validate the entire blockchain from genesis, which can take several days.
 
@@ -144,7 +145,9 @@ psql adamant_main < db_backup.sql
 rm db_backup.sql
 ```
 
-This step typically takes up to 20 minutes but can save you several days of synchronization time.
+(This example is for mainnet ADM node. For testnet, use the image url: https://testnet.adamant.im/db_test_backup.sql.gz)
+
+Bootstrapping typically takes up to 20 minutes but can save you several days of synchronization time.
 
 ### Running ADM node
 
