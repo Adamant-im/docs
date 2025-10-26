@@ -185,3 +185,19 @@ crontab -l | { cat; echo "@reboot cd /home/adamant/adamant && pm2 start --name a
 ```
 
 Alternatively, you can use pm2's built-in startup functionality: `pm2 save` — `pm2 startup`.
+
+### Recovering an ADAMANT node
+
+It may happen that your ADM node lost the current blockchain height and restarted, rising from the beginning. The most common reasons are a hardware error or lack of disk space. Though validating blocks from 0 height is a decent option, catching up with the current height may take several days.
+
+If you probably prefer using an up-to-date blockchain image and enabling it back in ten minutes, run this script:
+
+```sh
+sudo bash -c "$(wget -O - https://adamant.im/fix_node.sh)" -O -n mainnet
+```
+
+Script parameters:
+
+- `-n`: The ADAMANT blockchain network (`mainnet` or `testnet`). Default is `mainnet`.
+
+Alternatively, follow the recovery steps manually.
