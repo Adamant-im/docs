@@ -243,6 +243,8 @@ Offset value for results, integer. Default is `0`.
 
 Ordering request results by field name.
 
+When ordering by `timestamp`, upgraded nodes prefer `timestampMs` when it is available and fall back to `timestamp * 1000`. This affects transaction, chat, chatroom, and KVS/state listing endpoints that expose timestamp ordering. `timestampMs` is available only for transactions that include it and, for consensus-stored blockchain data, after the `spaceship` activation.
+
 - **Example**
 
   `https://endless.adamant.im/api/transactions?orderBy=timestamp:desc`

@@ -31,6 +31,23 @@ const getEpochTime = (time: number = Date.now()) =>
   Math.floor((time - EPOCH) / 1000);
 ```
 
+Some upgraded transaction responses also include **`timestampMs`**. This value uses the same ADAMANT epoch, but in milliseconds. It is not a Unix timestamp.
+
+```ts
+/**
+ * Converts provided timestamp into ADAMANT's epoch timestamp in ms
+ * @param time - timestamp in Unix ms
+ */
+const getEpochTimeMs = (time: number = Date.now()) => time - EPOCH;
+
+const timestampMs = getEpochTimeMs();
+const timestamp = Math.floor(timestampMs / 1000);
+```
+
+Clients should derive `timestamp` from `timestampMs` with `Math.floor(timestampMs / 1000)`. Do not use `Math.round()` or `Math.ceil()`, because this can make `timestampMs` belong to the previous ADAMANT second while `timestamp` points to the next one.
+
+After the `spaceship` consensus activation, nodes can store and return `timestampMs` for transactions that include it. Historical transactions and transactions from older clients may still have `timestampMs: null`, so clients should prefer `timestampMs` for ordering when it exists and fall back to `timestamp * 1000` otherwise.
+
 You can get blockchain's epoch time using [`/blocks/getEpochTime`](/api-endpoints/blockchain.md#get-blockchain-epoch) endpoint. Additionally, consider using [`/blocks/getStatus`](/api-endpoints/blockchain.md#get-adamant-blockchain-network-info) or [`/node/status`](/api-endpoints/blockchain.md#get-blockchain-and-network-status) endpoints to get more blockchain and network information in a single request.
 
 ## Milestones

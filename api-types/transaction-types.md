@@ -13,6 +13,7 @@ Although each transaction type has its own structure and required properties, al
 - `blockId` — Block ID that includes the transaction and was forged
 - `type` — Transaction type
 - `timestamp` — Transaction time specified by the sender, measured in seconds since the epoch (Sep 02, 2017, 17:00:00 GMT+0000)
+- `timestampMs` — Optional transaction time specified by the sender, measured in milliseconds since the ADAMANT epoch. After the `spaceship` consensus activation, upgraded nodes can store and return this field for transactions that include it. It is not included in transaction signatures or IDs. When present, it belongs to the same ADAMANT second as `timestamp`; clients should create `timestamp` with `Math.floor(timestampMs / 1000)`, prefer `timestampMs` for ordering, and fall back to `timestamp * 1000` when it is missing.
 - `block_timestamp` — Transaction's block timestamp. It's up to the client how to interpret this field. It's recommended to consider both `timestamp` and `block_timestamp` when determining the transaction timestamp
 - `senderPublicKey` — Sender's public key in hex
 - `senderId` — Sender's ADAMANT address
