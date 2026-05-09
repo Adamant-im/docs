@@ -1,4 +1,12 @@
+.idea/
+.vscode/
+.editorconfig
+.DS_Store
+
 node_modules
 
 .vitepress/dist
 .vitepress/cache
+
+# ai
+.ai-ignored/
