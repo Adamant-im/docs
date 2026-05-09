@@ -41,6 +41,8 @@ Example response:
 {
   "success": true,
   "nodeTimestamp": 226901657,
+  "nodeTimestampMs": 226901657123,
+  "unixTimestampMs": 1731273257123,
   // ...
   "wsClient": {
     "enabled": true,
@@ -52,6 +54,8 @@ Example response:
 ## Listening to transactions
 
 ADAMANT nodes send transactions over WebSocket. This includes both confirmed and unconfirmed transactions.
+
+After the `spaceship` consensus activation, transaction payloads can include `timestampMs` when the transaction was created with millisecond precision and the node stored it. This value is measured in milliseconds since the ADAMANT epoch. Clients should prefer it for message ordering and fall back to `timestamp * 1000` when it is missing or `null`.
 
 ### Understanding unconfirmed transactions
 
