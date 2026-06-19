@@ -37,7 +37,7 @@ If a peer is connected via WebSocket, it may still receive the same transaction 
 
 As a result, a node may receive the same unconfirmed transaction multiple times, from different peers, and through both REST and WebSocket. This helps ensure that transactions reliably reach their destination even if some connections fail.
 
-## Backward compability
+## Backward compatibility
 
 In earlier versions, nodes had a separate WebSocket server intended for transaction syncing, but it wasn't fully implemented and didn't receive transactions over WebSocket.
 

@@ -1,5 +1,28 @@
 {
   "name": "adamant-docs",
+  "version": "0.10.0",
+  "description": "Documentation for ADAMANT Node and API",
+  "keywords": [
+    "adm",
+    "adamant",
+    "blockchain",
+    "messenger",
+    "messaging",
+    "decentralization",
+    "privacy",
+    "encryption",
+    "crypto",
+    "cryptocurrency",
+    "dpos",
+    "docs"
+  ],
+  "author": "ADAMANT community developers <devs@adamant.im>",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Adamant-im/docs.git"
+  },
+  "homepage": "https://docs.adamant.im",
   "scripts": {
     "docs:build": "vitepress build",
     "docs:preview": "vitepress preview",
