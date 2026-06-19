@@ -24,41 +24,135 @@ You can copy the configuration files from the default templates.
 
   You can learn more about testnet on the [Testnet page](./testnet.md).
 
+## Configuration Overrides
+
+You can override specific configuration values at startup without editing `config.json` or `test/config.json` directly. Overrides are applied in this order: selected config file → each `--config-overrides` file in command-line order → repeated `--config-set` values → legacy CLI shortcuts (`--port`, `--address`, `--peers`, `--log`, `--snapshot`). The final resolved config is validated against the node config schema before startup.
+
+Use `--config-set` for individual dot-path values:
+
+```sh
+node app.js \
+  --config test/config.json \
+  --genesis test/genesisBlock.json \
+  --config-set consensusActivationHeights.fairSystem=4359465 \
+  --config-set 'redis={ "url": "redis://127.0.0.1:6379/1", "password": null }'
+```
+
+The same flags work through npm scripts:
+
+```sh
+npm run start -- --config-set port=36667
+npm run start:testnet -- --config-set api.access.public=true
+```
+
+Use `--config-overrides` for a file with multiple overrides. Non-`.json` files are parsed as env-style `key=value` pairs (one per line):
+
+```dotenv
+consensusActivationHeights.fairSystem=4359465
+redis={ "url": "redis://127.0.0.1:6379/1", "password": null }
+```
+
+Files ending in `.json` are parsed as nested JSON partial overrides:
+
+```json
+{
+  "consensusActivationHeights": {
+    "fairSystem": 4359465
+  },
+  "redis": {
+    "url": "redis://127.0.0.1:6379/1",
+    "password": null
+  }
+}
+```
+
+Values are parsed as JSON first, so numbers, booleans, `null`, arrays, and objects keep their types. Unknown paths, malformed values, and schema-invalid values fail before startup.
+
+::: warning
+Be careful when overriding `consensusActivationHeights.*`: using activation heights that do not match the selected network can make a node diverge from that network. See [Consensus](./consensus.md) for details on consensus activation.
+:::
+
 ## Logging
 
-- **Log file path**
+The node has three configurable log outputs: a general log, a debug log, and console output.
 
-  Specify path to the log file using `logFileName` property:
+- **General Log**
 
-  ```json
-  {
-    "logFileName": "path/to/your/log/file.txt"
-  }
-  ```
-
-  You can use `.log`, `.txt` or any other extension.
-
-- **Logging Level**
-
-  The logging level can differ between the file and the console for debugging purposes:
+  Configures the main log file with `generalLog`:
 
   ```json
   {
-    "fileLogLevel": "warn",
-    "consoleLogLevel": "debug"
+    "generalLog": {
+      "enabled": true,
+      "fileName": "logs-mainnet/adamant.log",
+      "level": "warn",
+      "rotate": {
+        "enabled": true,
+        "maxSize": "300M",
+        "retain": 5,
+        "rotateInterval": "0 0 0 1 *",
+        "rotateOnRestart": true
+      }
+    }
   }
   ```
 
-  Possible log levels:
+  - `enabled`: Enable or disable this log output.
+  - `fileName`: Path to the log file. You can use `.log`, `.txt`, or any other extension.
+  - `level`: Minimum log level to write.
+  - `rotate.enabled`: Enable log rotation.
+  - `rotate.maxSize`: Maximum log file size before rotation (e.g., `"300M"`).
+  - `rotate.retain`: Number of rotated files to keep.
+  - `rotate.rotateInterval`: Cron expression for scheduled rotation.
+  - `rotate.rotateOnRestart`: Rotate the log file on every node restart.
 
-  - `trace`
-  - `debug`
-  - `log`
-  - `info`
-  - `warn`
-  - `error`
-  - `fatal`
-  - `none`
+- **Debug Log**
+
+  Configures a verbose debug log file with `debugLog`. Accepts the same properties as `generalLog`. Typically set to `level: "trace"` to capture all output.
+
+  ```json
+  {
+    "debugLog": {
+      "enabled": true,
+      "fileName": "logs-mainnet/adamant_debug.log",
+      "level": "trace",
+      "rotate": {
+        "enabled": true,
+        "maxSize": "300M",
+        "retain": 7,
+        "rotateInterval": "0 0 * * *",
+        "rotateOnRestart": true
+      }
+    }
+  }
+  ```
+
+- **Console Log**
+
+  Configures logging to standard output with `consoleLog`:
+
+  ```json
+  {
+    "consoleLog": {
+      "enabled": true,
+      "level": "info"
+    }
+  }
+  ```
+
+  - `enabled`: Enable or disable console output.
+  - `level`: Minimum log level to print.
+
+Possible log levels (from least to most verbose):
+
+- `fatal`
+- `error`
+- `warn`
+- `info`
+- `log`
+- `debug`
+- `trace`
+- `none` — disables all output for that target
 
 ## Server Configuration
 
@@ -93,6 +187,30 @@ You can copy the configuration files from the default templates.
     "trustProxy": false
   }
   ```
+
+- **Cache**
+
+  Enable the in-memory Redis cache for API responses with `cacheEnabled`:
+
+  ```json
+  {
+    "cacheEnabled": false
+  }
+  ```
+
+  Cache is disabled by default on mainnet and enabled on testnet. Enabling it can improve API response times for high-traffic public nodes.
+
+- **Top Accounts**
+
+  Enable the `/api/accounts/top` endpoint (returns accounts sorted by balance) with `topAccounts`:
+
+  ```json
+  {
+    "topAccounts": false
+  }
+  ```
+
+  This endpoint is disabled by default on mainnet. Enabling it on a high-traffic node may have a performance impact.
 
 ## Database Configuration
 
@@ -149,7 +267,7 @@ Redis is used for caching. Required.
 ## API Configuration
 
 > [!Note]
-> Even when a node's Public API is disabled (including `api.enabled` = `false`, `api.access.public` = `false`), other nodes can still connect to it for block exchange—such nodes still participate in blockchain synchronization.
+> Even when a node's Public API is disabled (including `api.enabled` = `false`, `api.access.public` = `false`), other nodes can still connect to it for block exchange — such nodes still participate in blockchain synchronization.
 
 > [!Warning]
 > Nodes with a Public API, used by applications, require more CPU since they execute many SQL queries.
@@ -198,7 +316,7 @@ Redis is used for caching. Required.
     "peers": {
       "enabled": true,
       "list": [
-        { "ip": "5.161.68.61", "port": 36666 },
+        { "ip": "95.216.114.252", "port": 36666 },
         { "ip": "149.102.157.15", "port": 36666 }
       ],
       "access": { "blackList": [] },
@@ -216,7 +334,7 @@ Redis is used for caching. Required.
   ```
 
   - `enabled`: Enable or disable peer connections (default: `true`).
-  - `list`: List of peer IPs and ports.
+  - `list`: List of peer IPs and ports. See the full list in [config.default.json](https://github.com/Adamant-im/adamant/blob/master/config.default.json).
   - `access.blackList`: List of blocked IPs (e.g., `["222.222.222.222"]`).
   - `options.limits`: Peer rate-limiting options:
     - `max`: Max requests per window (e.g., `0`, unlimited).
@@ -249,13 +367,13 @@ Redis is used for caching. Required.
 
     - Example: If `parallelLimit = 5` and `broadcastLimit = 10`, the node will first send transactions to 5 peers asynchronously, then process another 5.
 
-  - `releaseLimit`: The number of transactions, blocks and signatures included in each broadcast (recommended: `25`).
+  - `releaseLimit`: The number of transactions, blocks, and signatures included in each broadcast (recommended: `25`).
 
-    - Example: If 10 transactions are waiting to be broadcasted and `releaseLimit = 5`, only 5 will be sent in the next broadcast
+    - Example: If 10 transactions are waiting to be broadcast and `releaseLimit = 5`, only 5 will be sent in the next broadcast.
 
   - `relayLimit`: The maximum relay count at which a node will still broadcast an unconfirmed transaction (recommended: `4`).
 
-    - Example: If a transaction has already been broadcasted to 5 nodes and `relayLimit = 4`, the node will process the transaction but won't broadcast it further.
+    - Example: If a transaction has already been broadcast to 5 nodes and `relayLimit = 4`, the node will process the transaction but will not broadcast it further.
 
 ## Transaction Configuration
 
@@ -272,6 +390,24 @@ Redis is used for caching. Required.
   ```
 
   - `maxTxsPerQueue`: Max transactions per queue (recommended: `1000`).
+
+## Consensus Activation Heights
+
+The `consensusActivationHeights` object defines the block heights at which consensus upgrades become active:
+
+```json
+{
+  "consensusActivationHeights": {
+    "fairSystem": 4359465,
+    "spaceship": 100000000
+  }
+}
+```
+
+- `fairSystem`: Height at which the Fair dPoS voting system activates. On mainnet, this is `4359465`. See [Consensus](./consensus.md#fairsystem) for details.
+- `spaceship`: Height at which the `timestampMs` field is preserved in transactions. On mainnet, this is `100000000` (far future; already activated on testnet). See [Consensus](./consensus.md#spaceship) for details.
+
+These values match the mainnet network. **Do not change them for a mainnet node**, as mismatched heights will cause the node to diverge from the network. For testnet or localnet experimentation, you can override these values using [configuration overrides](#configuration-overrides).
 
 ## Forging Configuration
 
@@ -292,7 +428,7 @@ Redis is used for caching. Required.
   ```
 
   - `force`: Force forging regardless of network state (default: `false`).
-  - `secret`: List of forging pass phrases.
+  - `secret`: List of forging passphrases.
   - `access.whiteList`: Allowed forging IPs (e.g., `["127.0.0.1"]`).
 
 ## Loading Configuration
@@ -354,7 +490,7 @@ Redis is used for caching. Required.
   ```
 
   - `masterrequired`: Require master password for DApp execution (recommended: `true`).
-  - `masterpassword`: Master password (e.g., `"<empty>"`).
+  - `masterpassword`: Master password (e.g., `""`).
   - `autoexec`: List of auto-executable scripts (e.g., `[]`).
 
 ## WebSocket Client Configuration
@@ -373,7 +509,7 @@ Redis is used for caching. Required.
   ```
 
   - `enabled`: Enable or disable WebSocket client (e.g., `true`).
-  - `portWS`: WebSocket client port (e.g., `36668`).
+  - `portWS`: WebSocket client port (e.g., `36668` for mainnet, `36665` for testnet).
 
 ## WebSocket Node Configuration
 
@@ -393,7 +529,7 @@ Redis is used for caching. Required.
 
   - `enabled`: Enable or disable WebSocket node-to-node communication.
   - `maxBroadcastConnections`: Maximum number of outbound WebSocket connections used to broadcast data to other nodes.
-  - `maxReceiveConnections`: Maximum number of inbound WebSocket connections to other nodes.
+  - `maxReceiveConnections`: Maximum number of inbound WebSocket connections from other nodes.
 
 ## Nethash Configuration
 
@@ -417,19 +553,19 @@ Redis is used for caching. Required.
   }
   ```
 
-  You can find or generate a `nethash` using the genesis block (`genesisBlock.json` or `test/genesisBlock.json` based on your blockchain network).
+  You can find or verify the `nethash` using the genesis block (`genesisBlock.json` or `test/genesisBlock.json` based on your blockchain network). The node derives `nethash` from `genesisBlock.payloadHash` — the SHA-256 payload hash verified from the genesis block transactions. It is not a random identifier.
 
 ## CORS
 
-- **Cors**
+- **CORS**
 
-  By default, ADAMANT Node allows any origins to make requests. You can control [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) with the `cors` object option in `config.json` that accepts following properties:
+  By default, ADAMANT Node allows any origin to make requests. You can control [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) with the `cors` object in `config.json`, which accepts the following properties:
 
   - `origin`: Configures the **Access-Control-Allow-Origin** CORS header. Possible values:
-    - `Boolean` - set `origin` to `true` to reflect the [request origin](http://tools.ietf.org/html/draft-abarth-origin-09), as defined by `req.header('Origin')`, or set it to `false` to disable CORS.
-    - `String` - set `origin` to a specific origin. For example if you set it to `"http://example.com"` only requests from "http://example.com" will be allowed.
-    - `Array` - set `origin` to an array of valid origins. For example `["http://example1.com", "http://example2.com/"]` will accept any request from "http://example1.com" or "example2.com".
-  - `methods`: Configures the **Access-Control-Allow-Methods** CORS header. Expects a comma-delimited string (ex: 'GET,PUT,POST') or an array (ex: `['GET', 'PUT', 'POST']`).
+    - `Boolean` — set `origin` to `true` to reflect the request origin, or set it to `false` to disable CORS.
+    - `String` — set `origin` to a specific origin. For example, `"http://example.com"` allows only requests from that origin.
+    - `Array` — set `origin` to an array of valid origins. For example `["http://example1.com", "http://example2.com/"]`.
+  - `methods`: Configures the **Access-Control-Allow-Methods** CORS header. Expects a comma-delimited string (e.g., `'GET,PUT,POST'`) or an array (e.g., `['GET', 'PUT', 'POST']`).
 
   Example:
 

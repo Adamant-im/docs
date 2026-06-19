@@ -2,21 +2,21 @@
 
 ADAMANT is a **decentralized** messenger powered by a Delegated Proof of Stake (DPoS) blockchain. Anyone can run a node and interact with the network via REST and WebSocket APIs.
 
-You don’t have to run your own node to use the ADAMANT Messenger. It’s safe to use public nodes — all messages and transactions are **encrypted and signed locally** before being sent.
+You don't have to run your own node to use ADAMANT Messenger, run apps and integrations. It's safe to use public nodes — all messages and transactions are **encrypted and signed locally** before being sent.
 
 ## Join the Decentralization
 
-### Run own node
+### Run your own node
 
 While you can connect to any ADAMANT node with an enabled API, it is recommended to [run your own node](https://news.adamant.im/how-to-run-your-adamant-node-on-ubuntu-990e391e8fcc) for the following reasons:
 
-- **Support decentralization** – More nodes means stronger network
-- **Robust performance** – Requests are processed faster through your own node.
-- **High reliability** – You maintain full control over the API’s availability
+- **Support decentralization** – More nodes means a stronger network
+- **Robust performance** – Requests are processed faster through your own node
+- **High reliability** – You maintain full control over the API's availability
 
 To get started, check out the [Installation](/own-node/installation.md) and [Configuration](/own-node/configuration.md) guides — they cover everything you need to install, sync, and run a node.
 
-You can also run a [Testnet node](/own-node/testnet.md) to experiment and try out different things in a safe environment.
+You can also run a [Testnet node](/own-node/testnet.md) to experiment in a safe environment, or a [Localnet](/own-node/localnet.md) to run multiple nodes on one machine for isolated testing.
 
 ::: tip
 If you're building a service with a near-100% uptime requirement, implement a health check in your application — similar to [adamant-api-jsclient](https://github.com/Adamant-im/adamant-api-jsclient/blob/07016c89b57863ac379ebfcbf6cf464a0639d3b1/src/api/index.ts#L183) or [the ADAMANT PWA](https://github.com/Adamant-im/adamant-im/blob/f5c7b7ce95fb5df3785a3458abc4e0b132c18791/src/lib/nodes/abstract.client.ts). While connecting to public nodes is possible, running three or more separate ADAMANT nodes is significantly more reliable.
@@ -38,19 +38,19 @@ https://sunshine.adamant.im
 https://tauri.adm.im
 ```
 
-However, **we still recommend running your own node** for reliability and performance and to help support decentralized messaging.
+However, **we still recommend running your own node** for reliability and performance, and to help support decentralized messaging.
 
-## Interacting with the nodes
+## Interacting with the Nodes
 
 If you're building a tool or app on the ADAMANT blockchain, you can use the REST API to interact with the network.
 
-For real-time applications — such as messengers, or bots — the WebSocket API provides instant updates and optimal performance.
+For real-time applications — such as messengers or bots — the WebSocket API provides instant updates and optimal performance.
 
 ### Choosing a node
 
 You can connect to **any public node** in the ADAMANT network.
 
-To ensure you're on the correct network, check the node’s `nethash`. For the **mainnet**, the `nethash` is:
+To ensure you're on the correct network, check the node's `nethash`. For the **mainnet**, the `nethash` is:
 
 ```
 bd330166898377fb28743ceef5e43a5d9d0a3efd9b3451fb7bc53530bb0a6d64
@@ -66,10 +66,10 @@ https://endless.adamant.im/api/blocks/getNethash
 
 This list includes some libraries and frameworks to interact with ADAMANT nodes **developed by the ADAMANT community**.
 
-- **adamant-api-jsclient**. JavaScript framework to interact with ADAMANT REST and WebSocket API with reliability in mind.
+- **adamant-api-jsclient**. JavaScript framework to interact with the ADAMANT REST and WebSocket API with reliability in mind.
 
   https://github.com/adamant-im/adamant-api-jsclient
 
-- **adamant-console**. Command-line interface and JSON RPC server to make requests to ADAMANT network.
+- **adamant-console**. Command-line interface and JSON RPC server for making requests to the ADAMANT network.
 
   https://github.com/adamant-im/adamant-console
