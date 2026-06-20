@@ -9,31 +9,38 @@ The following guide is for **Ubuntu Linux**. For more detailed guides on differe
 
 ## Requirements
 
-- **Ubuntu** v18.04–v24.04 (other versions are not tested)
+- **Ubuntu** v20.04–v26.04 LTS (other versions are not tested)
+- **Node.js** v22.13.0 or newer
 - **RAM**: 2 GB or more
-- **Disk space**: A minimum of 70 GB as of June 2025 (mainnet)
+- **Disk space**: A minimum of 70 GB as of June 2026 (mainnet)
   - Expect the blockchain to grow by approximately _10 GB per year_
 
 ## Installation script
 
-For new servers, use the [Installation script](https://github.com/Adamant-im/adamant/blob/dev/tools/install_node.sh) from official repository, or fetch it directly from the ADAMANT website:
+For new servers, use the [Installation script](https://github.com/Adamant-im/adamant/blob/dev/tools/install_node.sh) from the official repository, or fetch it directly from the ADAMANT website:
 
 ```sh
 sudo bash -c "$(wget -O - https://adamant.im/install_node.sh)"
 ```
 
-The script updates Ubuntu packages, creates a dedicated user named `adamant`, sets up a new PostgreSQL database, installs Node.js and other necessary dependencies, configures the ADAMANT mainnet/testnet node, and optionally downloads an up-to-date ADAMANT blockchain image.
+The script updates Ubuntu packages, creates a dedicated user named `adamant`, sets up a new PostgreSQL database, installs Node.js and other necessary dependencies, configures the ADAMANT mainnet/testnet node, and optionally downloads an up-to-date ADAMANT blockchain image. It preserves existing configuration files and local Git changes, and reuses existing users and databases.
 
 Script parameters:
 
 - `-b`: The GitHub branch from which the ADAMANT node will be installed. Default is `master`.
 - `-n`: The ADAMANT blockchain network (`mainnet` or `testnet`). Default is `mainnet`.
-- `-j`: The Node.js version (`iron`=20 or `jod`=22). Default is `jod`.
+- `-j`: The Node.js version (`22`, `jod`=22, `24`, `krypton`=24, or `26`). Default is `24`.
 
 For example:
 
 ```sh
-sudo bash -c "$(wget -O - https://adamant.im/install_node.sh)" -O -b dev -n testnet -j jod
+sudo bash -c "$(wget -O - https://adamant.im/install_node.sh)" -O -b dev -n testnet -j 24
+```
+
+A RHEL-compatible installer (CentOS Stream, Rocky Linux, AlmaLinux, RHEL 8–10) is also available:
+
+```sh
+sudo bash -c "$(wget -O - https://adamant.im/install_node_centos.sh)" -O -b dev -n mainnet -j 24
 ```
 
 ## Manual Installation
@@ -48,7 +55,7 @@ If you are an experienced Linux user and want more control over installation, yo
   sudo apt-get install -y python build-essential curl automake autoconf libtool
   ```
 
-- **Git** — Used for cloning and updating ADAMANT GitHub repository
+- **Git** — Used for cloning and updating the ADAMANT GitHub repository
 
   ```sh
   sudo apt-get install -y git
@@ -66,8 +73,8 @@ If you are an experienced Linux user and want more control over installation, yo
   - Or locally, using [nvm](https://github.com/nvm-sh/nvm):
 
     ```sh
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-    nvm i --lts=jod #Node.js 22 LTS
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.5/install.sh | bash
+    nvm install --lts=krypton  # Node.js 24 LTS
     ```
 
 - **PostgreSQL** — Database engine to store blockchain data
@@ -130,7 +137,7 @@ nano config.json
 
 Make the necessary changes to the configuration values in the file. At minimum, you should change the value of the `db.password` property to your actual database password.
 
-See [Configuration](./configuration) for description of every configuration file property.
+See [Configuration](./configuration) for a description of every configuration file property.
 
 ### Bootstrap with a blockchain image/snapshot
 
@@ -145,7 +152,7 @@ psql adamant_main < db_backup.sql
 rm db_backup.sql
 ```
 
-(This example is for mainnet ADM node. For testnet, use the image url: https://testnet.adamant.im/db_test_backup.sql.gz)
+(This example is for the mainnet ADM node. For testnet, use the image URL: https://testnet.adamant.im/db_test_backup.sql.gz)
 
 Bootstrapping typically takes up to 20 minutes but can save you several days of synchronization time.
 
@@ -157,7 +164,7 @@ To verify that everything is set up correctly, start the node temporarily in the
 node app.js
 ```
 
-If everything is working properly, you’ll see log output indicating that the blockchain is syncing and the node height is increasing.
+If everything is working properly, you'll see log output indicating that the blockchain is syncing and the node height is increasing.
 
 Next, run the ADM node using pm2:
 
@@ -171,7 +178,7 @@ Check that the node is running smoothly:
 pm2 logs adamant
 ```
 
-You can also verify the node’s block height and status with simple API requests:
+You can also verify the node's block height and status with simple API requests:
 
 ```sh
 curl http://localhost:36666/api/blocks/getHeight
@@ -186,11 +193,17 @@ crontab -l | { cat; echo "@reboot cd /home/adamant/adamant && pm2 start --name a
 
 Alternatively, you can use pm2's built-in startup functionality: `pm2 save` — `pm2 startup`.
 
+::: warning Critical Shutdown Notice
+Always stop the node gracefully. When running it in the foreground, press `Ctrl+C` and wait for cleanup to finish. Do not use `kill -9` or any other forced termination unless the process is already unrecoverably stuck.
+
+The node stores derived consensus state in memory tables (`mem_accounts`, `mem_round`). A forced kill can leave these inconsistent with the persisted blockchain, forcing a full rebuild from genesis on the next startup.
+:::
+
 ### Recovering an ADAMANT node
 
-It may happen that your ADM node lost the current blockchain height and restarted, rising from the beginning. The most common reasons are a hardware error or lack of disk space. Though validating blocks from 0 height is a decent option, catching up with the current height may take several days.
+It may happen that your ADM node lost the current blockchain height and restarted from the beginning. The most common reasons are a hardware error or lack of disk space. Although validating blocks from height 0 is a valid option, catching up with the current height may take several days.
 
-If you probably prefer using an up-to-date blockchain image and enabling it back in ten minutes, run this script:
+If you prefer to use an up-to-date blockchain image and restore the node in minutes, run this script:
 
 ```sh
 sudo bash -c "$(wget -O - https://adamant.im/fix_node.sh)" -O -n mainnet
@@ -199,5 +212,7 @@ sudo bash -c "$(wget -O - https://adamant.im/fix_node.sh)" -O -n mainnet
 Script parameters:
 
 - `-n`: The ADAMANT blockchain network (`mainnet` or `testnet`). Default is `mainnet`.
+
+The repair tool drops the database to free disk space, downloads and validates the replacement image, then recreates the database and restores it from the snapshot. Back up any required data first.
 
 Alternatively, follow the recovery steps manually.

@@ -1,6 +1,6 @@
 # Testnet
 
-You may want to test the node in a safe environment before running a `mainnet` node. The `testnet` configuration allows to experiment and run tests without affecting the `mainnet`.
+You may want to test the node in a safe environment before running a mainnet node. The `testnet` configuration lets you experiment and run tests without affecting the mainnet.
 
 ## Installation
 
@@ -9,15 +9,14 @@ You may want to test the node in a safe environment before running a `mainnet` n
   You can use the [installation script](./installation.md#installation-script) to automatically install the node for testnet:
 
   ```sh
-  # Fetches the script and install the latest stable ADAMANT version using testnet config
-  sudo bash -c "$(wget -O - https://adamant.im/install_node.sh)" -O -b master -n testnet -j jod
+  sudo bash -c "$(wget -O - https://adamant.im/install_node.sh)" -O -b master -n testnet -j 24
   ```
 
-  This will create `test/config.json` file, which you can edit as needed.
+  This will create a `test/config.json` file, which you can edit as needed.
 
-- **Manually setup**
+- **Manual setup**
 
-  To manually set up and run a local test node, copy the default config file and edit your copy:
+  To manually set up and run a local testnet node, copy the default config file and edit your copy:
 
   ```sh
   cp test/config.default.json test/config.json
@@ -31,6 +30,14 @@ To start the testnet node:
 npm run start:testnet
 ```
 
+You can also override individual configuration values at startup without editing `test/config.json`. For example, to enable public API access:
+
+```sh
+npm run start:testnet -- --config-set api.access.public=true
+```
+
+See [Configuration Overrides](./configuration.md#configuration-overrides) for the full override syntax.
+
 ## Running tests
 
 Refer to [CONTRIBUTING.md](https://github.com/Adamant-im/adamant/blob/dev/.github/CONTRIBUTING.md).
@@ -39,6 +46,6 @@ Refer to [CONTRIBUTING.md](https://github.com/Adamant-im/adamant/blob/dev/.githu
 
 - A bootstrap snapshot of the testnet database is available for download (the installation script also supports bootstrapping): https://testnet.adamant.im/db_test_backup.sql.gz
 - The testnet explorer: [testnet.adamant.im](https://testnet.adamant.im/)
-- Request testnet ADM coins (3500 ADM) via the same faucet as mainnet: [Faucet](https://adamant.im/free-adm-tokens/)
-- Access the testnet messenger app (dev branch autobuild): [Testnet messenger](https://dev-adamant-testnet.surge.sh/)
-- You can view the IPs and ports of testnet nodes in the [test/config.default.json](https://github.com/Adamant-im/adamant/blob/dev/test/config.default.json) file.
+- Request testnet ADM coins (3500 ADM) via the faucet: [Faucet](https://adamant.im/free-adm-tokens/)
+- Access the testnet messenger app (dev branch build): [Testnet messenger](https://dev-adamant-testnet.surge.sh/)
+- View the IPs and ports of testnet peers in [test/config.default.json](https://github.com/Adamant-im/adamant/blob/dev/test/config.default.json).
