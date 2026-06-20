@@ -79,8 +79,8 @@ This is useful when running a [Localnet](./localnet.md) to test consensus behavi
 
   ```json
   {
-    "timestamp": 1716829200,
-    "timestampMs": 1716829200456,
+    "timestamp": 212457600,
+    "timestampMs": 212457600456,
     "signature": "..."
   }
   ```
