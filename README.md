@@ -21,4 +21,8 @@ This starts a hot-reload server so you can preview the site and take advantage o
 
 ## Links
 
-- [Swagger Schema](https://schema.adamant.im/)
+- [ADAMANT Website](https://adamant.im)
+- [ADAMANT Node repository](https://github.com/Adamant-im/adamant)
+- [ADAMANT Improvement Proposals (AIPs)](https://aips.adamant.im)
+- [API Schema (Swagger)](https://schema.adamant.im/)
+- [API Schema source](https://github.com/Adamant-im/adamant-schema)

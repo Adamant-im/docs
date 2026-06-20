@@ -30,6 +30,8 @@ GET /api/peers
   - `height` — current node's blockchain height
   - `updated` — Unix timestamp based in ms, when peer updated
   - `nonce` — unique Identifier for the peer. Random string.
+  - `syncProtocol` — `"http"` if the node is subscribed to the peer using HTTP only. `"ws"` if the node is subscribed to the peer using WebSocket (which also allows receiving transactions via both WebSocket and HTTP).
+  - `isBroadcastingViaSocket` — `true` if the node can send transactions to the peer over WebSocket.
 
   Available parameters:
 
@@ -62,7 +64,9 @@ GET /api/peers
         "height": 10146365,
         "clock": null,
         "updated": 1562424199553,
-        "nonce": "jxXV6g0sHJhmDubq"
+        "nonce": "jxXV6g0sHJhmDubq",
+        "isBroadcastingViaSocket": false,
+        "syncProtocol": "ws"
       },
       {
         "ip": "144.217.93.8",
@@ -74,7 +78,9 @@ GET /api/peers
         "height": 10146364,
         "clock": null,
         "updated": 1562424195742,
-        "nonce": "YngSDjA5MeUNk2iZ"
+        "nonce": "YngSDjA5MeUNk2iZ",
+        "isBroadcastingViaSocket": false,
+        "syncProtocol": "http"
       }
     ]
   }
@@ -154,7 +160,9 @@ GET /api/peers/get
       "height": 38723235,
       "clock": null,
       "updated": 1713630137277,
-      "nonce": "YWXG1LsX0QUw4tFD"
+      "nonce": "YWXG1LsX0QUw4tFD",
+      "isBroadcastingViaSocket": false,
+      "syncProtocol": "ws"
     }
   }
   ```
@@ -168,6 +176,12 @@ GET /api/loader/status
 - **Description**
 
   Endpoint `/api/loader/status` returns information on node's loading process.
+
+  - `loaded` — `false` while the node is verifying blocks during startup.
+  - `syncing` — `true` if the node is currently syncing with the network.
+  - `blocks` — Target blockchain height the node is trying to reach during sync. Set to `0` when syncing is complete.
+  - `blocksCount` — Number of blocks the node needs to verify (e.g. during a full blockchain rebuild).
+  - `now` — Height of the last block loaded at startup. This is not the same as the current blockchain height.
 
 - **Example**
 

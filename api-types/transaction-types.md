@@ -13,6 +13,7 @@ Although each transaction type has its own structure and required properties, al
 - `blockId` — Block ID that includes the transaction and was forged
 - `type` — Transaction type
 - `timestamp` — Transaction time specified by the sender, measured in seconds since the epoch (Sep 02, 2017, 17:00:00 GMT+0000)
+- `timestampMs` — Optional transaction time specified by the sender, measured in milliseconds since the ADAMANT epoch. After the `spaceship` consensus activation, upgraded nodes can store and return this field for transactions that include it. It is not included in transaction signatures or IDs. When present, it belongs to the same ADAMANT second as `timestamp`; clients should create `timestamp` with `Math.floor(timestampMs / 1000)`, prefer `timestampMs` for ordering, and fall back to `timestamp * 1000` when it is missing.
 - `block_timestamp` — Transaction's block timestamp. It's up to the client how to interpret this field. It's recommended to consider both `timestamp` and `block_timestamp` when determining the transaction timestamp
 - `senderPublicKey` — Sender's public key in hex
 - `senderId` — Sender's ADAMANT address
@@ -53,6 +54,7 @@ Token Transfer Transaction is used for transferring ADM tokens between accounts.
       "type": 0,
       "block_timestamp": 23290655,
       "timestamp": 23290649,
+      "timestampMs": null,
       "senderPublicKey": "cdab95b082b9774bd975677c868261618c7ce7bea97d02e0f56d483e30c077b6",
       "senderId": "U15423595369615486571",
       "recipientId": "U3589996151080018161",
@@ -102,6 +104,7 @@ Creates a new delegate in ADAMANT's blockchain.
       "blockId": "2640582970042287242",
       "type": 2,
       "timestamp": 52956148,
+      "timestampMs": null,
       "senderPublicKey": "6b99151b0e79146a40ab7f6f065e9e2f354fe1e64af8bc35bfa7f5fa5f510ee3",
       "senderId": "U2850997466368415658",
       "recipientId": null,
@@ -154,6 +157,7 @@ Used to vote or downvote for delegates.
       "blockId": "16481510969712463150",
       "type": 3,
       "timestamp": 59782601,
+      "timestampMs": null,
       "senderPublicKey": "9560562121cdc41112a0b288101079346d9c67f5bbff1f4d5a29483258c9477a",
       "senderId": "U9221911598904803004",
       "recipientId": "U9221911598904803004",
@@ -217,6 +221,7 @@ Used to send any [Message Type](/api-types/message-types.md) between accounts.
     "blockId": "10475460465898092643",
     "type": 8,
     "timestamp": 58773228,
+      "timestampMs": null,
     "senderPublicKey": "2ac5eef60303003c90f662d89e60570d8661c8ba569e667296f5c7c97a0413ee",
     "requesterPublicKey": null,
     "senderId": "U8916295525136600565",
@@ -270,6 +275,7 @@ Key-Value Storage (KVS) is a special type of transaction for storing private (en
       "blockId": "14121859709526400688",
       "type": 9,
       "timestamp": 23943500,
+      "timestampMs": null,
       "senderPublicKey": "ac903ab58135cd5f0613a929d876953214d224034b73c33e63bc153d669447f4",
       "senderId": "U5517006347330072401",
       "recipientId": null,

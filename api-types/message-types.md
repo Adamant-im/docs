@@ -33,6 +33,7 @@ A Basic Encrypted Message is a simple encrypted message transaction that stores 
       "type": 8,
       "block_timestamp": 58773245,
       "timestamp": 58773228,
+      "timestampMs": null,
       "senderPublicKey": "2ac5eef60303003c90f662d89e60570d8661c8ba569e667296f5c7c97a0413ee",
       "senderId": "U8916295525136600565",
       "recipientId": "U2707535059340134112",
@@ -96,6 +97,7 @@ A Rich Content Message is a special content message transaction **that should be
       },
       "recipientId": "U7972131227889954319",
       "timestamp": 46116887,
+      "timestampMs": null,
       "signature": "8fc2a54604109a6fcdccec2..."
     }
   }

@@ -429,6 +429,7 @@ POST /api/delegates
   {
     "type": 2,
     "timestamp": 166805250,
+    "timestampMs": null,
     "amount": 0,
     "senderPublicKey": "a339974effc141f302bd3589c603bdc9468dd66bcc424b60025b36999eb69ca3",
     "senderId": "U3031563782805250428",
@@ -452,6 +453,7 @@ POST /api/delegates
     "transaction": {
       "type": 2,
       "timestamp": 166805152,
+      "timestampMs": null,
       "amount": 0,
       "senderPublicKey": "a339974effc141f302bd3589c603bdc9468dd66bcc424b60025b36999eb69ca3",
       "senderId": "U3031563782805250428",
@@ -510,6 +512,7 @@ POST /api/accounts/delegates
     "senderId": "U14236667426471084862",
     "senderPublicKey": "8cd9631f9f634a361ea3b85cbd0df882633e39e7d26d7bc615bbcf75e41524ef",
     "timestamp": 63394407,
+    "timestampMs": null,
     "signature": "7f4f5d240fc66da1cbdb3fe291d6fcec006848236355aebe346fcd1e3ba500caeac1ed0af6f3d7f912a889a1bbedc1d7bab17b6ebd36386b81df78189ddf7c07"
   }
   ```
@@ -533,6 +536,7 @@ POST /api/accounts/delegates
       "senderId": "U14236667426471084862",
       "senderPublicKey": "8cd9631f9f634a361ea3b85cbd0df882633e39e7d26d7bc615bbcf75e41524ef",
       "timestamp": 63394407,
+      "timestampMs": null,
       "signature": "7f4f5d240fc66da1cbdb3fe291d6fcec006848236355aebe346fcd1e3ba500caeac1ed0af6f3d7f912a889a1bbedc1d7bab17b6ebd36386b81df78189ddf7c07",
       "id": "13616514419605573351",
       "fee": 5000000000,

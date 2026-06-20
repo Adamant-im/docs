@@ -38,6 +38,9 @@ export default defineConfig({
           { text: 'Installation', link: '/own-node/installation' },
           { text: 'Configuration', link: '/own-node/configuration' },
           { text: 'Testnet', link: '/own-node/testnet' },
+          { text: 'Localnet', link: '/own-node/localnet' },
+          { text: 'Consensus', link: '/own-node/consensus' },
+          { text: 'Syncing', link: '/own-node/syncing' },
         ],
       },
       {
@@ -108,11 +111,28 @@ export default defineConfig({
           { text: 'Java', link: '/examples/java' },
         ],
       },
+      {
+        text: 'SDK',
+        items: [
+          {
+            text: 'JavaScript API Client',
+            link: 'https://github.com/Adamant-im/adamant-api-jsclient',
+          },
+          {
+            text: 'Console Tool',
+            link: 'https://github.com/Adamant-im/adamant-console',
+          },
+          {
+            text: 'API Schema',
+            link: 'https://github.com/Adamant-im/adamant-schema',
+          },
+        ],
+      },
     ],
     nav: [
       {
         text: 'API Schema',
-        link: 'https://github.com/adamant-im/adamant-schema',
+        link: 'https://schema.adamant.im/',
       },
     ],
     socialLinks: [

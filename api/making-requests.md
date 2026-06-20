@@ -67,7 +67,9 @@ Examples:
     "nodeTimestamp": 239258018,
     "error": "Object didn't pass validation for format address: U"
   }
-  ```
+```
+
+The `/api/node/status` endpoint also returns `nodeTimestampMs` and `unixTimestampMs` as node clock metadata. They do not affect consensus.
 
 ## OpenAPI Schema
 
