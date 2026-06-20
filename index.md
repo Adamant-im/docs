@@ -2,7 +2,7 @@
 
 ADAMANT is a **decentralized** messenger powered by a Delegated Proof of Stake (DPoS) blockchain. Anyone can run a node and interact with the network via REST and WebSocket APIs.
 
-You don't have to run your own node to use ADAMANT Messenger, run apps and integrations. It's safe to use public nodes — all messages and transactions are **encrypted and signed locally** before being sent.
+You don't have to run your own node to use ADAMANT Messenger or run apps and integrations. It's safe to use public nodes — all messages and transactions are **encrypted and signed locally** before being sent.
 
 ## Join the Decentralization
 
