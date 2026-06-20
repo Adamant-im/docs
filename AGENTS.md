@@ -58,9 +58,7 @@ Key files and directories:
 
 ### Markdown style
 
-- Use [VitePress Markdown features](https://vitepress.dev/guide/markdown) where appropriate: code blocks with language tags, `::: tip`, `::: warning`, `::: danger` callouts, and `[[toc]]`.
-- Use fenced code blocks with correct language identifiers. For bare URLs, use the custom `url` language (`lang="url"`).
-- Prefer sentence case for headings; do not use title case.
+- Use fenced code blocks with correct language identifiers. For bare URLs, use the custom `url` language (i.e., set the fenced code block info string to `url`).
 - Do not use trailing punctuation in headings.
 - Keep line length readable (under 120 characters where possible).
 - Use relative links between pages: `[Installation](/own-node/installation.md)`.
