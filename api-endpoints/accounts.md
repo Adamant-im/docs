@@ -169,8 +169,10 @@ GET /api/accounts/top?limit={limit}&offset={offset}&isDelegate={isDelegate}
 
 - **Description**
 
-  Returns accounts sorted by confirmed `balance` in descending order. Accounts with the same balance are sorted by
-  `address` in ascending order, so pagination stays stable between requests.
+  Returns non-zero-balance accounts sorted by confirmed `balance` in descending order. Accounts with the same balance
+  are sorted by `address` in ascending order, so pagination stays stable between requests.
+
+  The `count` field reports how many non-zero-balance accounts match the current filter before pagination is applied.
 
   This endpoint is available on every node that supports it; it does not require a node-side feature flag.
 
