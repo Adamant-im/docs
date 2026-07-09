@@ -200,18 +200,6 @@ Possible log levels (from least to most verbose):
 
   Cache is disabled by default on mainnet and enabled on testnet. Enabling it can improve API response times for high-traffic public nodes.
 
-- **Top Accounts**
-
-  Enable the `/api/accounts/top` endpoint (returns accounts sorted by balance) with `topAccounts`:
-
-  ```json
-  {
-    "topAccounts": false
-  }
-  ```
-
-  This endpoint is disabled by default on mainnet. Enabling it on a high-traffic node may have a performance impact.
-
 ## Database Configuration
 
 - **Database Connection**
