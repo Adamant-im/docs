@@ -187,7 +187,7 @@ GET /api/accounts/top?limit={limit}&offset={offset}&isDelegate={isDelegate}
   Request:
 
   ```sh
-  GET https://endless.adamant.im/api/accounts/top?limit=2&offset=0&isDelegate=1
+  GET https://endless.adamant.im/api/accounts/top?limit=1&offset=0&isDelegate=1
   ```
 
   Response:
