@@ -206,7 +206,7 @@ GET /api/accounts/top?limit={limit}&offset={offset}&isDelegate={isDelegate}
       }
     ],
     "count": 254,
-    "limit": 2,
+    "limit": 1,
     "offset": 0
   }
   ```
