@@ -302,7 +302,7 @@ You can filter by single parameter, or by multiple parameters. Default condition
 
 Options always joined with `and` condition.
 
-For confirmed transactions, the node composes supported filters into one flat SQL `WHERE` expression:
+For confirmed transactions, you can prefix filters with `and:` or `or:` to control how they are joined, and the node composes the resulting filter chain into one flat SQL `WHERE` expression:
 
 1. Filters are appended in the same order in which they appear in the query string.
 2. The first filter starts the expression, so its `and:` or `or:` prefix does not change the result.
