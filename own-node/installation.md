@@ -196,12 +196,41 @@ Alternatively, you can use pm2's built-in startup functionality: `pm2 save` — 
 ::: warning Critical Shutdown Notice
 Always stop the node gracefully. When running it in the foreground, press `Ctrl+C` and wait for cleanup to finish. Do not use `kill -9` or any other forced termination unless the process is already unrecoverably stuck.
 
-The node stores derived consensus state in memory tables (`mem_accounts`, `mem_round`). A forced kill can leave these inconsistent with the persisted blockchain, forcing a full rebuild from genesis on the next startup.
+After `Ctrl+C` / `SIGINT` / `SIGTERM`, shutdown is not always immediate. The node may log messages such as `Waiting for loader to finish active sync/rebuild…` or `Waiting for block processing to finish…` while it drains in-flight work safely. Wait until cleanup completes (for example `Cleaned up successfully`) before restarting, closing the terminal, or killing the process. Restarting too early can leave derived `mem_*` tables inconsistent and force a long rebuild on the next startup.
+
+The node stores derived consensus state in memory tables (`mem_accounts`, `mem_round`, and related mirrors). A forced kill can leave these inconsistent with the persisted blockchain. On the next startup this can appear as:
+
+```text
+[WRN] loader Detected unapplied rounds in mem_round
+[WRN] loader Recreating memory tables…
+[inf] loader Rebuilding blockchain, current block height: 1…
+```
+
+Do not repair `mem_*` tables with manual SQL edits. The reliable recovery options are restoring a trusted database snapshot or letting the node rebuild/replay derived state from the blockchain.
+:::
+
+### Mem-table checkpoint recovery
+
+When enabled (default), the node persists rotating checkpoints of derived `mem_*` tables at completed round boundaries. If startup detects inconsistent memory mirrors, the loader first attempts to restore the latest verified checkpoint and replay only blocks after the checkpoint height:
+
+```text
+[inf] loader Recovering from mem-table checkpoint at height 1234567…
+[inf] loader Rebuilding blockchain, current block height: 1234568…
+```
+
+Checkpoints are a local recovery cache only. Blocks and deterministic replay remain the source of truth. If checkpoint verification or replay fails, the node falls back to a full memory-table rebuild from genesis. You can disable this behavior with [`loading.memCheckpoints.enabled`](./configuration.md#loading-configuration).
+
+During catch-up sync, checkpoint creation is throttled (every 100th round) so sync throughput is not reduced by frequent `mem_*` copies. Under normal operation, a checkpoint is written after each completed round.
+
+::: info Storage impact
+Checkpoints use three rotating database slots plus metadata. On current mainnet, expect roughly 48 MB per slot and under 150 MB total for all retained slots. Budget extra free disk space for growth and rotation overhead.
 :::
 
 ### Recovering an ADAMANT node
 
 It may happen that your ADM node lost the current blockchain height and restarted from the beginning. The most common reasons are a hardware error or lack of disk space. Although validating blocks from height 0 is a valid option, catching up with the current height may take several days.
+
+If the node only needs to recover inconsistent `mem_*` tables while the persisted blockchain is intact, checkpoint recovery (when available) or a local rebuild/replay is usually faster than restoring a full database image.
 
 If you prefer to use an up-to-date blockchain image and restore the node in minutes, run this script:
 
