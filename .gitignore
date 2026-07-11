@@ -10,3 +10,7 @@ node_modules
 
 # ai
 .ai-ignored/
+.ai-tasks/
+.claude/
+.cursor/
+
