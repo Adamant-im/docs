@@ -14,7 +14,8 @@ WebSocket events are live notifications, not a durable event log:
 - Connections can drop, so an application can miss events.
 - Subscriptions belong to one socket and must be sent again after every connection or reconnection.
 - The node suppresses duplicate transaction and block IDs for at least 60 seconds; periodic cleanup can extend the effective
-  window to approximately two minutes. This is not a replay buffer.
+  window to approximately two minutes. A block rolled back and re-applied within this window can therefore be suppressed.
+  This is not a replay buffer.
 - Balance subscriptions do not send an initial value.
 
 Read initial state from REST, use WebSocket events for low-latency updates, and reconcile important state through REST after
@@ -142,8 +143,8 @@ Filters combine as follows:
 ```js
 connection.on('connect', () => {
   connection.emit('address', 'U1234567890123456');
-  // Or subscribe to multiple addresses:
-  connection.emit('address', ['U1234567890123456', 'U6543210987654321']);
+  // To subscribe to multiple addresses instead, use:
+  // connection.emit('address', ['U1234567890123456', 'U6543210987654321']);
 });
 ```
 
@@ -154,8 +155,8 @@ Addresses are validated and normalized to uppercase by the node.
 ```js
 connection.on('connect', () => {
   connection.emit('types', 0);
-  // Or subscribe to transfer (0) and chat message (8) transactions:
-  connection.emit('types', [0, 8]);
+  // To subscribe to transfer (0) and chat message (8) transactions instead, use:
+  // connection.emit('types', [0, 8]);
 });
 ```
 
@@ -166,8 +167,8 @@ See the full list of [transaction types](/api-types/transaction-types.md).
 ```js
 connection.on('connect', () => {
   connection.emit('assetChatTypes', 3);
-  // Or subscribe to multiple asset.chat.type values:
-  connection.emit('assetChatTypes', [1, 2, 3]);
+  // To subscribe to multiple asset.chat.type values instead, use:
+  // connection.emit('assetChatTypes', [1, 2, 3]);
 });
 ```
 
