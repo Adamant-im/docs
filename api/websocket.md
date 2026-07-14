@@ -1,24 +1,28 @@
 # WebSocket
 
-ADAMANT doesn't require WebSocket connection, but it helps achieve real-time message delivery, reducing delays compared to polling and providing a faster, more efficient connection between the client and the node.
+The client WebSocket API delivers live transaction, account balance, and block events without repeated REST polling.
+ADAMANT nodes use [Socket.IO](https://socket.io/), so use a
+[Socket.IO client](https://socket.io/docs/v4/client-api/) instead of a bare WebSocket client.
 
-The nodes use [Socket.IO](https://socket.io/) under the hood for communication between clients and nodes, so it's recommended to use a [Socket.IO client](https://socket.io/docs/v4/client-api/) for full compatibility and reliable messaging.
-
-The following examples use native socket.io, but it's still recommended using the [adamant-api-jsclient](https://github.com/adamant-im/adamant-api-jsclient) official library to handle transactions.
+The examples below use `socket.io-client`. Applications can also use
+[adamant-api-jsclient](https://github.com/Adamant-im/adamant-api-jsclient) for higher-level ADAMANT API access.
 
 ## WebSocket vs REST API
 
-WebSocket is a fast and efficient way to receive new transactions, but it should not be the only data source.
+WebSocket events are live notifications, not a durable event log:
 
-- WebSocket connections can drop temporarily, causing missed transactions.
-- Nodes only retain transactions for 60 seconds in the WebSocket pool.
-- Periodic REST API requests ensure the client has accurate transaction history.
+- Connections can drop, so an application can miss events.
+- Subscriptions belong to one socket and must be sent again after every connection or reconnection.
+- The node suppresses duplicate transaction and block IDs for 60 seconds. This is not a replay buffer.
+- Balance subscriptions do not send an initial value.
 
-To maintain reliability, use WebSocket for real-time updates and REST API to periodically fetch missed transactions.
+Read initial state from REST, use WebSocket events for low-latency updates, and reconcile important state through REST after
+reconnecting. For example, use `/api/accounts/getBalance` for balances and `/api/blocks` for blocks.
 
 ## Enabling WebSocket
 
-To enable WebSocket on a node, enable it in the [configuration file](/own-node/configuration.md#websocket-client-configuration):
+Enable the client WebSocket server in the node
+[configuration file](/own-node/configuration.md#websocket-client-configuration):
 
 ```json
 {
@@ -29,13 +33,9 @@ To enable WebSocket on a node, enable it in the [configuration file](/own-node/c
 }
 ```
 
-To check if the node offers WebSocket connections, request its status:
+To discover whether a node offers client WebSocket connections, request `/api/node/status` over its REST API.
 
-```sh
-https://localhost:36668/api/node/status
-```
-
-Example response:
+Example response fragment:
 
 ```json
 {
@@ -43,7 +43,6 @@ Example response:
   "nodeTimestamp": 226901657,
   "nodeTimestampMs": 226901657123,
   "unixTimestampMs": 1731273257123,
-  // ...
   "wsClient": {
     "enabled": true,
     "port": 36668
@@ -51,44 +50,24 @@ Example response:
 }
 ```
 
-## Listening to transactions
+## Connecting and restoring subscriptions
 
-ADAMANT nodes send transactions over WebSocket. This includes both confirmed and unconfirmed transactions.
-
-After the `spaceship` consensus activation, transaction payloads can include `timestampMs` when the transaction was created with millisecond precision and the node stored it. This value is measured in milliseconds since the ADAMANT epoch. Clients should prefer it for message ordering and fall back to `timestamp * 1000` when it is missing or `null`.
-
-### Understanding unconfirmed transactions
-
-New transactions do not appear on the blockchain immediately. When a transaction is first created, it is considered **unconfirmed** and does not have a `block_timestamp`.
-
-Most transactions received via WebSocket are unconfirmed since they have just appeared in the ADAMANT network. Until they are included in a block, they remain at **risk of being rejected** by the network and called "unconfirmed".
-
-::: danger
-
-Any logic involving transfer transactions (`amount` > 0) should verify the confirmation status before processing them as final.
-
-:::
-
-### Subscribing to transactions
-
-Clients can subscribe to the `newTrans` event to receive transaction updates from a node.
-
-Example:
+Register subscriptions inside the `connect` handler. Socket.IO calls it again after a successful reconnection, so the new
+server-side socket receives the same subscriptions.
 
 ```js
 import { io } from 'socket.io-client';
 
 const connection = io('https://endless.adamant.im/', {
-  reconnection: false,
+  reconnection: true,
   timeout: 5000,
 });
 
 connection.on('connect', () => {
-  console.log('Connected to ADAMANT node.');
-});
-
-connection.on('newTrans', (transaction) => {
-  console.log('New transaction received:', transaction);
+  connection.emit('address', 'U1234567890123456');
+  connection.emit('types', [0, 8]);
+  connection.emit('balances', ['balance', 'unconfirmedBalance']);
+  connection.emit('blocks', true);
 });
 
 connection.on('disconnect', (reason) => {
@@ -100,57 +79,162 @@ connection.on('connect_error', (error) => {
 });
 ```
 
-### Filtering transactions
+## Subscription events
 
-By default, **all** transactions are received. Clients should filter transactions based on their needs.
+Clients send the following Socket.IO events:
 
-#### Filtering by Address
+| Event | Payload | Effect |
+|---|---|---|
+| `address` | Address string or array | Filters `newTrans` and selects addresses used by balance subscriptions |
+| `types` | Transaction type number or array | Filters `newTrans` by transaction type |
+| `assetChatTypes` | Chat asset type number or array | Filters chat `newTrans` events by `asset.chat.type` |
+| `balances` | `balance`, `unconfirmedBalance`, or an array of both | Enables requested `balances/change` fields |
+| `blocks` | Boolean | `true` enables and `false` disables `newBlock` events |
 
-To receive only transactions related to a specific ADM address, emit `address` event:
+Address, transaction type, chat type, and balance field subscriptions are additive for the lifetime of the socket. Unsupported
+values are ignored. The `blocks` payload must be a scalar boolean; arrays and other values are ignored.
+
+The API does not send subscription acknowledgements. A client should validate its own inputs and use REST reconciliation when
+delivery matters.
+
+## Listening to transactions
+
+The node emits `newTrans` when it applies a transaction to the unconfirmed pool. The payload is provisional and has
+`block_timestamp: null`; confirm inclusion through `newBlock` plus REST, or by querying the transaction later.
+
+After the `spaceship` consensus activation, the payload can include `timestampMs` when the transaction was created with
+millisecond precision. This value is measured from the ADAMANT epoch. Prefer it for ordering and fall back to
+`timestamp * 1000` when it is missing or `null`.
 
 ```js
-connection.on('connect', () => {
-  // Subscribe to transactions involving this ADM address
-  connection.emit('address', 'U1234567890123456');
+connection.on('newTrans', (transaction) => {
+  console.log('New unconfirmed transaction:', transaction);
 });
 ```
 
-You can also subscribe to **multiple** addresses by passing an array:
+### Understanding unconfirmed transactions
+
+New transactions do not appear on the blockchain immediately. Until a delegate includes a transaction in a valid block, it
+can expire, be rejected, or be removed during pool revalidation.
+
+::: danger
+
+Any logic involving transfer transactions (`amount` greater than `0`) should verify blockchain confirmation before treating
+the transfer as final.
+
+:::
+
+### Filtering transactions
+
+A socket receives no `newTrans` events until it sends at least one valid `address`, `types`, or `assetChatTypes` subscription.
+
+Filters combine as follows:
+
+- With only `address`, the socket receives every transaction involving any subscribed sender or recipient.
+- With only `types`, the socket receives those transaction types for all addresses.
+- With addresses and type filters, a transaction must match a subscribed address and a subscribed type.
+- `assetChatTypes` applies to chat transaction type `8` and can match alongside ordinary transaction type filters.
+
+#### Filtering by address
 
 ```js
 connection.on('connect', () => {
+  connection.emit('address', 'U1234567890123456');
+  // Or subscribe to multiple addresses:
   connection.emit('address', ['U1234567890123456', 'U6543210987654321']);
 });
 ```
 
-#### Filtering by Transaction Type
+Addresses are validated and normalized to uppercase by the node.
 
-To receive only specific types of transactions, emit the `types` event with an array of transaction types.
+#### Filtering by transaction type
 
 ```js
 connection.on('connect', () => {
-  // Subscribe to a single transaction type: "transfer" (0)
   connection.emit('types', 0);
-
-  // OR subscribe to multiple transaction types: "transfer" (0) and "chat message" (8)
+  // Or subscribe to transfer (0) and chat message (8) transactions:
   connection.emit('types', [0, 8]);
 });
 ```
 
-A full list of transaction types can be found in the [API Specification](/api-types/transaction-types.md) section of the documentation.
+See the full list of [transaction types](/api-types/transaction-types.md).
 
-#### Filtering by Message Type
-
-Chat messages in ADAMANT have different [message types](/api-types/message-types.md) under `asset.chat.type`. To filter messages by type, emit the `assetChatTypes` event:
+#### Filtering by message type
 
 ```js
 connection.on('connect', () => {
-  // Subscribe to a single chat message type
   connection.emit('assetChatTypes', 3);
-
-  // OR subscribe to multiple chat message types
+  // Or subscribe to multiple asset.chat.type values:
   connection.emit('assetChatTypes', [1, 2, 3]);
 });
 ```
 
-This will make you automatically subscribe to Message **transaction type** (type `8`) if you weren't subscribed to it.
+See the full list of [message types](/api-types/message-types.md).
+
+## Listening to balance changes
+
+Balance events require at least one subscribed `address` and an explicit `balances` subscription. The node reads the current
+account only when a matching field changed and at least one socket subscribed to that address and field.
+
+```js
+connection.on('connect', () => {
+  connection.emit('address', ['U1234567890123456', 'U6543210987654321']);
+  connection.emit('balances', ['balance', 'unconfirmedBalance']);
+});
+
+connection.on('balances/change', (account) => {
+  console.log('Balance changed:', account);
+});
+```
+
+Example payload when both requested fields changed:
+
+```json
+{
+  "address": "U1234567890123456",
+  "balance": "100000000",
+  "unconfirmedBalance": "99900000"
+}
+```
+
+The payload contains only subscribed fields that changed. Balance values are decimal strings in 1/10^8 ADM units, matching
+the REST account API and avoiding integer precision loss.
+
+`balance` is confirmed blockchain state. `unconfirmedBalance` includes the node's current unconfirmed pool and can change when
+a transaction is received, confirmed, expired, rolled back, or revalidated. During block application and rollback, the node
+coalesces internal pool rewinds and sends the final account state instead of transient intermediate values.
+
+## Listening to new blocks
+
+Enable block events with a scalar boolean:
+
+```js
+connection.on('connect', () => {
+  connection.emit('blocks', true);
+});
+
+connection.on('newBlock', (block) => {
+  console.log('Applied block:', block);
+});
+```
+
+Example payload:
+
+```json
+{
+  "id": "1739739671268673627",
+  "height": 53532078,
+  "timestamp": 278966175,
+  "generatorPublicKey": "24636735d64711f91f7680bb348662bc74f7b3446e66702369527e3882dd30d6",
+  "numberOfTransactions": 2,
+  "totalAmount": 10000000,
+  "totalFee": 100000,
+  "reward": 10000000
+}
+```
+
+The event contains a compact public block header without the transaction list, signature, or payload hash. It is emitted after
+the complete block application pipeline succeeds. Historical blocks replayed from the node's existing database are not emitted.
+Use the block ID or height with REST when full block or transaction data is required.
+
+Send `connection.emit('blocks', false)` to stop block events for the current socket.
