@@ -13,7 +13,8 @@ WebSocket events are live notifications, not a durable event log:
 
 - Connections can drop, so an application can miss events.
 - Subscriptions belong to one socket and must be sent again after every connection or reconnection.
-- The node suppresses duplicate transaction and block IDs for 60 seconds. This is not a replay buffer.
+- The node suppresses duplicate transaction and block IDs for at least 60 seconds; periodic cleanup can extend the effective
+  window to approximately two minutes. This is not a replay buffer.
 - Balance subscriptions do not send an initial value.
 
 Read initial state from REST, use WebSocket events for low-latency updates, and reconcile important state through REST after
@@ -132,6 +133,7 @@ Filters combine as follows:
 
 - With only `address`, the socket receives every transaction involving any subscribed sender or recipient.
 - With only `types`, the socket receives those transaction types for all addresses.
+- With only `assetChatTypes`, the socket receives matching type `8` chat transactions for all addresses.
 - With addresses and type filters, a transaction must match a subscribed address and a subscribed type.
 - `assetChatTypes` applies to chat transaction type `8` and can match alongside ordinary transaction type filters.
 
@@ -197,12 +199,14 @@ Example payload when both requested fields changed:
 }
 ```
 
-The payload contains only subscribed fields that changed. Balance values are decimal strings in 1/10^8 ADM units, matching
-the REST account API and avoiding integer precision loss.
+The payload contains only subscribed fields that changed. Balance values use the same numeric account values as the REST
+account API and are serialized as decimal strings in 1/10^8 ADM units.
 
 `balance` is confirmed blockchain state. `unconfirmedBalance` includes the node's current unconfirmed pool and can change when
 a transaction is received, confirmed, expired, rolled back, or revalidated. During block application and rollback, the node
 coalesces internal pool rewinds and sends the final account state instead of transient intermediate values.
+Rapid independent account updates can still produce closely spaced events whose asynchronous reads complete out of order.
+Treat each payload as a live hint and reconcile important state through REST instead of relying on event order.
 
 ## Listening to new blocks
 
