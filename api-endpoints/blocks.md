@@ -74,7 +74,9 @@ GET /api/blocks
 
 - **Description**
 
-  Get a list of blocks from the ADAMANT blockchain using the `/api/blocks/` endpoint. Returns an array of [blocks](#get-block-by-id) from newest to oldest.
+  Get a list of blocks from the ADAMANT blockchain using the `/api/blocks/` endpoint. Returns an
+  array of [blocks](#get-block-by-id) ordered by `orderBy` (default: `height:desc`, from newest to
+  oldest).
 
   Available parameters:
 
@@ -87,9 +89,9 @@ GET /api/blocks
   | `numberOfTransactions` | Exact non-negative number of transactions in the block |
   | `previousBlock` | ID of the preceding block |
   | `height` | Exact positive block height |
-  | `totalAmount` | Exact non-negative total amount transferred by the block's transactions, in 1/10^8 ADM |
-  | `totalFee` | Exact non-negative total transaction fee, in 1/10^8 ADM |
-  | `reward` | Exact non-negative forging reward, in 1/10^8 ADM |
+  | `totalAmount` | Exact non-negative integer amount of 1/10^8 ADM tokens transferred within all transactions in the block |
+  | `totalFee` | Exact non-negative integer amount of 1/10^8 ADM tokens paid as transaction fees in the block |
+  | `reward` | Exact non-negative integer amount of 1/10^8 ADM tokens created as the forging reward |
 
   `orderBy` accepts `asc` or `desc` for the following fields: `id`, `timestamp`, `height`,
   `previousBlock`, `totalAmount`, `totalFee`, `reward`, `numberOfTransactions`, and
