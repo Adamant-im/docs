@@ -272,16 +272,21 @@ GET /api/delegates/getNextForgers
 
 - **Description**
 
-  Endpoint `/api/delegates/getNextForgers` returns the list of next forgers:
+  Endpoint `/api/delegates/getNextForgers` returns a snapshot of the next forgers for the current chain tip.
+  The `delegates` array is ordered by upcoming slots using the delegate schedule for `currentBlock + 1`, including
+  when `currentBlock` closes a round. All entries in one response use this next-block schedule because the block
+  height advances only after a block is accepted. Request a new snapshot after the node accepts another block.
+
+  The response includes:
 
   - `currentBlock` — current [blockchain height](/api-endpoints/blockchain.md#get-blockchain-height)
   - `currentBlockSlot` — current block slot number
   - `currentSlot` — current slot number
-  - `delegates` — array of next forgers' public keys
+  - `delegates` — array of next forgers' public keys ordered by upcoming slots
 
   Available parameters:
 
-  - `limit` — count to retrieve
+  - `limit` — number of public keys to retrieve, from 1 to 101. Default is 10.
 
 - **Example**
 
