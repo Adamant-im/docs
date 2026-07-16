@@ -598,7 +598,7 @@ GET /api/blocks/getStatus
   - [`broadhash`](#get-blockchain-broadhash)
   - [`epoch`](#get-blockchain-epoch)
   - [`height`](#get-blockchain-height)
-  - `consensus` — latest consensus upgrade active at `height`, or `null` before the first configured activation
+  - `consensusCodeName` — latest consensus upgrade active at `height`, or `null` before the first configured activation
   - [`fee`](#get-blockchain-fee)
   - [`milestone`](#get-blockchain-milestone)
   - [`nethash`](#get-blockchain-nethash)
@@ -622,7 +622,7 @@ GET /api/blocks/getStatus
     "broadhash": "4a28272c915f74d118120bb47db547a18a7512e1d48092c48be86939a6d45b89",
     "epoch": "2017-09-02T17:00:00.000Z",
     "height": 10145334,
-    "consensus": "fairSystem",
+    "consensusCodeName": "fairSystem",
     "fee": 50000000,
     "milestone": 1,
     "nethash": "bd330166898377fb28743ceef5e43a5d9d0a3efd9b3451fb7bc53530bb0a6d64",
@@ -639,12 +639,16 @@ GET /api/node/status
 
 - **Description**
 
-  Integrative endpoint `/api/node/status` returns both ADAMANT blockchain network information and node information with a single request. Result includes [`network`](#get-adamant-blockchain-network-info), [`version`](#get-node-version), [`loader`](#get-loading-status), `consensusSchedule`, `milestoneSchedule`, and `wsClient` info.
+  Integrative endpoint `/api/node/status` returns ADAMANT blockchain network and node information with a single
+  request. The result includes [`network`](#get-adamant-blockchain-network-info), [`version`](#get-node-version),
+  [`loader`](#get-loading-status), `consensusSchedule`, `milestoneSchedule`, and `wsClient` information.
 
-  `wsClient` describes if node allows [socket connections](/api/websocket.html#enabling-websocket) and port to connect.
+  `wsClient` shows whether the node accepts [WebSocket connections](/api/websocket.md#enabling-websocket) and, when
+  enabled, which port clients should use.
 
-  `network.consensus` identifies the latest cumulative consensus upgrade active at `network.height`. It is `null`
-  before the first configured activation. An upgrade configured for height `H` is reported starting at block `H`.
+  `network.consensusCodeName` identifies the latest cumulative consensus upgrade active at `network.height`. It is
+  `null` before the first configured activation. An upgrade configured for height `H` is reported starting at block
+  `H`.
 
   `consensusSchedule.activationHeights` maps consensus codenames to their activation block heights. These are the
   node's effective runtime values after defaults, its selected configuration file, and startup overrides are merged.
@@ -684,7 +688,7 @@ GET /api/node/status
       "broadhash": "2d94f9070fe4ca236aaee9fd9a6863fd0b9291a80b96ac9e470408a852f0f3d8",
       "epoch": "2017-09-02T17:00:00.000Z",
       "height": 1034307,
-      "consensus": "fairSystem",
+      "consensusCodeName": "fairSystem",
       "fee": 50000000,
       "milestone": 0,
       "nethash": "38f153a81332dea86751451fd992df26a9249f0834f72f58f84ac31cceb70f43",
