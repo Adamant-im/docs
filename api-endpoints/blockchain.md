@@ -598,7 +598,8 @@ GET /api/blocks/getStatus
   - [`broadhash`](#get-blockchain-broadhash)
   - [`epoch`](#get-blockchain-epoch)
   - [`height`](#get-blockchain-height)
-  - `consensusCodeName` — latest consensus upgrade active at `height`, or `null` before the first configured activation
+  - `consensusCodeName` — latest consensus upgrade active at `height`, or `null` before the first configured
+    activation
   - [`fee`](#get-blockchain-fee)
   - [`milestone`](#get-blockchain-milestone)
   - [`nethash`](#get-blockchain-nethash)
