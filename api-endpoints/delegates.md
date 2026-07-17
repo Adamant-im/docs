@@ -30,6 +30,8 @@ GET /api/delegates
   - `producedblocks` — count of produced blocks
   - `missedblocks` — count of missed blocks
   - `productivity` — productivity/uptime of delegate. Will be `0` if the delegate is not active.
+  - `forged` — lifetime sum of block fees and rewards as a base-10 integer string in base units
+    (`1 ADM = 100000000`)
 
 - **Example**
 
@@ -57,7 +59,8 @@ GET /api/delegates
         "rate": 102,
         "rank": 102,
         "approval": 0.37,
-        "productivity": 0
+        "productivity": 0,
+        "forged": "182540750000000"
       },
       {
         "username": "bcboilermaker",
@@ -70,7 +73,8 @@ GET /api/delegates
         "rate": 103,
         "rank": 103,
         "approval": 0.35,
-        "productivity": 0
+        "productivity": 0,
+        "forged": "275118500000000"
       }
     ],
     "totalCount": 254
@@ -118,7 +122,8 @@ GET /api/delegates/get
       "rate": 52,
       "rank": 52,
       "approval": 0.48,
-      "productivity": 98.55
+      "productivity": 98.55,
+      "forged": "204763350000000"
     }
   }
   ```
@@ -133,7 +138,8 @@ GET /api/delegates/search?q={searchCriteria}
 
   Search delegates by `username` (or part of it) using endpoint `/api/delegates/search` with parameter `q` for nickname.
 
-  Result includes [list of delegates](#get-delegates) with additional fields:
+  Result includes the core [delegate fields](#get-delegates), except the lifetime `forged` amount, with additional
+  fields:
 
   - `voters_cnt` — count of accounts who vote for the delegate
   - `register_timestamp` — epoch timestamp of when the delegate registered
@@ -266,16 +272,21 @@ GET /api/delegates/getNextForgers
 
 - **Description**
 
-  Endpoint `/api/delegates/getNextForgers` returns the list of next forgers:
+  Endpoint `/api/delegates/getNextForgers` returns a snapshot of the next forgers for the current chain tip.
+  The `delegates` array is ordered by upcoming slots using the delegate schedule for `currentBlock + 1`, including
+  when `currentBlock` closes a round. All entries in one response use this next-block schedule because the block
+  height advances only after a block is accepted. Request a new snapshot after the node accepts another block.
+
+  The response includes:
 
   - `currentBlock` — current [blockchain height](/api-endpoints/blockchain.md#get-blockchain-height)
   - `currentBlockSlot` — current block slot number
   - `currentSlot` — current slot number
-  - `delegates` — array of next forgers' public keys
+  - `delegates` — array of next forgers' public keys ordered by upcoming slots
 
   Available parameters:
 
-  - `limit` — count to retrieve
+  - `limit` — number of public keys to retrieve, from 1 to 101. Default is 10.
 
 - **Example**
 

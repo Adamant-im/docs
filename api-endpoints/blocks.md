@@ -49,7 +49,6 @@ GET /api/blocks/get?id={block's id}
       "id": "11114690216332606721",
       "version": 0,
       "timestamp": 61741820,
-      "timestampMs": null,
       "height": 10873829,
       "previousBlock": "11483763337863654141",
       "numberOfTransactions": 1,
@@ -75,14 +74,28 @@ GET /api/blocks
 
 - **Description**
 
-  Get a list of blocks from the ADAMANT blockchain using the `/api/blocks/` endpoint. Returns an array of [blocks](#get-block-by-id) from newest to oldest.
+  Get a list of blocks from the ADAMANT blockchain using the `/api/blocks/` endpoint. Returns an
+  array of [blocks](#get-block-by-id) ordered by `orderBy` (default: `height:desc`, from newest to
+  oldest).
 
   Available parameters:
 
-  - `limit` — number of blocks to retrieve (default: 100)
-  - `offset` — height offset value for results (default: 0)
-  - `generatorPublicKey` — public key of the delegate who generated the block
-  - `height` — specific block height
+  | Parameter | Description |
+  | --- | --- |
+  | `limit` | Number of blocks to retrieve, from 1 to 100 (default: 100) |
+  | `offset` | Number of rows to skip after applying the requested order, starting from 0 (default: 0) |
+  | `orderBy` | Sort expression in `field:direction` form (default: `height:desc`) |
+  | `generatorPublicKey` | 64-character hexadecimal public key of the delegate who generated the block |
+  | `numberOfTransactions` | Exact non-negative number of transactions in the block |
+  | `previousBlock` | ID of the preceding block |
+  | `height` | Exact positive block height |
+  | `totalAmount` | Exact non-negative integer amount of 1/10^8 ADM tokens transferred within all transactions in the block |
+  | `totalFee` | Exact non-negative integer amount of 1/10^8 ADM tokens paid as transaction fees in the block |
+  | `reward` | Exact non-negative integer amount of 1/10^8 ADM tokens created as the forging reward |
+
+  `orderBy` accepts `asc` or `desc` for the following fields: `id`, `timestamp`, `height`,
+  `previousBlock`, `totalAmount`, `totalFee`, `reward`, `numberOfTransactions`, and
+  `generatorPublicKey`.
 
 - **Example**
 
@@ -103,7 +116,6 @@ GET /api/blocks
         "id": "15416108601994762552",
         "version": 0,
         "timestamp": 58045350,
-        "timestampMs": null,
         "height": 10144920,
         "previousBlock": "16611488400968379374",
         "numberOfTransactions": 0,
@@ -122,7 +134,6 @@ GET /api/blocks
         "id": "16611488400968379374",
         "version": 0,
         "timestamp": 58045345,
-        "timestampMs": null,
         "height": 10144919,
         "previousBlock": "17869865393675106520",
         "numberOfTransactions": 0,

@@ -161,6 +161,58 @@ GET /api/accounts/getPublicKey?address={ADAMANT address}
   }
   ```
 
+## Get Top Accounts
+
+```sh
+GET /api/accounts/top?limit={limit}&offset={offset}&isDelegate={isDelegate}
+```
+
+- **Description**
+
+  Returns non-zero-balance accounts sorted by confirmed `balance` in descending order. Accounts with the same balance
+  are sorted by `address` in ascending order, so pagination stays stable between requests.
+
+  The `count` field reports how many non-zero-balance accounts match the current filter before pagination is applied.
+
+  This endpoint is available on every node that supports it; it does not require a node-side feature flag.
+
+- **Parameters**
+
+  | Parameter    | Type    | Required | Description                                                                                                                       |
+  | ------------ | ------- | -------- | --------------------------------------------------------------------------------------------------------------------------------- |
+  | `limit`      | integer | No       | Number of accounts to return. Default is `100`, maximum is `100`. Use `0` to return only `count`, `limit`, and `offset` metadata. |
+  | `offset`     | integer | No       | Number of sorted accounts to skip. Default is `0`.                                                                                |
+  | `isDelegate` | integer | No       | Filter by delegate status. Use `1` for delegate accounts and `0` for non-delegate accounts.                                       |
+
+- **Example**
+
+  Request:
+
+  ```sh
+  GET https://endless.adamant.im/api/accounts/top?limit=1&offset=0&isDelegate=1
+  ```
+
+  Response:
+
+  ```jsonc
+  {
+    "success": true,
+    "nodeTimestamp": 63205623,
+    "accounts": [
+      {
+        "address": "U777355171330060015",
+        "balance": "4509718944753",
+        "publicKey": "a9407418dafb3c8aeee28f3263fd55bae0f528a5697a9df0e77e6568b19dfe34",
+        "username": "adamant_delegate",
+        "isDelegate": 1
+      }
+    ],
+    "count": 254,
+    "limit": 1,
+    "offset": 0
+  }
+  ```
+
 ## Create New Account
 
 ```sh

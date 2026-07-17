@@ -302,6 +302,36 @@ You can filter by single parameter, or by multiple parameters. Default condition
 
 Options always joined with `and` condition.
 
+For confirmed transactions, you can prefix filters with `and:` or `or:` to control how they are joined, and the node composes the resulting filter chain into one flat SQL `WHERE` expression:
+
+1. Filters are appended in the same order in which they appear in the query string.
+2. The first filter starts the expression, so its `and:` or `or:` prefix does not change the result.
+3. The node does not add grouping parentheses around mixed `and:`/`or:` conditions.
+4. Standard SQL precedence applies inside the flat expression: `AND` is evaluated before `OR`.
+
+This makes parameter order significant. The same filters can return different transactions when they are reordered:
+
+| Query string | Effective condition |
+| --- | --- |
+| `and:inId=U100739400829575109&and:minAmount=1&or:types=0,1,2,3,4,5,6,7` | `(inId AND minAmount) OR types` |
+| `or:types=0,1,2,3,4,5,6,7&and:inId=U100739400829575109&and:minAmount=1` | `types AND inId AND minAmount` |
+| `or:minAmount=1&and:types=0,1,2,3,4,5,6,7` | `minAmount AND types` |
+| `and:types=0,1,2,3,4,5,6,7&or:minAmount=1` | `types OR minAmount` |
+
+Grouping is not supported. You can express `(A AND B) OR C` by placing the `or:` condition after the
+`and:` conditions, but you cannot express `A AND (B OR C)` in one request.
+
+Be careful when adding `or:` filters to an address filter. For example, this request returns transactions for
+`U100739400829575109` with a positive amount and also every transaction of types `0` through `7`, including
+transactions unrelated to that address:
+
+```url
+https://endless.adamant.im/api/transactions?and:inId=U100739400829575109&and:minAmount=1&or:types=0,1,2,3,4,5,6,7
+```
+
+If the address must apply to all returned transactions, keep every additional filter joined with `and:` or make
+separate requests for logical shapes that need grouping.
+
 - **Examples**
 
   Get transactions where height greater than `1336065` **or** `blockId = 7917597195203393333`:

@@ -200,18 +200,6 @@ Possible log levels (from least to most verbose):
 
   Cache is disabled by default on mainnet and enabled on testnet. Enabling it can improve API response times for high-traffic public nodes.
 
-- **Top Accounts**
-
-  Enable the `/api/accounts/top` endpoint (returns accounts sorted by balance) with `topAccounts`:
-
-  ```json
-  {
-    "topAccounts": false
-  }
-  ```
-
-  This endpoint is disabled by default on mainnet. Enabling it on a high-traffic node may have a performance impact.
-
 ## Database Configuration
 
 - **Database Connection**
@@ -440,12 +428,22 @@ These values match the mainnet network. **Do not change them for a mainnet node*
   ```json
   {
     "loading": {
-      "loadPerIteration": 5000
+      "loadPerIteration": 5000,
+      "memCheckpoints": {
+        "enabled": true
+      }
     }
   }
   ```
 
   - `loadPerIteration`: Max blocks to verify per iteration (recommended: `5000`).
+  - `memCheckpoints.enabled`: Enable persisted checkpoints of derived `mem_*` tables for crash recovery (default: `true`). When startup detects inconsistent memory mirrors, the node attempts to restore the latest verified checkpoint and replay only blocks after the checkpoint height. If verification or replay fails, behavior falls back to the existing full memory-table rebuild from genesis.
+
+    Checkpoints are created after fully persisted blocks at completed round boundaries. During catch-up sync, creation is throttled to every 100th round. The node keeps three rotating checkpoint slots in the database (`mem_ckpt_0..2_*` plus `mem_state_checkpoint_meta`).
+
+    Checkpoints are a local recovery cache only. They do not replace graceful shutdown, trusted database snapshots, or blocks as the source of truth. Disabling checkpoints does not prevent recovery, but forces a full rebuild from genesis whenever `mem_*` validation fails.
+
+    See [Installation — Mem-table checkpoint recovery](./installation.md#mem-table-checkpoint-recovery) for operator guidance and log examples.
 
 ## SSL Configuration
 
