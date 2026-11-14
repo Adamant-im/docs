@@ -37,6 +37,16 @@ Enable the client WebSocket server in the node
 
 To discover whether a node offers client WebSocket connections, request `/api/node/status` over its REST API.
 
+## Connection and subscription limits
+
+Production defaults allow 1000 client sockets, 30 per IP, 100 addresses, 16 transaction types, and 8 chat subtypes on
+one socket, plus 60 subscription changes per 10 seconds. A connection past the cap is disconnected. Address, type, and
+chat-subtype values past the per-socket cap are ignored. Further subscription events in the window are ignored,
+including `balances` and `blocks`.
+
+Operators change the caps with [`wsClient.limits`](/own-node/configuration.md#websocket-client-configuration). The
+client IP follows [`trustProxy`](/own-node/configuration.md#server-configuration).
+
 Example response fragment:
 
 ```json

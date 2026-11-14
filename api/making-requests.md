@@ -71,6 +71,24 @@ Examples:
 
 The `/api/node/status` endpoint also returns `nodeTimestampMs` and `unixTimestampMs` as node clock metadata. They do not affect consensus.
 
+## Rate limits
+
+A public node counts REST requests per client IP. `GET` status reads, other reads, and `POST` or `PUT` publish requests
+use separate budgets. `OPTIONS` preflight is not counted.
+
+When a hard cap is hit, the node responds with HTTP `429`, a `Retry-After` header, and standard `RateLimit-*` headers.
+The default body has no `nodeTimestamp`:
+
+```json
+{
+  "success": false,
+  "error": "Too many requests, please try again later."
+}
+```
+
+The `error` text and the caps are operator settings. Production defaults and the legacy `max: 0` migration are on the
+[Configuration](/own-node/configuration.md#api-configuration) page.
+
 ## OpenAPI Schema
 
 You can use the [Swagger UI](https://schema.adamant.im) to explore and test API requests, or download the [OpenAPI schema](https://schema.adamant.im/schema.json) directly—for generating client code, typings, or importing it as a [Postman's](https://www.postman.com/) collection.

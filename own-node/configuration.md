@@ -188,6 +188,13 @@ Possible log levels (from least to most verbose):
   }
   ```
 
+  Leave `trustProxy` at `false` unless a reverse proxy in front of the node overwrites `X-Forwarded-For`.
+  Public REST, peer HTTP, and client WebSocket limits use the resolved address as the client key.
+
+  With `trustProxy: false`, every client behind one proxy shares that proxy address and therefore one limit budget.
+  With `trustProxy: true`, a caller that supplies its own forwarding header can choose the address used as the
+  limit key.
+
 - **Cache**
 
   Enable the in-memory Redis cache for API responses with `cacheEnabled`:
@@ -262,7 +269,8 @@ Redis is used for caching. Required.
 
 - **API Settings**
 
-  Control Public API behavior with the `api` object:
+  Control Public API behavior with the `api` object. The `limits` values below are the v0.11.0 production defaults from
+  `config.default.json`. Each route class has its own per-IP budget over `windowMs`.
 
   ```json
   {
@@ -274,10 +282,32 @@ Redis is used for caching. Required.
       },
       "options": {
         "limits": {
-          "max": 0,
-          "delayMs": 0,
-          "delayAfter": 0,
-          "windowMs": 60000
+          "limit": 3000,
+          "max": 3000,
+          "delayMs": 25,
+          "delayAfter": 1000,
+          "maxDelayMs": 1000,
+          "windowMs": 60000,
+          "routes": {
+            "status": {
+              "limit": 12000,
+              "delayMs": 0,
+              "delayAfter": 0,
+              "maxDelayMs": 0
+            },
+            "read": {
+              "limit": 3000,
+              "delayMs": 25,
+              "delayAfter": 1000,
+              "maxDelayMs": 1000
+            },
+            "publish": {
+              "limit": 300,
+              "delayMs": 50,
+              "delayAfter": 120,
+              "maxDelayMs": 1500
+            }
+          }
         }
       }
     }
@@ -287,11 +317,63 @@ Redis is used for caching. Required.
   - `enabled`: Enable or disable the Public API (e.g., `true`).
   - `access.public`: Allow public API access for any IP address (recommended: `false`).
   - `access.whiteList`: List of allowed IP addresses if `access.public` is `false` (e.g., `["127.0.0.1"]`).
-  - `options.limits`: API rate-limiting options:
-    - `max`: Max requests per window (e.g., `0`, unlimited).
-    - `delayMs`: Delay (ms) before responding to requests (e.g., `0`).
-    - `delayAfter`: Start delaying after N requests (e.g., `0`).
-    - `windowMs`: Time window for rate limits (e.g., `60000`).
+  - `options.limits`: Public REST abuse limits. An existing block keeps every key you set. Omitted delay and header keys
+    are filled from the defaults. Two keys are not filled over an existing block: when `limit` is absent, legacy `max`
+    stays and the default `limit` is dropped; when `routes` is absent, the default route classes are dropped.
+    - `limit`: Preferred hard cap for the window. `0` disables the whole public API surface, including `routes`.
+    - `max`: Legacy alias. It applies only when `limit` is absent. When both are set, `limit` wins, including `0`.
+    - `delayMs`: Extra delay, in milliseconds, added for each request after `delayAfter`. `0` disables slow-down.
+    - `delayAfter`: Requests allowed in the window before slow-down starts. Slow-down is not applied when this is `0`.
+    - `maxDelayMs`: Maximum slow-down delay, in milliseconds. `0` disables slow-down for that policy.
+    - `windowMs`: Window length in milliseconds. Production uses `60000` (one minute). `0` is treated as `60000`.
+    - `standardHeaders`: Send standard `RateLimit-*` headers. Default `true`.
+    - `legacyHeaders`: Send legacy rate-limit headers. Default `false`.
+    - `statusCode`: HTTP status used when a hard cap is hit. An integer from 400 through 599. Default `429`.
+    - `message`: `error` text in the JSON body. Default `Too many requests, please try again later.`
+    - `requestPropertyName`: Request property that stores rate-limit state. Default `rateLimit`.
+    - `routes`: Optional per-class policies. Classes are `status`, `read`, and `publish`. Each class accepts `limit`,
+      `max`, `delayMs`, `delayAfter`, `maxDelayMs`, and `windowMs`. If the block has no `routes` object, every counted
+      request shares the top-level cap. The top-level production policy matches `read`.
+
+  > [!Warning]
+  > A copied legacy block that sets only `max: 0` stays unprotected. The node does not copy the default `limit` or
+  > `routes` over that block. Public REST stays unlimited until the operator sets `limit` or removes
+  > `api.options.limits`.
+  > Startup logs this warning while the surface is disabled, including when `limit` is explicitly `0`:
+  >
+  > `Public API request limits are disabled. Set api.options.limits.limit above 0, or remove the limits block to inherit defaults.`
+  >
+  > Setting `limit` without adding `routes` enables one shared budget. Remove the whole `limits` block to inherit the
+  > default cap and the per-class `routes`.
+
+  Route classes, when `routes` is present:
+
+  - `status` — `GET` requests for cheap node, loader, fee, and version reads. Production cap: `12000`, no slow-down.
+    Paths: `/api/loader/status`, `/api/loader/status/sync`, `/api/loader/status/ping`, `/api/node/status`,
+    `/api/blocks/getheight`, `/api/blocks/getepoch`, `/api/blocks/getnethash`, `/api/blocks/getbroadhash`,
+    `/api/blocks/getfee`, `/api/blocks/getfees`, `/api/blocks/getmilestone`, `/api/blocks/getreward`,
+    `/api/blocks/getsupply`, `/api/blocks/getstatus`, and `/api/peers/version`.
+  - `read` — every other counted public API request, including `GET /api/transactions`. Production cap: `3000`,
+    slow-down after `1000`, then `25` ms per extra request, capped at `1000` ms.
+  - `publish` — `POST` and `PUT` requests that submit transactions or other state changes. Production cap: `300`,
+    slow-down after `120`, then `50` ms per extra request, capped at `1500` ms. Paths: `/api/transactions`,
+    `/api/transactions/process`, `/api/accounts/new`, `/api/accounts/delegates`, `/api/delegates`,
+    `/api/delegates/forging/enable`, `/api/delegates/forging/disable`, `/api/chats/process`, `/api/states/store`,
+    `/api/signatures`, `/api/multisignatures`, `/api/multisignatures/sign`, `/api/dapps/launch`, `/api/dapps/install`,
+    `/api/dapps/uninstall`, `/api/dapps/stop`, `/api/dapps/transaction`, and `/api/dapps/withdrawal`.
+
+  `OPTIONS` preflight is not counted. A hard cap returns HTTP `429` with `Retry-After` and standard `RateLimit-*`
+  headers. The default body does not include `nodeTimestamp`:
+
+  ```json
+  {
+    "success": false,
+    "error": "Too many requests, please try again later."
+  }
+  ```
+
+  `test/config.default.json` sets public REST `limit` and `max` to `0` so the API suite can send many requests from one
+  address. A node started from that file logs the warning above. See [Testnet](./testnet.md).
 
 ## Peer Configuration
 
@@ -310,10 +392,32 @@ Redis is used for caching. Required.
       "access": { "blackList": [] },
       "options": {
         "limits": {
-          "max": 0,
-          "delayMs": 0,
-          "delayAfter": 0,
-          "windowMs": 60000
+          "limit": 12000,
+          "max": 12000,
+          "delayMs": 5,
+          "delayAfter": 6000,
+          "maxDelayMs": 200,
+          "windowMs": 60000,
+          "routes": {
+            "status": {
+              "limit": 20000,
+              "delayMs": 0,
+              "delayAfter": 0,
+              "maxDelayMs": 0
+            },
+            "sync": {
+              "limit": 12000,
+              "delayMs": 5,
+              "delayAfter": 8000,
+              "maxDelayMs": 200
+            },
+            "broadcast": {
+              "limit": 12000,
+              "delayMs": 5,
+              "delayAfter": 6000,
+              "maxDelayMs": 200
+            }
+          }
         },
         "timeout": 5000
       }
@@ -324,12 +428,30 @@ Redis is used for caching. Required.
   - `enabled`: Enable or disable peer connections (default: `true`).
   - `list`: List of peer IPs and ports. See the full list in [config.default.json](https://github.com/Adamant-im/adamant/blob/master/config.default.json).
   - `access.blackList`: List of blocked IPs (e.g., `["222.222.222.222"]`).
-  - `options.limits`: Peer rate-limiting options:
-    - `max`: Max requests per window (e.g., `0`, unlimited).
-    - `delayMs`: Delay (ms) before responding (e.g., `0`).
-    - `delayAfter`: Start delaying after N requests (e.g., `0`).
-    - `windowMs`: Time window for rate limits (e.g., `60000`).
+  - `options.limits`: Peer HTTP abuse limits. The keys match [public API limits](#api-configuration): `limit` is the
+    preferred hard cap, legacy `max` applies only when `limit` is absent, and `0` disables the whole peer HTTP surface,
+    including `routes`. Header fields (`standardHeaders`, `legacyHeaders`, `statusCode`, `message`,
+    `requestPropertyName`) use the same defaults as the public API. The top-level production policy matches `broadcast`.
   - `options.timeout`: Peer connection timeout (ms, default: `5000`).
+
+  > [!Warning]
+  > A copied legacy `peers.options.limits` block that sets only `max: 0` stays unprotected until the operator sets
+  > `limit` or removes that block. Startup logs this warning while peer HTTP limits are disabled:
+  >
+  > `Peer HTTP request limits are disabled. Set peers.options.limits.limit above 0, or remove the limits block to inherit defaults.`
+
+  Peer route classes, when `routes` is present. Budgets are per IP over `windowMs`. Unknown peer routes use `broadcast`.
+  The caps are higher than the public API so normal sync and relay stay on the fast path.
+
+  - `status` — `GET /peer/ping`, `GET /peer/height`, and `GET /peer/list`. Production cap: `20000`, no slow-down.
+  - `sync` — `GET /peer/blocks`, `GET /peer/blocks/common`, `GET /peer/transactions`, and `GET /peer/signatures`.
+    Production cap: `12000`, slow-down after `8000`, then `5` ms per extra request, capped at `200` ms.
+  - `broadcast` — other peer HTTP requests, including posts of blocks, transactions, and signatures.
+    Production cap: `12000`, slow-down after `6000`, then `5` ms per extra request, capped at `200` ms.
+
+  A hard cap returns the same `429` body and headers as the public API. Hitting a peer limit does not ban that peer.
+  `OPTIONS` is not counted. `test/config.default.json` sets peer HTTP `limit` and `max` to `0` and logs the warning
+  above.
 
 ## Broadcast Configuration
 
@@ -501,13 +623,34 @@ These values match the mainnet network. **Do not change them for a mainnet node*
   {
     "wsClient": {
       "enabled": true,
-      "portWS": 36668
+      "portWS": 36668,
+      "limits": {
+        "maxConnections": 1000,
+        "maxConnectionsPerIp": 30,
+        "maxAddresses": 100,
+        "maxTypes": 16,
+        "maxAssetChatTypes": 8,
+        "maxSubscriptionEvents": 60,
+        "windowMs": 10000
+      }
     }
   }
   ```
 
   - `enabled`: Enable or disable WebSocket client (e.g., `true`).
   - `portWS`: WebSocket client port (e.g., `36668` for mainnet, `36665` for testnet).
+  - `limits`: Client WebSocket abuse limits. Omitted keys are filled from the production defaults below. `0` disables a
+    count cap. `windowMs: 0` is treated as `10000`. These values are also what `test/config.default.json` sets.
+    - `maxConnections`: Open client sockets for the whole node. Default `1000`. A socket past the cap is disconnected.
+    - `maxConnectionsPerIp`: Open client sockets for one IP. Default `30`. The IP follows
+      [`trustProxy`](#server-configuration).
+    - `maxAddresses`: Address subscriptions stored for one socket. Default `100`. Values past the cap are ignored.
+    - `maxTypes`: Transaction-type subscriptions stored for one socket. Default `16`. Values past the cap are ignored.
+    - `maxAssetChatTypes`: Chat-subtype subscriptions stored for one socket. Default `8`. Values past the cap are
+      ignored.
+    - `maxSubscriptionEvents`: Subscription changes accepted per socket during `windowMs`. Default `60`. Further
+      `address`, `types`, `assetChatTypes`, `balances`, and `blocks` events in that window are ignored.
+    - `windowMs`: Subscription-change window, in milliseconds. Default `10000`. `0` is treated as `10000`.
 
 ## WebSocket Node Configuration
 
@@ -520,7 +663,10 @@ These values match the mainnet network. **Do not change them for a mainnet node*
     "wsNode": {
       "enabled": true,
       "maxBroadcastConnections": 15,
-      "maxReceiveConnections": 25
+      "maxReceiveConnections": 25,
+      "handshakeLimit": 60,
+      "handshakeLimitPerNonce": 30,
+      "handshakeWindowMs": 60000
     }
   }
   ```
@@ -528,6 +674,15 @@ These values match the mainnet network. **Do not change them for a mainnet node*
   - `enabled`: Enable or disable WebSocket node-to-node communication.
   - `maxBroadcastConnections`: Maximum number of outbound WebSocket connections used to broadcast data to other nodes.
   - `maxReceiveConnections`: Maximum number of inbound WebSocket connections from other nodes.
+  - `handshakeLimit`: New inbound handshakes allowed per IP during `handshakeWindowMs`. Default `60`. `0` disables this
+    cap. A rejected handshake is disconnected with `disconnect_reason` set to `Too many connection attempts`.
+  - `handshakeLimitPerNonce`: Handshakes allowed per nonce during the same window. Default `30`. `0` disables this cap.
+    The same disconnect reason is used. Nonce, address, and banned-peer checks still reject attempts that are under the
+    IP cap. The nonce cap is applied after those checks.
+  - `handshakeWindowMs`: Handshake window, in milliseconds. Default `60000`. `0` is treated as `60000`.
+
+  Omitted handshake keys use these defaults. `test/config.default.json` does not set them, so a testnet node uses the
+  same handshake caps.
 
 ## Nethash Configuration
 
