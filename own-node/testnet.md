@@ -22,6 +22,10 @@ You may want to test the node in a safe environment before running a mainnet nod
   cp test/config.default.json test/config.json
   ```
 
+  That test file sets public REST and peer HTTP `limit` and `max` to `0`. The node logs a startup warning for each
+  disabled surface, and those HTTP limits stay off until you set `limit` or remove the `limits` block. Client WebSocket
+  limits in the same file match production. See [Configuration](./configuration.md#api-configuration).
+
 ## Running ADM testnet node
 
 To start the testnet node:

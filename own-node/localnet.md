@@ -24,6 +24,10 @@ Each node gets isolated ports, PostgreSQL database names, Redis database indexes
 - `test/config.localnet.json` as additional config overrides
 - One generated per-node override file under `.localnet/node-N/`
 
+`test/config.default.json` sets public REST and peer HTTP `limit` and `max` to `0`, so localnet HTTP limits stay off
+and startup warns for both surfaces. Remove the `limits` block, or set `limit`, to inherit or enable caps. See
+[Configuration](./configuration.md#api-configuration).
+
 The localnet manifest is written to `.localnet/manifest.json` and includes node endpoints, PIDs, database names, Redis URLs, log paths, and delegate counts.
 
 ## Managing the Localnet
