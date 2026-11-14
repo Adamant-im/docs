@@ -401,13 +401,16 @@ These values match the mainnet network. **Do not change them for a mainnet node*
 
 - **Forging Settings**
 
-  Configure forging behavior with the `forging` object:
+  Configure forging behavior with the `forging` object. Each `secret` entry is a string.
+  A plaintext delegate passphrase still forges as before. Starting with node v0.11.0, a value is
+  encrypted only when it starts with the prefix `admnode-enc-v1.` (including the final dot).
 
   ```json
   {
     "forging": {
       "force": false,
       "secret": [],
+      "controlSocket": "",
       "access": {
         "whiteList": ["127.0.0.1"]
       }
@@ -416,8 +419,117 @@ These values match the mainnet network. **Do not change them for a mainnet node*
   ```
 
   - `force`: Force forging regardless of network state (default: `false`).
-  - `secret`: List of forging passphrases.
+  - `secret`: List of delegate forging passphrases. Plaintext entries keep working.
+    An encrypted entry is one string that starts with `admnode-enc-v1.`.
+  - `controlSocket`: Path of the local Unix socket used to unlock and lock encrypted passphrases.
+    Available in node v0.11.0. An empty string uses
+    `$TMPDIR/adamant-node-<uid>/control-<port>.sock`. The socket file is mode `0600`.
   - `access.whiteList`: Allowed forging IPs (e.g., `["127.0.0.1"]`).
+
+- **Encrypted Delegate Passphrases**
+
+  Node v0.11.0 can store delegate passphrases in `forging.secret` encrypted with one operator
+  password. Encryption is optional until a separate deprecation notice. Plaintext configs need no
+  migration. Every encrypted delegate on the node shares that password. Plaintext entries in the
+  same array still forge without it.
+
+  The encrypted value is AES-256-GCM. The key is derived from the operator password with scrypt
+  (`N=32768`, `r=8`, `p=1`). Decrypt accepts only those parameters. The value also stores the
+  delegate public key and address. Those are already public on chain, so a locked node can name the
+  delegate without decrypting.
+
+  The operator password is not part of the config object, so it is not written back to `config.json`.
+  Decrypted passphrases are not written back either, and neither value is logged. After unlock, only
+  delegate keypairs stay in memory. Restarting the node requires the password again.
+
+  **Encrypt a passphrase.** From the node directory, `forging encrypt` prompts for one delegate
+  passphrase and the operator password, then prints a single `admnode-enc-v1.` line. It does not
+  take the passphrase or the password as arguments. Replace the plaintext entry with that line.
+  Repeat for each delegate, using the same operator password, and leave `secret` as an array.
+
+  ```sh
+  npm run adm-node -- forging encrypt
+  ```
+
+  Use `--config` when the file is not `./config.json`:
+
+  ```sh
+  npm run adm-node -- forging encrypt --config test/config.json
+  ```
+
+  The line below is a placeholder. Put the printed value in `secret` instead:
+
+  ```json
+  {
+    "forging": {
+      "force": false,
+      "secret": [
+        "admnode-enc-v1.<encrypted-passphrase>"
+      ],
+      "controlSocket": "",
+      "access": {
+        "whiteList": ["127.0.0.1"]
+      }
+    }
+  }
+  ```
+
+  A malformed `admnode-enc-v1.` entry is ignored and reported in the log. Startup continues.
+
+  **Unlock and lock.** When every configured secret is plaintext, forging behavior is unchanged.
+
+  When an encrypted secret is present, the node still syncs and still serves the API, peers, and
+  the mempool. Forging for those delegates stays locked until the password is supplied. A missing
+  or wrong password does not stop the node.
+
+  The node checks these sources in order:
+
+  1. `--operator-password` on the node process unlocks during startup.
+  2. If that flag is absent, `ADAMANT_OPERATOR_PASSWORD` unlocks during startup.
+  3. If neither is set and the process has a terminal, the node prompts once. Press Enter to stay
+     locked.
+  4. Otherwise the node stays locked. Unlock it later over the local control socket.
+
+  ```sh
+  npm run start -- --operator-password your-operator-password
+  ```
+
+  ```sh
+  ADAMANT_OPERATOR_PASSWORD=your-operator-password npm run start
+  ```
+
+  The same flag and variable work with `npm run start:testnet`. After reading the password, the
+  node removes it from `process.argv` and `process.env`. The password can still be visible to other
+  local users in the process list or the original process environment. On a shared host, start
+  locked and unlock through the control socket:
+
+  ```sh
+  npm run adm-node -- forging status
+  npm run adm-node -- forging unlock
+  npm run adm-node -- forging lock
+  ```
+
+  - `forging status` reports the lock state, how many encrypted and plaintext delegates are
+    configured, and each delegate address and public key. It does not print passphrases or the
+    operator password.
+  - `forging unlock` prompts for the operator password and loads every encrypted delegate with
+    that password. If any encrypted entry does not match, the unlock fails and encrypted keypairs
+    from that attempt are not kept.
+  - `forging lock` clears keypairs that were unlocked from encrypted config entries. Plaintext
+    delegates, and delegates enabled through the forging API, stay loaded.
+
+  `unlock`, `lock`, and `status` talk to the running node over its local control socket. Use
+  `--config` when the node was not started from `./config.json`. Use `--socket` when the node is
+  not listening on the socket path from that config. The default path includes the listen port, so
+  pass `--socket` when the port was overridden on the command line and `controlSocket` is empty.
+
+  ```sh
+  npm run adm-node -- forging unlock --config test/config.json --socket /adamant/adamant-control.sock
+  ```
+
+  Set `controlSocket` to a stable path, such as `/adamant/adamant-control.sock`, when the node runs
+  under a service account. If the control socket cannot be created, the node still starts, and the
+  CLI cannot unlock forging until the socket is available.
 
 ## Loading Configuration
 
