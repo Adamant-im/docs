@@ -1,28 +1,19 @@
-# docs.adamant.im ![build status](https://img.shields.io/github/actions/workflow/status/Adamant-im/docs/deploy.yml?branch=main)
+> [!WARNING]
+> **This repository has moved and is archived read-only.**
+>
+> ADAMANT Node documentation now lives in [`Adamant-im/adamant/docs/`](https://github.com/Adamant-im/adamant/tree/dev/docs) alongside the node codebase and OpenAPI specification (`openapi/`).
+>
+> - Live documentation: https://docs.adamant.im/
+> - Live OpenAPI Swagger UI: https://docs.adamant.im/schema/
+> - Bundled OpenAPI JSON: https://docs.adamant.im/schema/schema.json
+> - Open issues and pull requests in: https://github.com/Adamant-im/adamant
+>
+> Historical commits are preserved here read-only. See https://github.com/Adamant-im/adamant/issues/299.
 
-> Documentation site for [ADAMANT Node](https://github.com/adamant-im/adamant)
+---
 
-The documentation site provides the API specification, installation and configuration guides for running your own ADAMANT Node, and best practices for building ADAMANT-powered applications.
+# docs.adamant.im
 
-_https://docs.adamant.im_
+> Archived documentation repository for [ADAMANT Node](https://github.com/Adamant-im/adamant).
 
-## Contribution
-
-This site is built with [VitePress](https://github.com/vuejs/vitepress), and its content is written in Markdown. For simple changes, you can edit the file directly by clicking "Edit this page" at the bottom of any documentation page, then submit a Pull Request.
-
-To run the site locally for development and testing, use:
-
-```sh
-npm install
-npm run dev
-```
-
-This starts a hot-reload server so you can preview the site and take advantage of [VitePress’s rich feature set](https://vitepress.dev/guide/markdown).
-
-## Links
-
-- [ADAMANT Website](https://adamant.im)
-- [ADAMANT Node repository](https://github.com/Adamant-im/adamant)
-- [ADAMANT Improvement Proposals (AIPs)](https://aips.adamant.im)
-- [API Schema (Swagger)](https://schema.adamant.im/)
-- [API Schema source](https://github.com/Adamant-im/adamant-schema)
+Please submit all documentation updates and issues to [Adamant-im/adamant](https://github.com/Adamant-im/adamant) (`docs/` directory).
